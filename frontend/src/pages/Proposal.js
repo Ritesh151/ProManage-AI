@@ -86,51 +86,280 @@ const Proposal = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-text tracking-tight">Proposal</h1>
-        <p className="text-secondary mt-1.5">Generate and download project proposals</p>
-      </div>
+    <div className="min-h-screen p-6 bg-gradient-to-br from-gray-50 via-white to-gray-100 space-y-8">
+
+      {/* Header */}
 
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-xl p-6 border border-gray-100"
+        initial={{
+          opacity: 0,
+          y: -20
+        }}
+        animate={{
+          opacity: 1,
+          y: 0
+        }}
       >
-        <div className="flex items-center gap-4">
-          <input
-            type="text"
-            value={projectId}
-            onChange={(e) => setProjectId(e.target.value)}
-            placeholder="Enter project ID..."
-            className="flex-1 px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-          />
-          <button
-            onClick={() => handleGenerate()}
-            disabled={loading || !projectId}
-            className="px-6 py-2.5 bg-primary text-white rounded-lg hover:bg-primary-dark font-medium flex items-center gap-2 disabled:opacity-50"
-          >
-            <FiFileText size={18} /> Generate
-          </button>
-        </div>
+
+        <h1
+          className="
+text-4xl
+font-bold
+bg-gradient-to-r
+from-blue-600
+via-purple-600
+to-pink-500
+bg-clip-text
+text-transparent
+"
+        >
+
+          Proposal Generator
+
+        </h1>
+
+        <p className="text-gray-500 mt-2">
+
+          Generate and download project proposals
+
+        </p>
+
       </motion.div>
 
-      {loading && !html ? (
-        <Loader />
-      ) : (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
+
+
+      {/* Generate Card */}
+
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: 20
+        }}
+        animate={{
+          opacity: 1,
+          y: 0
+        }}
+        className="
+bg-white/80
+backdrop-blur-xl
+rounded-[35px]
+shadow-2xl
+border
+border-white
+p-8
+"
+      >
+
+        <div
+          className="
+flex
+flex-col
+lg:flex-row
+gap-4
+"
         >
-          <ProposalPreview
-            html={html}
-            onDownloadPDF={handleDownloadPDF}
-            onDownloadWord={handleDownloadWord}
-            loading={loading}
-          />
-        </motion.div>
-      )}
+
+          <div
+            className="
+relative
+flex-1
+"
+          >
+
+            <FiFileText
+              size={20}
+              className="
+absolute
+left-5
+top-1/2
+-translate-y-1/2
+text-gray-400
+"
+            />
+
+            <input
+              type="text"
+              value={projectId}
+              onChange={(e) =>
+                setProjectId(
+                  e.target.value
+                )
+              }
+              placeholder="Enter Project ID..."
+              className="
+w-full
+h-16
+pl-14
+pr-5
+rounded-2xl
+bg-gray-50
+border-0
+outline-none
+focus:ring-2
+focus:ring-blue-500
+text-gray-700
+placeholder:text-gray-400
+"
+            />
+
+          </div>
+
+          <button
+            onClick={() =>
+              handleGenerate()
+            }
+            disabled={
+              loading ||
+              !projectId
+            }
+            className="
+h-16
+px-8
+rounded-2xl
+text-white
+font-medium
+bg-gradient-to-r
+from-blue-600
+to-purple-600
+shadow-xl
+hover:scale-105
+hover:shadow-2xl
+transition-all
+duration-300
+disabled:opacity-50
+disabled:hover:scale-100
+flex
+items-center
+justify-center
+gap-3
+"
+          >
+
+            <FiFileText
+              size={18}
+            />
+
+            Generate
+
+          </button>
+
+        </div>
+
+      </motion.div>
+
+
+
+
+      {/* Preview Section */}
+
+      {
+
+        loading && !html ? (
+
+          <div
+            className="
+bg-white/80
+backdrop-blur-xl
+rounded-[35px]
+shadow-xl
+border
+border-white
+p-10
+"
+          >
+
+            <Loader />
+
+          </div>
+
+        ) : (
+
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: 20
+            }}
+            animate={{
+              opacity: 1,
+              y: 0
+            }}
+            transition={{
+              delay: 0.2
+            }}
+            className="
+bg-white/80
+backdrop-blur-xl
+rounded-[35px]
+shadow-2xl
+border
+border-white
+overflow-hidden
+"
+          >
+
+            <div
+              className="
+flex
+justify-between
+items-center
+px-8
+py-6
+border-b
+border-gray-100
+"
+            >
+
+              <div>
+
+                <h2
+                  className="
+text-xl
+font-bold
+text-gray-800
+"
+                >
+
+                  Proposal Preview
+
+                </h2>
+
+                <p
+                  className="
+text-sm
+text-gray-500
+mt-1
+"
+                >
+
+                  Preview and export generated proposal
+
+                </p>
+
+              </div>
+
+            </div>
+
+            <div className="p-8">
+
+              <ProposalPreview
+                html={html}
+                onDownloadPDF={
+                  handleDownloadPDF
+                }
+                onDownloadWord={
+                  handleDownloadWord
+                }
+                loading={loading}
+              />
+
+            </div>
+
+          </motion.div>
+
+        )
+
+      }
+
     </div>
   );
 };

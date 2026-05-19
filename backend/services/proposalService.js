@@ -1564,9 +1564,7 @@ const generateProposalHTML = (project) => {
     <li class="toc-item"><span class="toc-num">09</span><span class="toc-label">Payment Terms</span><span class="toc-dots"></span><span class="toc-page-num">11</span></li>
     <li class="toc-item"><span class="toc-num">10</span><span class="toc-label">Project Assumptions</span><span class="toc-dots"></span><span class="toc-page-num">12</span></li>
     <li class="toc-item"><span class="toc-num">11</span><span class="toc-label">Risk Assessment</span><span class="toc-dots"></span><span class="toc-page-num">13</span></li>
-    <li class="toc-item"><span class="toc-num">12</span><span class="toc-label">Terms &amp; Conditions</span><span class="toc-dots"></span><span class="toc-page-num">14</span></li>
-    <li class="toc-item"><span class="toc-num">13</span><span class="toc-label">Support &amp; Maintenance</span><span class="toc-dots"></span><span class="toc-page-num">15</span></li>
-    <li class="toc-item"><span class="toc-num">14</span><span class="toc-label">Signatures</span><span class="toc-dots"></span><span class="toc-page-num">16</span></li>
+    <li class="toc-item"><span class="toc-num">13</span><span class="toc-label">Support &amp; Maintenance</span><span class="toc-dots"></span><span class="toc-page-num">14</span></li>
   </ul>
   <div class="page-footer">
     <div class="footer-company">Opti Matrix Solutions</div>
@@ -1591,7 +1589,7 @@ const generateProposalHTML = (project) => {
     <div class="section-header">
       <h2><span class="section-num">02</span> About Our Company</h2>
     </div>
-    <p><strong>Opti Matrix Solutions</strong> is a premier technology consulting and software development company with over 8 years of industry experience. We specialize in delivering cutting-edge digital solutions that transform businesses and drive growth.</p>
+    <p><strong>Opti Matrix Solutions</strong> is a premier technology consulting and software development company with over 16 years of industry experience. We specialize in delivering cutting-edge digital solutions that transform businesses and drive growth.</p>
     <div class="about-grid" style="margin-top:4mm;">
       <div class="about-card">
         <h4>🎯 Our Expertise</h4>
@@ -1611,16 +1609,7 @@ const generateProposalHTML = (project) => {
       </div>
     </div>
   </div>
-  
-  <div class="page-footer">
-    <div class="footer-company">Opti Matrix Solutions</div>
-    <div class="footer-contact">
-      <span>✉ contact@optimatix.com</span>
-      <span>🌐 www.optimatix.com</span>
-    </div>
-    <span class="page-num">Page 3</span>
-  </div>
-</div>
+
 
 <!-- ==================== PROJECT UNDERSTANDING ==================== -->
 <div class="page">
