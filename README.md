@@ -130,8 +130,8 @@ To run this project locally, execute the following commands:
 
 **1. Clone the repository**
 ```bash
-git clone https://github.com/yourusername/proposalforge-ai.git
-cd proposalforge-ai
+git clone https://github.com/Ritesh151/ProManage-AI.git
+cd ProManage-AI
 ```
 
 **2. Setup the Backend**
