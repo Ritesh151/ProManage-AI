@@ -14,29 +14,21 @@ import debounce from '../utils/debounce';
 import { exportAPI } from '../services/api';
 import { formatCurrency } from '../utils/formatters';
 
-const StatsCard = ({ label, value, icon: Icon, color, index }) => {
-  const colors = {
-    blue: { bg: 'bg-blue-50', text: 'text-blue-600', icon: 'text-blue-600' },
-    green: { bg: 'bg-emerald-50', text: 'text-emerald-600', icon: 'text-emerald-600' },
-    amber: { bg: 'bg-amber-50', text: 'text-amber-600', icon: 'text-amber-600' },
-    purple: { bg: 'bg-purple-50', text: 'text-purple-600', icon: 'text-purple-600' },
-  };
-  const c = colors[color] || colors.blue;
-
+const StatsCard = ({ label, value, icon: Icon, index }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.08, duration: 0.3 }}
-      className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm card-hover"
+      transition={{ delay: index * 0.05, duration: 0.3 }}
+      className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm"
     >
       <div className="flex items-center justify-between">
         <div>
           <p className="text-xs font-medium text-gray-400 uppercase tracking-wider">{label}</p>
-          <p className={`text-2xl font-bold mt-1.5 ${c.text}`}>{value}</p>
+          <p className="text-2xl font-semibold text-gray-900 mt-1.5">{value}</p>
         </div>
-        <div className={`p-3 rounded-xl ${c.bg}`}>
-          <Icon className={c.icon} size={22} />
+        <div className="p-3 rounded-xl bg-gray-50">
+          <Icon className="text-gray-500" size={20} />
         </div>
       </div>
     </motion.div>
@@ -80,10 +72,15 @@ const Projects = () => {
     debounce((value) => {
       setSearch(value);
       setPage(1);
-      loadProjects();
     }, 500),
-    [loadProjects]
+    []
   );
+
+  useEffect(() => {
+    if (search !== undefined) {
+      loadProjects();
+    }
+  }, [search]);
 
   const handleSearch = (e) => {
     debouncedSearch(e.target.value);
@@ -142,426 +139,256 @@ const Projects = () => {
   };
 
   const stats = [
-    { label: 'Total Projects', value: pagination.total || 0, icon: FiFolder, color: 'blue' },
-    { label: 'Active', value: projects.filter((p) => p.status === 'Active').length, icon: FiCheckCircle, color: 'green' },
-    { label: 'On Hold', value: projects.filter((p) => p.status === 'On Hold').length, icon: FiClock, color: 'amber' },
-    { label: 'Revenue', value: formatCurrency(projects.reduce((s, p) => s + (p.cost || 0), 0)), icon: FaRupeeSign, color: 'purple' },
+    { label: 'Total Projects', value: pagination.total || 0, icon: FiFolder },
+    { label: 'Active', value: projects.filter((p) => p.status === 'Active').length, icon: FiCheckCircle },
+    { label: 'On Hold', value: projects.filter((p) => p.status === 'On Hold').length, icon: FiClock },
+    { label: 'Revenue', value: formatCurrency(projects.reduce((s, p) => s + (p.cost || 0), 0)), icon: FaRupeeSign },
   ];
 
   return (
-    <div className="min-h-screen p-6 bg-gradient-to-br from-gray-50 via-white to-gray-100 space-y-8">
-
+    <div className="min-h-screen p-6 bg-gray-50">
       {/* Header */}
-
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex flex-col lg:flex-row justify-between gap-5"
+        className="flex flex-col lg:flex-row justify-between gap-5 mb-8"
       >
-
         <div>
-
-          <h1
-            className="
-text-4xl
-font-bold
-bg-gradient-to-r
-from-blue-600
-via-purple-600
-to-pink-500
-bg-clip-text
-text-transparent
-"
-          >
+          <h1 className="text-3xl font-semibold text-gray-900 tracking-tight">
             Projects
           </h1>
-
-          <p className="mt-2 text-gray-500">
+          <p className="mt-1 text-gray-500 text-sm">
             Manage and track all projects
           </p>
-
         </div>
 
         <div className="flex gap-3 flex-wrap">
-
           <button
             onClick={loadProjects}
             className="
-w-14
-h-14
-rounded-2xl
-bg-white
-shadow-lg
-hover:scale-105
-hover:shadow-xl
-transition-all
-flex
-justify-center
-items-center
-"
+              w-10
+              h-10
+              rounded-lg
+              bg-white
+              border
+              border-gray-200
+              shadow-sm
+              hover:bg-gray-50
+              transition-all
+              flex
+              justify-center
+              items-center
+            "
           >
-            <FiRefreshCw
-              size={18}
-              className={loading ? "animate-spin" : ""}
-            />
+            <FiRefreshCw size={16} className={loading ? "animate-spin text-gray-500" : "text-gray-500"} />
           </button>
 
-
-          <div
-            ref={exportRef}
-            className="relative"
-          >
-
+          <div ref={exportRef} className="relative">
             <button
-              onClick={() =>
-                setExportOpen(!exportOpen)
-              }
+              onClick={() => setExportOpen(!exportOpen)}
               className="
-px-6
-h-14
-rounded-2xl
-bg-white
-shadow-lg
-font-medium
-hover:scale-105
-transition-all
-flex
-items-center
-gap-2
-"
+                px-4
+                h-10
+                rounded-lg
+                bg-white
+                border
+                border-gray-200
+                shadow-sm
+                font-medium
+                text-sm
+                text-gray-600
+                hover:bg-gray-50
+                transition-all
+                flex
+                items-center
+                gap-2
+              "
             >
-              <FiDownload />
+              <FiDownload size={14} />
               Export
             </button>
 
-            {
-              exportOpen && (
-
-                <div
-                  className="
-absolute
-right-0
-top-16
-w-44
-bg-white
-rounded-2xl
-shadow-2xl
-overflow-hidden
-z-50
-"
+            {exportOpen && (
+              <div className="absolute right-0 top-12 w-36 bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden z-50">
+                <button
+                  onClick={() => handleExport('csv')}
+                  className="w-full px-4 py-2.5 text-left text-sm text-gray-600 hover:bg-gray-50 transition-colors"
                 >
-
-                  <button
-                    onClick={() => handleExport('csv')}
-                    className="w-full px-5 py-4 hover:bg-gray-50 text-left"
-                  >
-                    CSV
-                  </button>
-
-                  <button
-                    onClick={() => handleExport('excel')}
-                    className="w-full px-5 py-4 hover:bg-gray-50 text-left"
-                  >
-                    Excel
-                  </button>
-
-                  <button
-                    onClick={() => handleExport('pdf')}
-                    className="w-full px-5 py-4 hover:bg-gray-50 text-left"
-                  >
-                    PDF
-                  </button>
-
-                </div>
-
-              )
-
-            }
-
+                  CSV
+                </button>
+                <button
+                  onClick={() => handleExport('excel')}
+                  className="w-full px-4 py-2.5 text-left text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+                >
+                  Excel
+                </button>
+                <button
+                  onClick={() => handleExport('pdf')}
+                  className="w-full px-4 py-2.5 text-left text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+                >
+                  PDF
+                </button>
+              </div>
+            )}
           </div>
-
 
           <button
             onClick={openCreate}
             className="
-px-7
-h-14
-rounded-2xl
-text-white
-font-medium
-bg-gradient-to-r
-from-blue-600
-to-purple-600
-shadow-xl
-hover:scale-105
-hover:shadow-2xl
-transition-all
-flex
-items-center
-gap-3
-"
+              px-4
+              h-10
+              rounded-lg
+              bg-gray-900
+              text-white
+              text-sm
+              font-medium
+              hover:bg-gray-800
+              transition-all
+              duration-200
+              flex
+              items-center
+              gap-2
+              shadow-sm
+            "
           >
-            <FiPlus />
+            <FiPlus size={14} />
             Create Project
           </button>
-
         </div>
-
       </motion.div>
 
-
-
       {/* Stats */}
-
-      <div
-        className="
-grid
-grid-cols-1
-sm:grid-cols-2
-xl:grid-cols-4
-gap-6
-"
-      >
-
-        {
-          stats.map((stat, i) => (
-
-            <motion.div
-              key={stat.label}
-              whileHover={{
-                y: -8
-              }}
-              className="
-bg-white/80
-backdrop-blur-xl
-rounded-3xl
-shadow-xl
-border
-border-white
-"
-            >
-
-              <StatsCard
-                {...stat}
-                index={i}
-              />
-
-            </motion.div>
-
-          ))
-        }
-
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+        {stats.map((stat, i) => (
+          <StatsCard key={stat.label} {...stat} index={i} />
+        ))}
       </div>
 
-
       {/* Filters */}
-
-      <div
-        className="
-bg-white/80
-backdrop-blur-xl
-rounded-[30px]
-shadow-xl
-p-6
-border
-border-white
-"
-      >
-
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 mb-8">
         <div className="flex flex-col lg:flex-row gap-4">
-
           <div className="relative flex-1">
-
-            <FiSearch
-              className="
-absolute
-left-5
-top-1/2
--translate-y-1/2
-text-gray-400
-"
-            />
-
+            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
             <input
               type="text"
               placeholder="Search projects..."
               onChange={handleSearch}
               className="
-w-full
-h-14
-pl-14
-pr-5
-rounded-2xl
-bg-gray-50
-border-0
-focus:ring-2
-focus:ring-blue-500
-outline-none
-"
+                w-full
+                h-10
+                pl-10
+                pr-4
+                rounded-lg
+                bg-gray-50
+                border
+                border-gray-200
+                focus:ring-2
+                focus:ring-gray-300
+                focus:border-transparent
+                outline-none
+                text-sm
+                text-gray-700
+                placeholder:text-gray-400
+              "
             />
-
           </div>
 
           <select
             value={statusFilter}
             onChange={(e) => {
-              setStatusFilter(
-                e.target.value
-              )
-              setPage(1)
+              setStatusFilter(e.target.value);
+              setPage(1);
             }}
             className="
-h-14
-px-6
-rounded-2xl
-bg-gray-50
-outline-none
-border-0
-min-w-[180px]
-"
+              h-10
+              px-4
+              rounded-lg
+              bg-gray-50
+              border
+              border-gray-200
+              outline-none
+              text-sm
+              text-gray-600
+              min-w-[140px]
+              cursor-pointer
+            "
           >
-
-            <option value="">
-              All Status
-            </option>
-
-            <option value="Active">
-              Active
-            </option>
-
-            <option value="Completed">
-              Completed
-            </option>
-
-            <option value="On Hold">
-              On Hold
-            </option>
-
-            <option value="Cancelled">
-              Cancelled
-            </option>
-
+            <option value="">All Status</option>
+            <option value="Active">Active</option>
+            <option value="Completed">Completed</option>
+            <option value="On Hold">On Hold</option>
+            <option value="Cancelled">Cancelled</option>
           </select>
 
           <select
             value={categoryFilter}
             onChange={(e) => {
-              setCategoryFilter(
-                e.target.value
-              )
-              setPage(1)
+              setCategoryFilter(e.target.value);
+              setPage(1);
             }}
             className="
-h-14
-px-6
-rounded-2xl
-bg-gray-50
-outline-none
-border-0
-min-w-[200px]
-"
+              h-10
+              px-4
+              rounded-lg
+              bg-gray-50
+              border
+              border-gray-200
+              outline-none
+              text-sm
+              text-gray-600
+              min-w-[160px]
+              cursor-pointer
+            "
           >
-
-            <option value="">
-              All Categories
-            </option>
-
-            {
-              categories.map((cat) => (
-
-                <option
-                  key={cat}
-                  value={cat}
-                >
-
-                  {cat}
-
-                </option>
-
-              ))
-            }
-
+            <option value="">All Categories</option>
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
           </select>
-
         </div>
-
       </div>
 
-
-
       {/* Table */}
-
-      {
-        loading ? (
-
-          <Loader />
-
-        ) : (
-
-          <motion.div
-            initial={{
-              opacity: 0
-            }}
-            animate={{
-              opacity: 1
-            }}
-            className="
-bg-white/80
-backdrop-blur-xl
-rounded-[35px]
-shadow-2xl
-border
-border-white
-p-6
-space-y-5
-"
-          >
-
-            <ProjectTable
-              projects={projects}
-              onEdit={openEdit}
-              onDelete={(p) =>
-                setDeleteTarget(p)
-              }
-            />
-
+      {loading ? (
+        <Loader />
+      ) : (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden"
+        >
+          <ProjectTable
+            projects={projects}
+            onEdit={openEdit}
+            onDelete={(p) => setDeleteTarget(p)}
+          />
+          <div className="p-5 border-t border-gray-100">
             <Pagination
               page={pagination.page}
               pages={pagination.pages}
-              onPageChange={(p) =>
-                setPage(p)
-              }
+              onPageChange={(p) => setPage(p)}
             />
-
-          </motion.div>
-
-        )
-      }
+          </div>
+        </motion.div>
+      )}
 
       <ProjectModal
         isOpen={modalOpen}
         onClose={() => {
-          setModalOpen(false)
-          setEditProject(null)
+          setModalOpen(false);
+          setEditProject(null);
         }}
-        onSubmit={
-          editProject
-            ? handleUpdate
-            : handleCreate
-        }
+        onSubmit={editProject ? handleUpdate : handleCreate}
         project={editProject}
       />
 
       <ConfirmModal
         isOpen={!!deleteTarget}
-        onClose={() =>
-          setDeleteTarget(null)
-        }
+        onClose={() => setDeleteTarget(null)}
         onConfirm={handleDelete}
         title="Delete Project"
         message={`Are you sure you want to delete "${deleteTarget?.projectName}"?`}
       />
-
     </div>
   );
 };

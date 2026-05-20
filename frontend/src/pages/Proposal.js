@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { FiFileText } from 'react-icons/fi';
+import { FiFileText, FiDownload, FiFile } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import { useSearchParams } from 'react-router-dom';
 import ProposalPreview from '../components/ProposalPreview';
@@ -86,280 +86,166 @@ const Proposal = () => {
   };
 
   return (
-    <div className="min-h-screen p-6 bg-gradient-to-br from-gray-50 via-white to-gray-100 space-y-8">
-
+    <div className="min-h-screen p-6 bg-gray-50">
       {/* Header */}
-
       <motion.div
-        initial={{
-          opacity: 0,
-          y: -20
-        }}
-        animate={{
-          opacity: 1,
-          y: 0
-        }}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mb-8"
       >
-
-        <h1
-          className="
-text-4xl
-font-bold
-bg-gradient-to-r
-from-blue-600
-via-purple-600
-to-pink-500
-bg-clip-text
-text-transparent
-"
-        >
-
+        <h1 className="text-3xl font-semibold text-gray-900 tracking-tight">
           Proposal Generator
-
         </h1>
-
-        <p className="text-gray-500 mt-2">
-
+        <p className="text-gray-500 text-sm mt-1">
           Generate and download project proposals
-
         </p>
-
       </motion.div>
 
-
-
       {/* Generate Card */}
-
       <motion.div
-        initial={{
-          opacity: 0,
-          y: 20
-        }}
-        animate={{
-          opacity: 1,
-          y: 0
-        }}
-        className="
-bg-white/80
-backdrop-blur-xl
-rounded-[35px]
-shadow-2xl
-border
-border-white
-p-8
-"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 mb-8"
       >
-
-        <div
-          className="
-flex
-flex-col
-lg:flex-row
-gap-4
-"
-        >
-
-          <div
-            className="
-relative
-flex-1
-"
-          >
-
+        <div className="flex flex-col lg:flex-row gap-4">
+          <div className="relative flex-1">
             <FiFileText
-              size={20}
-              className="
-absolute
-left-5
-top-1/2
--translate-y-1/2
-text-gray-400
-"
+              size={18}
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
             />
-
             <input
               type="text"
               value={projectId}
-              onChange={(e) =>
-                setProjectId(
-                  e.target.value
-                )
-              }
+              onChange={(e) => setProjectId(e.target.value)}
               placeholder="Enter Project ID..."
               className="
-w-full
-h-16
-pl-14
-pr-5
-rounded-2xl
-bg-gray-50
-border-0
-outline-none
-focus:ring-2
-focus:ring-blue-500
-text-gray-700
-placeholder:text-gray-400
-"
+                w-full
+                h-12
+                pl-11
+                pr-4
+                rounded-lg
+                bg-gray-50
+                border
+                border-gray-200
+                outline-none
+                focus:ring-2
+                focus:ring-gray-300
+                focus:border-transparent
+                text-gray-700
+                text-sm
+                placeholder:text-gray-400
+              "
             />
-
           </div>
 
           <button
-            onClick={() =>
-              handleGenerate()
-            }
-            disabled={
-              loading ||
-              !projectId
-            }
+            onClick={() => handleGenerate()}
+            disabled={loading || !projectId}
             className="
-h-16
-px-8
-rounded-2xl
-text-white
-font-medium
-bg-gradient-to-r
-from-blue-600
-to-purple-600
-shadow-xl
-hover:scale-105
-hover:shadow-2xl
-transition-all
-duration-300
-disabled:opacity-50
-disabled:hover:scale-100
-flex
-items-center
-justify-center
-gap-3
-"
+              h-12
+              px-6
+              rounded-lg
+              bg-gray-900
+              text-white
+              text-sm
+              font-medium
+              hover:bg-gray-800
+              transition-all
+              duration-200
+              disabled:opacity-50
+              disabled:hover:bg-gray-900
+              flex
+              items-center
+              justify-center
+              gap-2
+              shadow-sm
+            "
           >
-
-            <FiFileText
-              size={18}
-            />
-
+            <FiFileText size={16} />
             Generate
-
           </button>
-
         </div>
-
       </motion.div>
 
-
-
-
       {/* Preview Section */}
-
-      {
-
-        loading && !html ? (
-
-          <div
-            className="
-bg-white/80
-backdrop-blur-xl
-rounded-[35px]
-shadow-xl
-border
-border-white
-p-10
-"
-          >
-
-            <Loader />
-
+      {loading && !html ? (
+        <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-10">
+          <Loader />
+        </div>
+      ) : html && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden"
+        >
+          <div className="flex justify-between items-center px-6 py-4 border-b border-gray-100">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900">
+                Proposal Preview
+              </h2>
+              <p className="text-sm text-gray-500 mt-0.5">
+                Preview and export generated proposal
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={handleDownloadPDF}
+                disabled={loading}
+                className="
+                  px-3
+                  py-1.5
+                  rounded-md
+                  bg-gray-50
+                  text-gray-600
+                  text-sm
+                  font-medium
+                  hover:bg-gray-100
+                  transition-all
+                  duration-200
+                  flex
+                  items-center
+                  gap-1.5
+                "
+              >
+                <FiDownload size={14} />
+                PDF
+              </button>
+              <button
+                onClick={handleDownloadWord}
+                disabled={loading}
+                className="
+                  px-3
+                  py-1.5
+                  rounded-md
+                  bg-gray-50
+                  text-gray-600
+                  text-sm
+                  font-medium
+                  hover:bg-gray-100
+                  transition-all
+                  duration-200
+                  flex
+                  items-center
+                  gap-1.5
+                "
+              >
+                <FiFile size={14} />
+                DOCX
+              </button>
+            </div>
           </div>
 
-        ) : (
-
-          <motion.div
-            initial={{
-              opacity: 0,
-              y: 20
-            }}
-            animate={{
-              opacity: 1,
-              y: 0
-            }}
-            transition={{
-              delay: 0.2
-            }}
-            className="
-bg-white/80
-backdrop-blur-xl
-rounded-[35px]
-shadow-2xl
-border
-border-white
-overflow-hidden
-"
-          >
-
-            <div
-              className="
-flex
-justify-between
-items-center
-px-8
-py-6
-border-b
-border-gray-100
-"
-            >
-
-              <div>
-
-                <h2
-                  className="
-text-xl
-font-bold
-text-gray-800
-"
-                >
-
-                  Proposal Preview
-
-                </h2>
-
-                <p
-                  className="
-text-sm
-text-gray-500
-mt-1
-"
-                >
-
-                  Preview and export generated proposal
-
-                </p>
-
-              </div>
-
-            </div>
-
-            <div className="p-8">
-
-              <ProposalPreview
-                html={html}
-                onDownloadPDF={
-                  handleDownloadPDF
-                }
-                onDownloadWord={
-                  handleDownloadWord
-                }
-                loading={loading}
-              />
-
-            </div>
-
-          </motion.div>
-
-        )
-
-      }
-
+          <div className="p-6">
+            <ProposalPreview
+              html={html}
+              onDownloadPDF={handleDownloadPDF}
+              onDownloadWord={handleDownloadWord}
+              loading={loading}
+            />
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 };
