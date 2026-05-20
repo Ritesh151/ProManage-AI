@@ -15,6 +15,8 @@ import debounce from '../utils/debounce';
 import { exportAPI } from '../services/api';
 import { formatCurrency } from '../utils/formatters';
 
+
+
 const StatsCard = ({ label, value, icon: Icon, index }) => {
   return (
     <motion.div

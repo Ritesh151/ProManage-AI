@@ -1,0 +1,10 @@
+/**
+ * AI Chat Window Styles
+ */
+
+.ai-chat-window {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}

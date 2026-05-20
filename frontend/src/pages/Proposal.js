@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { FiFileText, FiDownload, FiFile } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import { useSearchParams } from 'react-router-dom';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 import ProposalPreview from '../components/ProposalPreview';
 import { proposalAPI } from '../services/api';
 import Loader from '../components/Loader';
@@ -15,6 +17,7 @@ const Proposal = () => {
   const [projectName, setProjectName] = useState('');
   const projectIdRef = useRef(projectId);
   projectIdRef.current = projectId;
+  const previewRef = useRef(null);
 
   const handleGenerate = async (id) => {
     const pid = id || projectIdRef.current;
@@ -44,21 +47,66 @@ const Proposal = () => {
   }, [searchParams]);
 
   const handleDownloadPDF = async () => {
-    if (!projectId) return;
+    if (!previewRef.current) return;
     setLoading(true);
     try {
-      const res = await proposalAPI.downloadPDF(projectId);
-      const url = window.URL.createObjectURL(new Blob([res.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `${projectName || 'proposal'}.pdf`);
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      window.URL.revokeObjectURL(url);
+      const sections = previewRef.current.querySelectorAll('.pdf-section');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+
+      if (sections.length > 0) {
+        for (let i = 0; i < sections.length; i++) {
+          const canvas = await html2canvas(sections[i], {
+            scale: 4,
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: '#ffffff',
+            logging: false,
+          });
+          const imgData = canvas.toDataURL('image/jpeg', 1.0);
+          const imgWidth = pageWidth;
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+          if (i > 0) pdf.addPage();
+          let heightLeft = imgHeight;
+          let position = 0;
+          pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+          while (heightLeft > 0) {
+            position = heightLeft - imgHeight;
+            pdf.addPage();
+            pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+          }
+        }
+      } else {
+        const canvas = await html2canvas(previewRef.current, {
+          scale: 4,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          logging: false,
+        });
+        const imgData = canvas.toDataURL('image/jpeg', 1.0);
+        const imgWidth = pageWidth;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        let heightLeft = imgHeight;
+        let position = 0;
+        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+        while (heightLeft > 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+        }
+      }
+
+      pdf.save(`${projectName || 'proposal'}.pdf`);
       toast.success('PDF downloaded');
-    } catch {
-      toast.error('Failed to download PDF');
+    } catch (error) {
+      console.error(error);
+      toast.error('PDF export failed');
     } finally {
       setLoading(false);
     }
@@ -195,7 +243,7 @@ const Proposal = () => {
                 className="
                   px-3
                   py-1.5
-                  rounded-md
+                  rounded-sm  
                   bg-gray-50
                   text-gray-600
                   text-sm
@@ -217,7 +265,7 @@ const Proposal = () => {
                 className="
                   px-3
                   py-1.5
-                  rounded-md
+                  rounded-sm
                   bg-gray-50
                   text-gray-600
                   text-sm
@@ -237,12 +285,14 @@ const Proposal = () => {
           </div>
 
           <div className="p-6">
-            <ProposalPreview
-              html={html}
-              onDownloadPDF={handleDownloadPDF}
-              onDownloadWord={handleDownloadWord}
-              loading={loading}
-            />
+            <div ref={previewRef}>
+              <ProposalPreview
+                html={html}
+                onDownloadPDF={handleDownloadPDF}
+                onDownloadWord={handleDownloadWord}
+                loading={loading}
+              />
+            </div>
           </div>
         </motion.div>
       )}

@@ -7,8 +7,10 @@ const proposalRoutes = require('./routes/proposalRoutes');
 const exportRoutes = require('./routes/exportRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
+const aiRoutes = require('./ai/routes/aiRoutes');
 const errorHandler = require('./middleware/errorMiddleware');
 const notFound = require('./middleware/notFoundMiddleware');
+const { initializeAI, shutdownAI } = require('./ai/init');
 
 dotenv.config();
 
@@ -27,14 +29,42 @@ app.use('/api/proposal', proposalRoutes);
 app.use('/api/export', exportRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/ai', aiRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-connectDB().then(() => {
-  app.listen(PORT, () => {
+connectDB().then(async () => {
+  const server = app.listen(PORT, async () => {
     console.log(`Server running on port ${PORT}`);
+    
+    // Initialize AI system
+    try {
+      await initializeAI();
+      console.log('AI system initialized successfully');
+    } catch (err) {
+      console.error('Error initializing AI system:', err.message);
+    }
+  });
+
+  // Handle graceful shutdown
+  process.on('SIGTERM', async () => {
+    console.log('SIGTERM received, shutting down gracefully');
+    await shutdownAI();
+    server.close(() => {
+      console.log('Server closed');
+      process.exit(0);
+    });
+  });
+
+  process.on('SIGINT', async () => {
+    console.log('SIGINT received, shutting down gracefully');
+    await shutdownAI();
+    server.close(() => {
+      console.log('Server closed');
+      process.exit(0);
+    });
   });
 });

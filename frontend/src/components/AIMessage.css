@@ -1,0 +1,158 @@
+/**
+ * AI Message Styles
+ */
+
+.ai-message {
+  display: flex;
+  gap: 12px;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ai-message-user {
+  justify-content: flex-end;
+}
+
+.ai-message-assistant {
+  justify-content: flex-start;
+}
+
+.ai-message-avatar {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.ai-message-content {
+  max-width: 70%;
+  position: relative;
+}
+
+.ai-message-user .ai-message-content {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px 12px 4px 12px;
+  padding: 12px 16px;
+}
+
+.ai-message-assistant .ai-message-content {
+  background: #f0f0f0;
+  color: #333;
+  border-radius: 12px 12px 12px 4px;
+  padding: 12px 16px;
+}
+
+.ai-message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.ai-message-role {
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.ai-message-time {
+  opacity: 0.7;
+  font-size: 11px;
+}
+
+.ai-message-text {
+  font-size: 14px;
+  line-height: 1.5;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.ai-message-text.error {
+  color: #ff3b30;
+  font-weight: 500;
+}
+
+.ai-message-sources {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 12px;
+}
+
+.ai-sources-label {
+  margin: 0 0 8px 0;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+.ai-source-item {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 0;
+  opacity: 0.8;
+}
+
+.ai-source-file {
+  background: rgba(0, 0, 0, 0.05);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: monospace;
+  font-size: 11px;
+}
+
+.ai-source-project {
+  font-weight: 500;
+}
+
+.ai-source-similarity {
+  margin-left: auto;
+  background: rgba(102, 126, 234, 0.2);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+.ai-message-meta {
+  margin-top: 8px;
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.ai-copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-size: 14px;
+}
+
+.ai-message-content:hover .ai-copy-btn {
+  opacity: 1;
+}
+
+.ai-copy-btn:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .ai-message-content {
+    max-width: 90%;
+  }
+}

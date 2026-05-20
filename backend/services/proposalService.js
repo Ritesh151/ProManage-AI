@@ -961,14 +961,14 @@ padding:25px;
 
 <!-- ==================== EXECUTIVE SUMMARY ==================== -->
 <div class="page">
-  <div class="section no-break-inside">
+  <div class="section pdf-section">
     <div class="section-header">
       <h2><span class="section-num">01</span> Executive Summary</h2>
     </div>
     ${generateExecutiveSummary()}
   </div>
   
-  <div class="section no-break-inside">
+  <div class="section pdf-section">
     <div class="section-header">
       <h2><span class="section-num">02</span> About Our Company</h2>
     </div>
@@ -996,14 +996,14 @@ padding:25px;
 
 <!-- ==================== PROJECT UNDERSTANDING ==================== -->
 <div class="page">
-  <div class="section no-break-inside">
+  <div class="section pdf-section">
     <div class="section-header">
       <h2><span class="section-num">03</span> Project Understanding</h2>
     </div>
     ${generateProjectUnderstanding()}
   </div>
   
-  <div class="section no-break-inside">
+  <div class="section pdf-section">
     <div class="section-header">
       <h2><span class="section-num">04</span> Scope of Work</h2>
     </div>
@@ -1016,7 +1016,7 @@ padding:25px;
 
 <!-- ==================== DELIVERABLES & TIMELINE ==================== -->
 <div class="page">
-  <div class="section no-break-inside">
+  <div class="section pdf-section">
     <div class="section-header">
       <h2><span class="section-num">05</span> Project Deliverables</h2>
     </div>
@@ -1026,7 +1026,7 @@ padding:25px;
     </div>
   </div>
   
-  <div class="section no-break-inside">
+  <div class="section pdf-section">
     <div class="section-header">
       <h2><span class="section-num">06</span> Project Timeline</h2>
     </div>
@@ -1039,7 +1039,7 @@ padding:25px;
 
 <!-- ==================== TECH STACK ==================== -->
 <div class="page">
-  <div class="section no-break-inside">
+  <div class="section pdf-section">
     <div class="section-header">
       <h2><span class="section-num">07</span> Technology Stack</h2>
     </div>
@@ -1054,7 +1054,7 @@ padding:25px;
 
 <!-- ==================== COST ESTIMATION ==================== -->
 <div class="page">
-  <div class="section no-break-inside">
+  <div class="section pdf-section">
     <div class="section-header">
       <h2><span class="section-num">08</span> Cost Estimation</h2>
     </div>
@@ -1067,7 +1067,7 @@ padding:25px;
     </p>
   </div>
   
-  <div class="section no-break-inside">
+  <div class="section pdf-section">
     <div class="section-header">
       <h2><span class="section-num">09</span> Payment Terms</h2>
     </div>
@@ -1079,7 +1079,7 @@ padding:25px;
 
 <!-- ==================== ASSUMPTIONS & RISK ==================== -->
 <div class="page">
-  <div class="section no-break-inside">
+  <div class="section pdf-section">
     <div class="section-header">
       <h2><span class="section-num">10</span> Project Assumptions</h2>
     </div>
@@ -1087,7 +1087,7 @@ padding:25px;
     ${generateAssumptions()}
   </div>
   
-  <div class="section no-break-inside">
+  <div class="section pdf-section">
     <div class="section-header">
       <h2><span class="section-num">11</span> Risk Assessment</h2>
     </div>
@@ -1099,7 +1099,7 @@ padding:25px;
 
 <!-- ==================== TERMS & CONDITIONS ==================== -->
 <div class="page">
-  <div class="section no-break-inside">
+  <div class="section pdf-section">
     <div class="section-header">
       <h2><span class="section-num">12</span> Terms &amp; Conditions</h2>
     </div>
@@ -1112,7 +1112,7 @@ padding:25px;
 
 <!-- ==================== SUPPORT & SIGNATURES ==================== -->
 <div class="page">
-  <div class="section no-break-inside">
+  <div class="section pdf-section">
     <div class="section-header">
       <h2><span class="section-num">13</span> Support &amp; Maintenance</h2>
     </div>
@@ -1120,7 +1120,7 @@ padding:25px;
     ${generateSupportSection()}
   </div>
   
-  <div class="section no-break-inside">
+  <div class="section pdf-section">
     <div class="section-header">
       <h2><span class="section-num">14</span> Signatures</h2>
     </div>

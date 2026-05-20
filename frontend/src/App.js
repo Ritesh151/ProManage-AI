@@ -5,9 +5,16 @@ import { useLocation } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Home from './pages/Home';
 import Projects from './pages/Projects';
-import Calculator from './pages/Calculator';
 import Proposal from './pages/Proposal';
 import ExportData from './pages/ExportData';
+import AIChat from './pages/AIChat';
+import Analytics from './pages/Analytics';
+import ExportCenter from './pages/ExportCenter';
+import TrainingCenter from './pages/TrainingCenter';
+import KnowledgeBase from './pages/KnowledgeBase';
+import SemanticSearch from './pages/SemanticSearch';
+import TrainingHistory from './pages/TrainingHistory';
+import Settings from './pages/Settings';
 import NotFound from './pages/NotFound';
 import { useApp } from './context/AppContext';
 
@@ -34,9 +41,16 @@ function App() {
               <Routes location={location}>
                 <Route path="/" element={<Home />} />
                 <Route path="/projects" element={<Projects />} />
-                <Route path="/calculator" element={<Calculator />} />
                 <Route path="/proposal" element={<Proposal />} />
                 <Route path="/export" element={<ExportData />} />
+                <Route path="/ai" element={<AIChat />} />
+                <Route path="/analytics" element={<Analytics />} />
+                <Route path="/export-center" element={<ExportCenter />} />
+                <Route path="/training" element={<TrainingCenter />} />
+                <Route path="/knowledge" element={<KnowledgeBase />} />
+                <Route path="/search" element={<SemanticSearch />} />
+                <Route path="/training-history" element={<TrainingHistory />} />
+                <Route path="/settings" element={<Settings />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </motion.div>
