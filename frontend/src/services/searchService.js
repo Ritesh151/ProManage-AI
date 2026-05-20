@@ -17,10 +17,22 @@ export const searchService = {
 
   getKnowledgeBase: async (params = {}) => {
     try {
-      const response = await axios.get(`${API_BASE}/ai/knowledge-base`, { params });
+      const response = await axios.get(`${API_BASE}/ai/knowledge`, { params });
       return response.data;
     } catch (error) {
       console.error('Error fetching knowledge base:', error);
+      throw error;
+    }
+  },
+
+  getKnowledgeBaseSearch: async (query, params = {}) => {
+    try {
+      const response = await axios.get(`${API_BASE}/ai/knowledge/search`, {
+        params: { q: query, ...params },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error searching knowledge base:', error);
       throw error;
     }
   },
@@ -34,40 +46,4 @@ export const searchService = {
       throw error;
     }
   },
-
-  getMockSearchResults: (query) => [
-    {
-      id: 1,
-      title: 'Database Schema Design',
-      content: `The database schema includes tables for projects, proposals, and users. ${query} is implemented using...`,
-      similarity: 0.95,
-      source: 'backend/models/Project.js',
-      project: 'ProposalForge',
-      type: 'code',
-    },
-    {
-      id: 2,
-      title: 'API Documentation',
-      content: `API endpoints are documented in the backend. ${query} endpoint returns...`,
-      similarity: 0.87,
-      source: 'backend/routes/projectRoutes.js',
-      project: 'ProposalForge',
-      type: 'documentation',
-    },
-    {
-      id: 3,
-      title: 'Frontend Components',
-      content: `React components handle ${query} with proper state management...`,
-      similarity: 0.82,
-      source: 'frontend/src/pages/Projects.jsx',
-      project: 'ProposalForge',
-      type: 'code',
-    },
-  ],
-
-  getMockKnowledgeBase: () => [
-    { id: 1, name: 'ProposalForge', fileCount: 45, chunkCount: 1250, lastTrained: new Date(Date.now() - 86400000), status: 'indexed' },
-    { id: 2, name: 'Backend API', fileCount: 28, chunkCount: 890, lastTrained: new Date(Date.now() - 172800000), status: 'indexed' },
-    { id: 3, name: 'Frontend UI', fileCount: 32, chunkCount: 1050, lastTrained: new Date(Date.now() - 259200000), status: 'indexed' },
-  ],
 };

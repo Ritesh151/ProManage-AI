@@ -12,19 +12,17 @@ export const useAI = () => {
 
   const fetchConversations = useCallback(async () => {
     try {
-      const data = await aiService.getConversations({ limit: 20 }).catch(() => ({
-        conversations: aiService.getMockConversations(),
-      }));
+      const data = await aiService.getConversations({ limit: 20 });
       setConversations(data.conversations || []);
     } catch (err) {
       console.error('Error fetching conversations:', err);
-      setConversations(aiService.getMockConversations());
+      setConversations([]);
     }
   }, []);
 
   const fetchStatus = useCallback(async () => {
     try {
-      const data = await aiService.getStatus().catch(() => ({}));
+      const data = await aiService.getStatus();
       setStatus(data);
     } catch (err) {
       console.error('Error fetching status:', err);
@@ -90,9 +88,7 @@ export const useAI = () => {
     setMessages([]);
     setLoading(true);
     try {
-      const data = await aiService.getConversation(conversation.id).catch(() => ({
-        messages: [],
-      }));
+      const data = await aiService.getConversation(conversation.id);
       setMessages(data.messages || []);
     } catch (err) {
       console.error('Error loading conversation:', err);
@@ -103,7 +99,7 @@ export const useAI = () => {
 
   const deleteConversation = useCallback(async (conversationId) => {
     try {
-      await aiService.deleteConversation(conversationId).catch(() => {});
+      await aiService.deleteConversation(conversationId);
       setConversations((prev) => prev.filter((c) => c.id !== conversationId));
       if (currentConversation?.id === conversationId) {
         setCurrentConversation(null);

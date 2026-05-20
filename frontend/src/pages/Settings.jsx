@@ -310,42 +310,6 @@ const Settings = () => {
         ))}
       </SettingSection>
 
-      {/* API Configuration */}
-      <SettingSection
-        title="API Configuration"
-        description="Manage API keys and endpoints"
-      >
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">API URL</label>
-          <input
-            type="text"
-            value={settings?.api?.apiUrl || ''}
-            readOnly
-            className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50 text-gray-500"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">API Key</label>
-          <div className="relative">
-            <input
-              type={showApiKey ? 'text' : 'password'}
-              value={apiKeyInput}
-              onChange={(e) => handleApiKeyChange(e.target.value)}
-              placeholder="Enter your API key"
-              className="w-full px-4 py-2 pr-12 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-            <button
-              type="button"
-              onClick={() => setShowApiKey(!showApiKey)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-            >
-              {showApiKey ? <FiEyeOff size={18} /> : <FiEye size={18} />}
-            </button>
-          </div>
-          <p className="text-xs text-gray-600 mt-1">Your API key is stored securely in localStorage</p>
-        </div>
-      </SettingSection>
-
       {/* Actions */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}

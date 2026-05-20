@@ -77,7 +77,7 @@ const Sidebar = () => {
               transition={{ duration: 0.2 }}
             >
               <h1 className="text-lg font-semibold text-gray-900 tracking-tight">
-                PMS
+                ProposalForge AI
               </h1>
               <p className="text-xs text-gray-400 mt-0.5">
                 Ritesh Gajjar

@@ -55,9 +55,4 @@ export const aiService = {
       throw error;
     }
   },
-
-  getMockConversations: () => [
-    { id: 1, title: 'Project Architecture Discussion', timestamp: new Date(Date.now() - 3600000), messageCount: 5 },
-    { id: 2, title: 'Database Design Questions', timestamp: new Date(Date.now() - 86400000), messageCount: 8 },
-  ],
 };

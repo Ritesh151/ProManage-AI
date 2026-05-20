@@ -26,6 +26,7 @@ const TrainingCenter = () => {
         }
       />
 
+
       {/* Training Status */}
       {status && <TrainingStatusCard status={status} loading={training} />}
 
@@ -49,35 +50,8 @@ const TrainingCenter = () => {
           </div>
         </div>
       </motion.div>
-
-      {/* Training Tips */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-lg border border-gray-200 p-6"
-      >
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Tips for Better Training</h3>
-        <ul className="space-y-2 text-sm text-gray-700">
-          <li className="flex gap-2">
-            <span className="text-blue-600 font-bold">•</span>
-            <span>Ensure all project files are properly organized and named</span>
-          </li>
-          <li className="flex gap-2">
-            <span className="text-blue-600 font-bold">•</span>
-            <span>Include README files and documentation for better context</span>
-          </li>
-          <li className="flex gap-2">
-            <span className="text-blue-600 font-bold">•</span>
-            <span>Remove unnecessary files and folders before training</span>
-          </li>
-          <li className="flex gap-2">
-            <span className="text-blue-600 font-bold">•</span>
-            <span>Retrain periodically to keep the knowledge base updated</span>
-          </li>
-        </ul>
-      </motion.div>
     </div>
   );
 };
 
-export default TrainingCenter;
+export default TrainingCenter; 

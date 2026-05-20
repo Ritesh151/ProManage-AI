@@ -4,6 +4,7 @@ import { searchService } from '../services/searchService';
 export const useSearch = () => {
   const [results, setResults] = useState([]);
   const [knowledgeBase, setKnowledgeBase] = useState([]);
+  const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [query, setQuery] = useState('');
@@ -12,14 +13,18 @@ export const useSearch = () => {
   const debounceTimerRef = useRef(null);
 
   const fetchKnowledgeBase = useCallback(async () => {
+    setLoading(true);
+    setError(null);
     try {
-      const data = await searchService.getKnowledgeBase().catch(() => ({
-        projects: searchService.getMockKnowledgeBase(),
-      }));
+      const data = await searchService.getKnowledgeBase();
       setKnowledgeBase(data.projects || []);
+      setStats(data.stats || null);
     } catch (err) {
-      console.error('Error fetching knowledge base:', err);
-      setKnowledgeBase(searchService.getMockKnowledgeBase());
+      setError(err.message || 'Failed to fetch knowledge base');
+      setKnowledgeBase([]);
+      setStats(null);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -32,17 +37,13 @@ export const useSearch = () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await searchService.semanticSearch(searchQuery, { page: pageNum, limit: 10 }).catch(() => ({
-        results: searchService.getMockSearchResults(searchQuery),
-        pagination: { page: 1, pages: 1 },
-      }));
-      
+      const data = await searchService.semanticSearch(searchQuery, { page: pageNum, limit: 10 });
       setResults(data.results || []);
       setTotalPages(data.pagination?.pages || 1);
       setPage(pageNum);
     } catch (err) {
       setError(err.message);
-      setResults(searchService.getMockSearchResults(searchQuery));
+      setResults([]);
     } finally {
       setLoading(false);
     }
@@ -50,9 +51,9 @@ export const useSearch = () => {
 
   const handleSearch = useCallback((searchQuery) => {
     setQuery(searchQuery);
-    
+
     if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
-    
+
     debounceTimerRef.current = setTimeout(() => {
       performSearch(searchQuery, 1);
     }, 300);
@@ -69,6 +70,7 @@ export const useSearch = () => {
   return {
     results,
     knowledgeBase,
+    stats,
     loading,
     error,
     query,
