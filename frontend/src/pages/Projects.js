@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { FiPlus, FiSearch, FiDownload, FiRefreshCw, FiFolder, FiCheckCircle, FiClock } from 'react-icons/fi';
+import { FiPlus, FiSearch, FiDownload, FiRefreshCw, FiFolder, FiCheckCircle, FiAward, FiCalendar, FiX } from 'react-icons/fi';
 import { FaRupeeSign } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import ProjectTable from '../components/ProjectTable';
 import ProjectModal from '../components/ProjectModal';
 import ConfirmModal from '../components/ConfirmModal';
+import GanttChart from '../components/GanttChart';
 import Pagination from '../components/Pagination';
 import Loader from '../components/Loader';
 import { useApp } from '../context/AppContext';
@@ -41,6 +42,7 @@ const Projects = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editProject, setEditProject] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
+  const [timelineProject, setTimelineProject] = useState(null);
   const [statusFilter, setStatusFilter] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
   const [page, setPage] = useState(1);
@@ -138,11 +140,14 @@ const Projects = () => {
     }
   };
 
+  const completedProjects = projects.filter((p) => p.status === 'Completed');
+  const revenueTotal = completedProjects.reduce((s, p) => s + (p.cost || 0), 0);
+
   const stats = [
     { label: 'Total Projects', value: pagination.total || 0, icon: FiFolder },
     { label: 'Active', value: projects.filter((p) => p.status === 'Active').length, icon: FiCheckCircle },
-    { label: 'On Hold', value: projects.filter((p) => p.status === 'On Hold').length, icon: FiClock },
-    { label: 'Revenue', value: formatCurrency(projects.reduce((s, p) => s + (p.cost || 0), 0)), icon: FaRupeeSign },
+    { label: 'Completed', value: completedProjects.length, icon: FiAward },
+    { label: 'Revenue', value: formatCurrency(revenueTotal), icon: FaRupeeSign },
   ];
 
   return (
@@ -361,6 +366,7 @@ const Projects = () => {
             projects={projects}
             onEdit={openEdit}
             onDelete={(p) => setDeleteTarget(p)}
+            onTimeline={(p) => setTimelineProject(p)}
           />
           <div className="p-5 border-t border-gray-100">
             <Pagination
@@ -389,6 +395,62 @@ const Projects = () => {
         title="Delete Project"
         message={`Are you sure you want to delete "${deleteTarget?.projectName}"?`}
       />
+
+      {/* Timeline Drawer */}
+      {timelineProject && (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-black/40 z-50 drawer-overlay"
+            onClick={() => setTimelineProject(null)}
+          />
+          <motion.div
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'tween', duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            className="fixed right-0 top-0 h-full w-full max-w-[700px] bg-white shadow-2xl z-50 flex flex-col"
+          >
+            <div className="flex items-center justify-between p-6 border-b border-gray-100">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-gray-50">
+                  <FiCalendar className="text-gray-500" size={16} />
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-gray-900">{timelineProject.projectName}</h2>
+                  <p className="text-sm text-gray-400 mt-0.5">
+                    {timelineProject.category} &middot; {timelineProject.scopeOfWork?.length || 0} tasks
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setTimelineProject(null)}
+                className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-700 transition-colors"
+              >
+                <FiX size={20} />
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto p-6">
+              {timelineProject.scopeOfWork && timelineProject.scopeOfWork.length > 0 ? (
+                <GanttChart
+                  scopeOfWork={timelineProject.scopeOfWork}
+                  createdAt={timelineProject.createdAt}
+                  timeline={timelineProject.timeline}
+                />
+              ) : (
+                <div className="text-center py-20">
+                  <FiCalendar className="mx-auto text-gray-300" size={48} />
+                  <p className="text-gray-400 text-lg font-medium mt-4">No scope items</p>
+                  <p className="text-gray-400 text-sm mt-1">Add scope of work to see the timeline</p>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        </>
+      )}
     </div>
   );
 };

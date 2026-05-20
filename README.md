@@ -8,6 +8,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 [![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)]()
 
@@ -56,32 +57,50 @@ With a single click, users can generate highly professional, production-ready pr
 - **DOCX Export**: Generate editable Word documents.
 - **CSV & Excel Export**: Bulk export your project database for external analysis.
 
-### ✅ Dashboard
-- **Analytics Cards**: High-level system statistics.
-- **Revenue Tracking**: Live visualization of total potential and active revenue.
-- **Recent Projects**: Quick access to the most recent proposals.
+### ✅ Analytics Dashboard
+- **12 Interactive Charts**: Bar, Line, Area, Pie, Doughnut, Radar, Composed, and Radial bar charts.
+- **Revenue Tracking**: Revenue calculated only from completed projects.
+- **Section Tabs**: Filter charts by Overview, Distribution, Trends, and Insights.
+- **Project Timeline**: Gantt chart visualization per project showing scope of work milestones.
 
 ---
 
 ## 💻 Tech Stack
 
 ### Frontend
-- **React JS**: Component-driven UI.
-- **Tailwind CSS**: Rapid, responsive, utility-first styling.
-- **Axios**: HTTP client for seamless API interactions.
-- **React Router**: Client-side navigation.
-- **React Toastify**: Elegant notification alerts.
+| Technology | Purpose |
+| :--- | :--- |
+| **React 18** | Component-driven UI |
+| **Tailwind CSS 3** | Utility-first styling |
+| **Axios** | HTTP client for API interactions |
+| **React Router 6** | Client-side navigation |
+| **React Toastify** | Notification alerts |
+| **Framer Motion** | Page/component animations |
+| **React Icons** | Icon library |
+| **Recharts** | Interactive charts & graphs |
 
 ### Backend
-- **Node JS**: Event-driven runtime.
-- **Express JS**: Minimalist web framework.
+| Technology | Purpose |
+| :--- | :--- |
+| **Node.js** | JavaScript runtime |
+| **Express 4** | Web framework & REST API |
+| **Mongoose 8** | MongoDB ODM |
+| **express-validator** | Request validation |
+| **cors** | Cross-origin resource sharing |
+| **dotenv** | Environment variable management |
 
 ### Database
-- **MongoDB**: NoSQL document database for scalable storage.
+| Technology | Purpose |
+| :--- | :--- |
+| **MongoDB** | NoSQL document database (local, default: `mongodb://localhost:27017/projectmanager`) |
 
-### Document Generation
-- **Puppeteer**: Headless Chrome node API for precise PDF generation.
-- **docx**: Pure JavaScript library for generating Word documents.
+### Document Generation & Export
+| Technology | Purpose |
+| :--- | :--- |
+| **Puppeteer** | Headless Chrome for PDF generation |
+| **docx** | Word document generation |
+| **json2csv** | CSV export |
+| **xlsx** | Excel export |
 
 ---
 
@@ -89,23 +108,28 @@ With a single click, users can generate highly professional, production-ready pr
 
 ```text
 ProposalForge-AI/
-├── frontend/             # React JS Application
+├── frontend/                 # React Application
 │   ├── public/
+│   ├── build/                # Production build output
 │   └── src/
-│       ├── components/   # Reusable UI components
-│       ├── context/      # Global state management
-│       ├── hooks/        # Custom React hooks
-│       ├── pages/        # Main application routes
-│       ├── services/     # Axios API handlers
-│       └── utils/        # Helper functions & formatters
+│       ├── components/       # Reusable UI components
+│       ├── context/          # Global state (useReducer)
+│       ├── hooks/            # Custom React hooks
+│       ├── pages/            # Main application pages
+│       ├── services/         # Axios API handlers
+│       └── utils/            # Helpers, formatters, tech mappings
 │
-└── backend/              # Node.js/Express API
-    ├── config/           # Database & environment configs
-    ├── controllers/      # Route request handlers
-    ├── middleware/       # Custom middleware (Error handling, etc.)
-    ├── models/           # Mongoose schemas (Project, etc.)
-    ├── routes/           # API route definitions
-    └── services/         # Business logic (PDF/Word generation)
+├── backend/                  # Node.js/Express API
+│   ├── config/               # Database connection config
+│   ├── controllers/          # Route request handlers
+│   ├── data/                 # Predefined scope items per category
+│   ├── middleware/           # Error handling & 404 middleware
+│   ├── models/               # Mongoose schemas
+│   ├── routes/               # API route definitions
+│   ├── services/             # Business logic (PDF/Word/export)
+│   └── utils/                # API response helper
+│
+└── Documents/                # Generated proposal PDFs
 ```
 
 ---
@@ -153,11 +177,11 @@ npm start
 
 ## 🔑 Environment Variables
 
-Create a `.env` file in the `backend` directory and add the following:
+Create a `.env` file in the `backend` directory with the following:
 
 ```env
 PORT=5000
-MONGO_URI=your_mongodb_connection_string_here
+MONGO_URI=mongodb://localhost:27017/projectmanager
 ```
 
 ---
@@ -168,16 +192,31 @@ MONGO_URI=your_mongodb_connection_string_here
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
 | `POST` | `/api/projects/create` | Create a new project |
-| `GET` | `/api/projects` | Fetch all projects (with pagination/filters) |
+| `GET` | `/api/projects` | Fetch all projects (search, filter, pagination, sort) |
+| `GET` | `/api/projects/:id` | Fetch a single project by ID |
 | `PUT` | `/api/projects/:id` | Update project details |
 | `DELETE` | `/api/projects/:id` | Delete a project |
 
 ### Proposal Automation
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
-| `GET` | `/api/proposal/generate/:id` | Get raw HTML/data for preview |
-| `GET` | `/api/proposal/pdf/:id` | Download Proposal as PDF |
-| `GET` | `/api/proposal/word/:id` | Download Proposal as DOCX |
+| `GET` | `/api/proposal/generate/:id` | Preview proposal as HTML |
+| `GET` | `/api/proposal/pdf/:id` | Download proposal as PDF |
+| `GET` | `/api/proposal/word/:id` | Download proposal as DOCX |
+
+### Bulk Export
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/export/csv` | Export all projects as CSV |
+| `GET` | `/api/export/excel` | Export all projects as Excel (.xlsx) |
+| `GET` | `/api/export/pdf` | Export all projects as PDF |
+
+### Dashboard & Categories
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/dashboard` | Dashboard overview + 12 chart datasets |
+| `GET` | `/api/categories` | Get all project categories with scope items |
+| `GET` | `/api/health` | Health check |
 
 ---
 
@@ -189,9 +228,10 @@ graph TD;
     B --> C[Select Scope Of Work]
     C --> D[Select Technologies]
     D --> E[Calculate Cost]
-    E --> F[Generate Proposal]
-    F --> G[Preview Proposal]
-    G --> H[Download PDF / DOCX]
+    E --> F[View Timeline Gantt Chart]
+    E --> G[Generate Proposal]
+    G --> H[Preview Proposal]
+    H --> I[Download PDF / DOCX]
 ```
 
 ---

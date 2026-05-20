@@ -1,10 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FiEdit2, FiTrash2, FiEye, FiFolder } from 'react-icons/fi';
+import { FiEdit2, FiTrash2, FiEye, FiFolder, FiCalendar } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { formatCurrency, formatDate, statusColor, statusDot } from '../utils/formatters';
 
-const ProjectTable = ({ projects, onEdit, onDelete }) => {
+const ProjectTable = ({ projects, onEdit, onDelete, onTimeline }) => {
   const navigate = useNavigate();
 
   if (!projects || projects.length === 0) {
@@ -94,6 +94,13 @@ const ProjectTable = ({ projects, onEdit, onDelete }) => {
                       title="View Proposal"
                     >
                       <FiEye size={16} />
+                    </button>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); onTimeline && onTimeline(project); }}
+                      className="p-2 hover:bg-emerald-50 rounded-lg text-gray-400 hover:text-emerald-600 transition-all"
+                      title="View Timeline"
+                    >
+                      <FiCalendar size={16} />
                     </button>
                     <button
                       onClick={(e) => { e.stopPropagation(); onEdit(project); }}

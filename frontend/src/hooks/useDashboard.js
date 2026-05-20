@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { dashboardAPI } from '../services/api';
 
 export function useDashboard() {
-  const [stats, setStats] = useState([]);
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -11,10 +11,10 @@ export function useDashboard() {
     setError(null);
     try {
       const res = await dashboardAPI.get();
-      setStats(res.data.data || []);
+      setData(res.data.data || null);
     } catch (err) {
       setError(err);
-      setStats([]);
+      setData(null);
     } finally {
       setLoading(false);
     }
@@ -24,5 +24,5 @@ export function useDashboard() {
     fetchStats();
   }, [fetchStats]);
 
-  return { stats, loading, error, refetch: fetchStats };
+  return { data, loading, error, refetch: fetchStats };
 }
