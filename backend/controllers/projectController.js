@@ -74,6 +74,35 @@ const createProject = async (req, res, next) => {
     if (!scopeOfWork || !Array.isArray(scopeOfWork) || scopeOfWork.length === 0) throw new Error('Scope of work is required');
     if (!timeline) throw new Error('Timeline is required');
 
+    const calculatedScopeCost = Array.isArray(scopeOfWorkDetails)
+      ? scopeOfWorkDetails.reduce((sum, item) => sum + (item.price || 0), 0)
+      : 0;
+
+    const numPages = numberOfPages ? parseInt(numberOfPages) : 0;
+    const calculatedPagesCost = numPages * 1500;
+
+    const timelineMonths = timelineUnit === 'Months'
+      ? parseInt(timelineValue) || 0
+      : timelineUnit === 'Weeks'
+      ? Math.ceil((parseInt(timelineValue) || 0) / 4.33)
+      : Math.ceil((parseInt(timelineValue) || 0) / 30);
+
+    let calculatedTimelineExtraCost = 0;
+    if (timelineMonths === 1) {
+      calculatedTimelineExtraCost = Math.round(calculatedScopeCost * 0.05);
+    } else if (timelineMonths === 2) {
+      calculatedTimelineExtraCost = Math.round(calculatedScopeCost * 0.10);
+    }
+
+    const extrasCount = [
+      !hasClientDomain,
+      !hasClientLogo,
+      !hasClientContent,
+    ].filter(Boolean).length;
+    const calculatedExtrasCost = extrasCount * 1500;
+
+    const calculatedGrandTotal = calculatedScopeCost + calculatedExtrasCost + calculatedPagesCost + calculatedTimelineExtraCost;
+
     const projectData = {
       srNo: nextSrNo,
       projectId,
@@ -104,16 +133,16 @@ const createProject = async (req, res, next) => {
       scopeOfWork: Array.isArray(scopeOfWork) ? scopeOfWork : [],
       scopeOfWorkDetails: Array.isArray(scopeOfWorkDetails) ? scopeOfWorkDetails : [],
       projectDetails: projectDetails ? projectDetails.trim() : undefined,
-      numberOfPages: numberOfPages ? parseInt(numberOfPages) : undefined,
+      numberOfPages: numPages || undefined,
       technologies: technologies || { frontend: [], backend: [], database: [], other: [] },
       timeline,
       timelineValue: timelineValue ? parseInt(timelineValue) : undefined,
       timelineUnit,
-      cost: cost ? parseFloat(cost) : 0,
-      scopeCost: scopeCost ? parseFloat(scopeCost) : 0,
-      extrasCost: extrasCost ? parseFloat(extrasCost) : 0,
-      pagesCost: pagesCost ? parseFloat(pagesCost) : 0,
-      timelineExtraCost: timelineExtraCost ? parseFloat(timelineExtraCost) : 0,
+      cost: calculatedGrandTotal,
+      scopeCost: calculatedScopeCost,
+      extrasCost: calculatedExtrasCost,
+      pagesCost: calculatedPagesCost,
+      timelineExtraCost: calculatedTimelineExtraCost,
       projectEndDate: projectEndDate || undefined,
       status: status || 'Active',
     };
@@ -225,6 +254,35 @@ const updateProject = async (req, res, next) => {
       throw new Error('Invalid email address');
     }
 
+    const calcScopeCost = Array.isArray(scopeOfWorkDetails)
+      ? scopeOfWorkDetails.reduce((sum, item) => sum + (item.price || 0), 0)
+      : 0;
+
+    const calcNumPages = numberOfPages ? parseInt(numberOfPages) : 0;
+    const calcPagesCost = calcNumPages * 1500;
+
+    const calcTimelineMonths = timelineUnit === 'Months'
+      ? parseInt(timelineValue) || 0
+      : timelineUnit === 'Weeks'
+      ? Math.ceil((parseInt(timelineValue) || 0) / 4.33)
+      : Math.ceil((parseInt(timelineValue) || 0) / 30);
+
+    let calcTimelineExtraCost = 0;
+    if (calcTimelineMonths === 1) {
+      calcTimelineExtraCost = Math.round(calcScopeCost * 0.05);
+    } else if (calcTimelineMonths === 2) {
+      calcTimelineExtraCost = Math.round(calcScopeCost * 0.10);
+    }
+
+    const calcExtrasCount = [
+      !hasClientDomain,
+      !hasClientLogo,
+      !hasClientContent,
+    ].filter(Boolean).length;
+    const calcExtrasCost = calcExtrasCount * 1500;
+
+    const calcGrandTotal = calcScopeCost + calcExtrasCost + calcPagesCost + calcTimelineExtraCost;
+
     const updateData = {
       clientName: clientName ? clientName.trim() : undefined,
       clientMobileNumber: clientMobileNumber ? clientMobileNumber.trim() : undefined,
@@ -253,16 +311,16 @@ const updateProject = async (req, res, next) => {
       scopeOfWork: Array.isArray(scopeOfWork) ? scopeOfWork : undefined,
       scopeOfWorkDetails: Array.isArray(scopeOfWorkDetails) ? scopeOfWorkDetails : undefined,
       projectDetails: projectDetails ? projectDetails.trim() : undefined,
-      numberOfPages: numberOfPages ? parseInt(numberOfPages) : undefined,
+      numberOfPages: calcNumPages || undefined,
       technologies: technologies || { frontend: [], backend: [], database: [], other: [] },
       timeline,
       timelineValue: timelineValue ? parseInt(timelineValue) : undefined,
       timelineUnit,
-      cost: cost ? parseFloat(cost) : 0,
-      scopeCost: scopeCost ? parseFloat(scopeCost) : undefined,
-      extrasCost: extrasCost ? parseFloat(extrasCost) : undefined,
-      pagesCost: pagesCost ? parseFloat(pagesCost) : undefined,
-      timelineExtraCost: timelineExtraCost ? parseFloat(timelineExtraCost) : undefined,
+      cost: calcGrandTotal,
+      scopeCost: calcScopeCost,
+      extrasCost: calcExtrasCost,
+      pagesCost: calcPagesCost,
+      timelineExtraCost: calcTimelineExtraCost,
       projectEndDate: projectEndDate || undefined,
       status: status || 'Active',
     };

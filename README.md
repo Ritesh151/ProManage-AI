@@ -245,8 +245,27 @@ graph TD
 
 ```text
 Project B/
+├── MD Files Documents/                # Documentation files
+│   ├── AI_QUICK_START.md
+│   ├── AI_SYSTEM_DOCUMENTATION.md
+│   ├── CHANGES_SUMMARY.md
+│   ├── COMPLETION_REPORT.md
+│   ├── DEPLOYMENT_GUIDE.md
+│   ├── FRONTEND_EXTENSION_COMPLETE.md
+│   ├── FRONTEND_IMPLEMENTATION_SUMMARY.txt
+│   ├── FRONTEND_QUICK_REFERENCE.md
+│   ├── IMPLEMENTATION_CHECKLIST.md
+│   ├── INTEGRATION_GUIDE.md
+│   ├── PYTHON_AI_INTEGRATION.md
+│   ├── PYTHON_AI_QUICK_START.md
+│   ├── PYTHON_AI_SUMMARY.md
+│   ├── PYTHON_MICROSERVICE_COMPLETE.md
+│   ├── START_HERE.md
+│   └── VERIFICATION_CHECKLIST.md
+│
 ├── frontend/                          # React Application
 │   ├── public/
+│   │   ├── favicon.svg
 │   │   └── index.html                 # HTML template
 │   ├── build/                         # Production build output
 │   ├── package.json                   # Frontend dependencies
@@ -268,21 +287,30 @@ Project B/
 │       │   ├── AITyping.jsx
 │       │   ├── AITyping.css
 │       │   ├── AnalyticsCard.jsx
+│       │   ├── CategoryModal.jsx
 │       │   ├── ChartContainer.jsx
 │       │   ├── ConfirmModal.js
 │       │   ├── DashboardCard.js
+│       │   ├── DeleteConfirmModal.jsx
 │       │   ├── Drawer.js
 │       │   ├── EmptyState.jsx
 │       │   ├── ExportCard.jsx
+│       │   ├── FilterBar.jsx
 │       │   ├── GanttChart.js
 │       │   ├── KnowledgeCard.jsx
 │       │   ├── Loader.js
 │       │   ├── MultiSelect.js
 │       │   ├── PageHeader.jsx
 │       │   ├── Pagination.js
+│       │   ├── PriceBadge.jsx
 │       │   ├── ProjectModal.js
+│       │   ├── ProjectModalNew.jsx
+│       │   ├── ProjectModalNew.css
 │       │   ├── ProjectTable.js
 │       │   ├── ProposalPreview.js
+│       │   ├── ScopeCategoryCard.jsx
+│       │   ├── ScopeItemCard.jsx
+│       │   ├── ScopeItemModal.jsx
 │       │   ├── SearchResultCard.jsx
 │       │   ├── SettingSection.jsx
 │       │   ├── Sidebar.js
@@ -295,6 +323,8 @@ Project B/
 │       │   ├── useCategories.js
 │       │   ├── useDashboard.js
 │       │   ├── useExport.js
+│       │   ├── useProjectForm.js
+│       │   ├── useScope.js
 │       │   ├── useSearch.js
 │       │   ├── useSettings.js
 │       │   └── useTraining.js
@@ -309,6 +339,7 @@ Project B/
 │       │   ├── NotFound.js
 │       │   ├── Projects.js
 │       │   ├── Proposal.js
+│       │   ├── ScopeOfWork.jsx
 │       │   ├── SemanticSearch.jsx
 │       │   ├── Settings.jsx
 │       │   ├── TrainingCenter.jsx
@@ -318,10 +349,12 @@ Project B/
 │       │   ├── analyticsService.js
 │       │   ├── api.js
 │       │   ├── exportService.js
+│       │   ├── scopeService.js
 │       │   ├── searchService.js
 │       │   ├── settingsService.js
 │       │   └── trainingService.js
 │       └── utils/                     # Helper functions
+│           ├── currencyFormatter.js
 │           ├── debounce.js
 │           ├── formatters.js
 │           └── technologiesMapping.js
@@ -340,20 +373,24 @@ Project B/
 │   │   ├── controllers/               # AI route handlers
 │   │   │   └── aiController.js
 │   │   ├── models/                    # AI data models
+│   │   │   ├── AIChatHistory.js
+│   │   │   ├── AIDocument.js
+│   │   │   └── AITrainingSession.js
 │   │   ├── routes/                    # AI API routes
 │   │   │   └── aiRoutes.js            # /api/ai/* endpoints
 │   │   ├── services/                  # AI business logic
 │   │   │   ├── AIChatService.js
 │   │   │   ├── AIEmbeddingService.js
 │   │   │   ├── AIIngestService.js
+│   │   │   ├── AIKnowledgeService.js
 │   │   │   ├── AIProjectDiscoveryService.js
 │   │   │   ├── AITrainingService.js
 │   │   │   ├── AIWatcherService.js
 │   │   │   └── PythonAIClient.js
 │   │   ├── scripts/                   # CLI scripts
-│   │   │   ├── trainAI.js
+│   │   │   ├── aiStatus.js
 │   │   │   ├── retrainAI.js
-│   │   │   └── aiStatus.js
+│   │   │   └── trainAI.js
 │   │   └── utils/                     # AI utilities
 │   │       ├── fileUtils.js
 │   │       ├── logger.js
@@ -365,28 +402,32 @@ Project B/
 │   │   ├── dashboardController.js
 │   │   ├── exportController.js
 │   │   ├── projectController.js
-│   │   └── proposalController.js
+│   │   ├── proposalController.js
+│   │   └── scopeController.js
 │   ├── data/
 │   │   └── categories.js              # Project categories & scope items
-│   ├── logs/                          # AI log files
 │   ├── middleware/
 │   │   ├── errorMiddleware.js
 │   │   └── notFoundMiddleware.js
 │   ├── models/
-│   │   └── Project.js                 # Mongoose project model
+│   │   ├── Project.js                 # Mongoose project model
+│   │   └── ScopeCategory.js           # Mongoose scope category model
 │   ├── routes/                        # API route definitions
 │   │   ├── categoryRoutes.js
 │   │   ├── dashboardRoutes.js
 │   │   ├── exportRoutes.js
 │   │   ├── projectRoutes.js
-│   │   └── proposalRoutes.js
+│   │   ├── proposalRoutes.js
+│   │   └── scopeRoutes.js
 │   ├── services/                      # Business logic services
+│   │   ├── dashboardService.js
 │   │   ├── exportService.js
 │   │   ├── pdfService.js
 │   │   ├── proposalService.js
+│   │   ├── proposalService copy.js    # Backup file
+│   │   ├── scopeService.js            # Scope management service
 │   │   ├── wordService.js
-│   │   ├── Style Options.html         # Proposal style templates
-│   │   └── proposalService copy.js    # Backup file
+│   │   └── Style Options.html         # Proposal style templates
 │   └── utils/
 │       └── apiResponse.js             # API response helper
 │
@@ -402,9 +443,15 @@ Project B/
 │   ├── logs/                          # Log files
 │   ├── config/                        # Configuration
 │   │   ├── __init__.py
-│   │   ├── settings.py
 │   │   ├── aiConfig.py
-│   │   └── projectPaths.py
+│   │   ├── projectPaths.py
+│   │   └── settings.py
+│   ├── routes/                        # API routes
+│   │   ├── __init__.py
+│   │   ├── chatRoutes.py
+│   │   ├── healthRoutes.py
+│   │   ├── statusRoutes.py
+│   │   └── trainRoutes.py
 │   ├── services/                      # AI microservices
 │   │   ├── __init__.py
 │   │   ├── AIChatService.py
@@ -414,36 +461,16 @@ Project B/
 │   │   ├── AIProjectDiscoveryService.py
 │   │   ├── AITrainingService.py
 │   │   └── AIWatcherService.py
-│   ├── routes/                        # API routes
-│   │   ├── __init__.py
-│   │   ├── healthRoutes.py
-│   │   ├── trainRoutes.py
-│   │   ├── chatRoutes.py
-│   │   └── statusRoutes.py
 │   └── utils/                         # Utility functions
 │       ├── __init__.py
-│       ├── logger.py
 │       ├── fileUtils.py
+│       ├── logger.py
 │       └── textUtils.py
 │
 ├── Documents/                         # Generated proposal PDFs
 ├── .gitignore
-├── AI_QUICK_START.md
-├── AI_SYSTEM_DOCUMENTATION.md
-├── CHANGES_SUMMARY.md
-├── COMPLETION_REPORT.md
-├── DEPLOYMENT_GUIDE.md
-├── FRONTEND_EXTENSION_COMPLETE.md
-├── FRONTEND_IMPLEMENTATION_SUMMARY.txt
-├── FRONTEND_QUICK_REFERENCE.md
-├── IMPLEMENTATION_CHECKLIST.md
-├── INTEGRATION_GUIDE.md
-├── PYTHON_AI_INTEGRATION.md
-├── PYTHON_AI_QUICK_START.md
-├── PYTHON_AI_SUMMARY.md
-├── PYTHON_MICROSERVICE_COMPLETE.md
-├── START_HERE.md
-├── VERIFICATION_CHECKLIST.md
+├── To_DO.txt
+├── package.json                       # Root package configuration
 └── README.md
 ```
 

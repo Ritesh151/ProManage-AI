@@ -14,8 +14,7 @@ import { useCategories } from '../hooks/useCategories';
 import debounce from '../utils/debounce';
 import { exportAPI } from '../services/api';
 import { formatCurrency } from '../utils/formatters';
-
-
+import { FiChevronDown } from 'react-icons/fi';
 
 const StatsCard = ({ label, value, icon: Icon, index }) => {
   return (
