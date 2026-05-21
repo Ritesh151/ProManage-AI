@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { toast } from 'react-toastify';
 import { FiSave, FiX, FiChevronDown, FiLoader, FiAlertCircle } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -309,6 +309,43 @@ const ProjectModalNew = ({ isOpen, onClose, onSubmit, project }) => {
     updateNestedField('timeline', field, value);
   };
 
+  const handleExtraToggle = (field, value) => {
+    updateFormData(field, value);
+  };
+
+  const EXTRAS_COST_PER_ITEM = 1500;
+
+  const extrasSummary = useMemo(() => {
+    const items = [];
+    let extrasTotal = 0;
+
+    if (!formData.hasGoogleBusinessProfile) {
+      items.push({ label: 'Google Business Profile Missing', cost: EXTRAS_COST_PER_ITEM });
+      extrasTotal += EXTRAS_COST_PER_ITEM;
+    }
+    if (!formData.hasClientDomain) {
+      items.push({ label: 'Client Domain Missing', cost: EXTRAS_COST_PER_ITEM });
+      extrasTotal += EXTRAS_COST_PER_ITEM;
+    }
+    if (!formData.hasClientLogo) {
+      items.push({ label: 'Client Logo Missing', cost: EXTRAS_COST_PER_ITEM });
+      extrasTotal += EXTRAS_COST_PER_ITEM;
+    }
+    if (!formData.hasClientContent) {
+      items.push({ label: 'Client Content Missing', cost: EXTRAS_COST_PER_ITEM });
+      extrasTotal += EXTRAS_COST_PER_ITEM;
+    }
+
+    const grandTotal = calculatedCost + extrasTotal;
+
+    return {
+      items,
+      extrasTotal,
+      grandTotal,
+      scopeCost: calculatedCost,
+    };
+  }, [formData.hasGoogleBusinessProfile, formData.hasClientDomain, formData.hasClientLogo, formData.hasClientContent, calculatedCost]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
@@ -330,7 +367,9 @@ const ProjectModalNew = ({ isOpen, onClose, onSubmit, project }) => {
       const submitData = {
         ...formData,
         projectEndDate: calculatedEndDate,
-        cost: calculatedCost,
+        cost: extrasSummary.grandTotal,
+        scopeCost: extrasSummary.scopeCost,
+        extrasCost: extrasSummary.extrasTotal,
         timeline: `${formData.timeline.value} ${formData.timeline.unit}`,
         timelineValue: parseInt(formData.timeline.value),
         timelineUnit: formData.timeline.unit,
@@ -584,39 +623,35 @@ const ProjectModalNew = ({ isOpen, onClose, onSubmit, project }) => {
                     options={GOOGLE_RANKING_OPTIONS}
                   />
 
-                  <div className="checkbox-group">
-                    <label className="checkbox-item">
-                      <input
-                        type="checkbox"
-                        checked={formData.hasGoogleBusinessProfile}
-                        onChange={(e) => updateFormData('hasGoogleBusinessProfile', e.target.checked)}
-                      />
-                      <span>Google Business Profile</span>
-                    </label>
-                    <label className="checkbox-item">
-                      <input
-                        type="checkbox"
-                        checked={formData.hasClientDomain}
-                        onChange={(e) => updateFormData('hasClientDomain', e.target.checked)}
-                      />
-                      <span>Client Domain</span>
-                    </label>
-                    <label className="checkbox-item">
-                      <input
-                        type="checkbox"
-                        checked={formData.hasClientLogo}
-                        onChange={(e) => updateFormData('hasClientLogo', e.target.checked)}
-                      />
-                      <span>Client Logo</span>
-                    </label>
-                    <label className="checkbox-item">
-                      <input
-                        type="checkbox"
-                        checked={formData.hasClientContent}
-                        onChange={(e) => updateFormData('hasClientContent', e.target.checked)}
-                      />
-                      <span>Client Content Available</span>
-                    </label>
+                  <div className="extras-toggles-grid">
+                    <div className="extras-toggle-row">
+                      <label className="extras-toggle-label">Does the Client have Google Business Profile?</label>
+                      <div className="button-group-buttons">
+                        <button type="button" className={`btn-toggle btn-toggle-sm ${formData.hasGoogleBusinessProfile ? 'active' : ''}`} onClick={() => handleExtraToggle('hasGoogleBusinessProfile', true)}>Yes</button>
+                        <button type="button" className={`btn-toggle btn-toggle-sm ${!formData.hasGoogleBusinessProfile ? 'active' : ''}`} onClick={() => handleExtraToggle('hasGoogleBusinessProfile', false)}>No</button>
+                      </div>
+                    </div>
+                    <div className="extras-toggle-row">
+                      <label className="extras-toggle-label">Does the Client have a domain?</label>
+                      <div className="button-group-buttons">
+                        <button type="button" className={`btn-toggle btn-toggle-sm ${formData.hasClientDomain ? 'active' : ''}`} onClick={() => handleExtraToggle('hasClientDomain', true)}>Yes</button>
+                        <button type="button" className={`btn-toggle btn-toggle-sm ${!formData.hasClientDomain ? 'active' : ''}`} onClick={() => handleExtraToggle('hasClientDomain', false)}>No</button>
+                      </div>
+                    </div>
+                    <div className="extras-toggle-row">
+                      <label className="extras-toggle-label">Does the Client have a Logo?</label>
+                      <div className="button-group-buttons">
+                        <button type="button" className={`btn-toggle btn-toggle-sm ${formData.hasClientLogo ? 'active' : ''}`} onClick={() => handleExtraToggle('hasClientLogo', true)}>Yes</button>
+                        <button type="button" className={`btn-toggle btn-toggle-sm ${!formData.hasClientLogo ? 'active' : ''}`} onClick={() => handleExtraToggle('hasClientLogo', false)}>No</button>
+                      </div>
+                    </div>
+                    <div className="extras-toggle-row">
+                      <label className="extras-toggle-label">Does the Client have Content?</label>
+                      <div className="button-group-buttons">
+                        <button type="button" className={`btn-toggle btn-toggle-sm ${formData.hasClientContent ? 'active' : ''}`} onClick={() => handleExtraToggle('hasClientContent', true)}>Yes</button>
+                        <button type="button" className={`btn-toggle btn-toggle-sm ${!formData.hasClientContent ? 'active' : ''}`} onClick={() => handleExtraToggle('hasClientContent', false)}>No</button>
+                      </div>
+                    </div>
                   </div>
 
                   <MultiSelectDropdown
@@ -822,21 +857,45 @@ const ProjectModalNew = ({ isOpen, onClose, onSubmit, project }) => {
 
             {/* Footer - Fixed, never scrolls */}
             <div className="modal-footer">
-              <button type="button" onClick={onClose} className="btn-secondary">
-                Cancel
-              </button>
-              <button
-                type="submit"
-                onClick={handleSubmit}
-                disabled={submitting}
-                className="btn-primary"
-              >
-                {submitting ? (
-                  <div className="spinner" />
-                ) : (
-                  <><FiSave size={16} /> {project ? 'Update' : 'Create'}</>
+              <div className="footer-summary">
+                <div className="summary-row">
+                  <span className="summary-label">Scope Cost</span>
+                  <span className="summary-value">{formatCurrencyINR(extrasSummary.scopeCost)}</span>
+                </div>
+                {extrasSummary.extrasTotal > 0 && (
+                  <div className="summary-row summary-extras">
+                    <span className="summary-label">Extras</span>
+                    <span className="summary-value summary-extras-value">+{formatCurrencyINR(extrasSummary.extrasTotal)}</span>
+                  </div>
                 )}
-              </button>
+                <div className="summary-row summary-grand">
+                  <span className="summary-label">Grand Total</span>
+                  <span className="summary-value summary-grand-value">{formatCurrencyINR(extrasSummary.grandTotal)}</span>
+                </div>
+                {formData.timeline.value && (
+                  <div className="summary-timeline">
+                    <span>{formData.timeline.value} {formData.timeline.unit}</span>
+                    {calculatedEndDate && <span className="summary-end-date">Ends: {new Date(calculatedEndDate).toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' })}</span>}
+                  </div>
+                )}
+              </div>
+              <div className="footer-actions">
+                <button type="button" onClick={onClose} className="btn-secondary">
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  onClick={handleSubmit}
+                  disabled={submitting}
+                  className="btn-primary"
+                >
+                  {submitting ? (
+                    <div className="spinner" />
+                  ) : (
+                    <><FiSave size={16} /> {project ? 'Update' : 'Create'}</>
+                  )}
+                </button>
+              </div>
             </div>
           </motion.div>
         </motion.div>
@@ -846,3 +905,7 @@ const ProjectModalNew = ({ isOpen, onClose, onSubmit, project }) => {
 };
 
 export default ProjectModalNew;
+
+// abhi ye add krna hai :
+// agr Timeline 1 month hai toh project ka 5% add krke project cost batani hai 
+// Number of pages me each page has 

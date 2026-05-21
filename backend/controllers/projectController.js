@@ -56,6 +56,8 @@ const createProject = async (req, res, next) => {
       timelineValue,
       timelineUnit,
       cost,
+      scopeCost,
+      extrasCost,
       projectEndDate,
       status,
     } = req.body;
@@ -106,6 +108,8 @@ const createProject = async (req, res, next) => {
       timelineValue: timelineValue ? parseInt(timelineValue) : undefined,
       timelineUnit,
       cost: cost ? parseFloat(cost) : 0,
+      scopeCost: scopeCost ? parseFloat(scopeCost) : 0,
+      extrasCost: extrasCost ? parseFloat(extrasCost) : 0,
       projectEndDate: projectEndDate || undefined,
       status: status || 'Active',
     };
@@ -202,6 +206,8 @@ const updateProject = async (req, res, next) => {
       timelineValue,
       timelineUnit,
       cost,
+      scopeCost,
+      extrasCost,
       projectEndDate,
       status,
     } = req.body;
@@ -247,6 +253,8 @@ const updateProject = async (req, res, next) => {
       timelineValue: timelineValue ? parseInt(timelineValue) : undefined,
       timelineUnit,
       cost: cost ? parseFloat(cost) : 0,
+      scopeCost: scopeCost ? parseFloat(scopeCost) : undefined,
+      extrasCost: extrasCost ? parseFloat(extrasCost) : undefined,
       projectEndDate: projectEndDate || undefined,
       status: status || 'Active',
     };

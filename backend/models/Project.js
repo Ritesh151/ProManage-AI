@@ -36,6 +36,16 @@ const projectSchema = new mongoose.Schema({
     type: Number,
     min: 0,
   },
+  scopeCost: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  extrasCost: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
   costBreakdown: [{
     name: { type: String },
     amount: { type: Number },

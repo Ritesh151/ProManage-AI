@@ -439,6 +439,39 @@
 }
 
 /* ============================================
+   EXTRAS TOGGLES (Yes/No for client assets)
+   ============================================ */
+.extras-toggles-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.extras-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.extras-toggle-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  flex: 1;
+}
+
+:root[data-theme="dark"] .extras-toggle-label {
+  color: #d1d5db;
+}
+
+.btn-toggle-sm {
+  padding: 7px 14px;
+  font-size: 12px;
+  min-width: 48px;
+}
+
+/* ============================================
    MULTI-SELECT DROPDOWN
    ============================================ */
 .multi-select-group {
@@ -551,11 +584,31 @@
   background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  z-index: 10;
-  max-height: 240px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  z-index: 999;
+  max-height: 260px;
   overflow-y: auto;
+  overflow-x: hidden;
   margin-top: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.4) transparent;
+}
+
+.multi-select-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.multi-select-dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.multi-select-dropdown::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.4);
+  border-radius: 3px;
+}
+
+.multi-select-dropdown::-webkit-scrollbar-thumb:hover {
+  background: rgba(107, 114, 128, 0.6);
 }
 
 :root[data-theme="dark"] .multi-select-dropdown {
@@ -747,19 +800,109 @@
    ============================================ */
 .modal-footer {
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
-  padding: 14px 24px;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 24px;
   border-top: 1px solid rgba(229, 231, 235, 0.5);
   flex-shrink: 0;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
 }
 
 :root[data-theme="dark"] .modal-footer {
-  background: rgba(26, 26, 26, 0.8);
+  background: rgba(26, 26, 26, 0.95);
   border-top-color: rgba(51, 51, 51, 0.5);
+}
+
+.footer-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.summary-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.summary-label {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+:root[data-theme="dark"] .summary-label {
+  color: #9ca3af;
+}
+
+.summary-value {
+  color: #111827;
+  font-weight: 600;
+}
+
+:root[data-theme="dark"] .summary-value {
+  color: #e5e7eb;
+}
+
+.summary-extras .summary-value {
+  color: #d97706;
+}
+
+:root[data-theme="dark"] .summary-extras .summary-value {
+  color: #fbbf24;
+}
+
+.summary-grand {
+  padding-top: 4px;
+  border-top: 1px solid rgba(229, 231, 235, 0.5);
+  margin-top: 2px;
+}
+
+.summary-grand .summary-label {
+  color: #111827;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+:root[data-theme="dark"] .summary-grand .summary-label {
+  color: #e5e7eb;
+}
+
+.summary-grand-value {
+  color: #059669;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+:root[data-theme="dark"] .summary-grand-value {
+  color: #34d399;
+}
+
+.summary-timeline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+.summary-end-date {
+  color: #6b7280;
+}
+
+:root[data-theme="dark"] .summary-end-date {
+  color: #9ca3af;
+}
+
+.footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
 }
 
 /* ============================================
@@ -865,7 +1008,22 @@
   }
 
   .modal-footer {
+    flex-direction: column;
+    align-items: stretch;
     padding: 12px 16px;
+    gap: 8px;
+  }
+
+  .footer-summary {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+  }
+
+  .footer-actions {
+    width: 100%;
   }
 
   .btn-primary,
