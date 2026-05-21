@@ -173,6 +173,7 @@ export const useProjectForm = (project = null) => {
     if (formData.scopeOfWork.length === 0) newErrors.scopeOfWork = 'Select at least one scope item';
     if (!formData.timeline.value) newErrors.timeline = 'Timeline is required';
     if (formData.numberOfPages && formData.numberOfPages < 0) newErrors.numberOfPages = 'Pages cannot be negative';
+    if (formData.technologies?.frontend?.length === 0) newErrors.frontendTech = 'Select at least one frontend technology';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;

@@ -116,7 +116,7 @@ const Projects = () => {
     setEditProject(project);
     setModalOpen(true);
   };
-
+  
   const openCreate = () => {
     setEditProject(null);
     setModalOpen(true);
@@ -458,7 +458,3 @@ const Projects = () => {
 };
 
 export default Projects;
-
-
-// Jab export krna ho toh abhi input me jo jo bhi details liya hai na client ka and project details ka uska mujhe export me ecel file s chahiye jitna bhi data project creation me input kiya hai wo puri ki puri columns k sath proper accurate hona chahiye 
-// iske liye badiya sa powerfull AI IDE codex prompt dena :

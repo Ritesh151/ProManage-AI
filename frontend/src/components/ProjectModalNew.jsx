@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { toast } from 'react-toastify';
 import { FiSave, FiX, FiChevronDown, FiLoader, FiAlertCircle } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
+import Select from 'react-select';
 import { useProjectForm } from '../hooks/useProjectForm';
 import { scopeService } from '../services/scopeService';
 import { formatCurrencyINR } from '../utils/currencyFormatter';
@@ -16,35 +17,41 @@ const TIMELINE_UNITS = ['Days', 'Weeks', 'Months'];
 const STATUSES = ['Active', 'Completed', 'On Hold', 'Cancelled'];
 
 const TECHNOLOGIES_BY_CATEGORY = {
+  'Mobile Application Development': {
+    frontend: ['Flutter', 'React Native', 'Kotlin', 'Swift'],
+    backend: ['Node JS', 'Laravel', 'Django', 'Spring Boot'],
+    database: ['Firebase', 'MongoDB', 'PostgreSQL', 'SQLite'],
+    other: []
+  },
   'Website Development': {
-    frontend: ['React JS', 'Next JS', 'Vue JS', 'Angular', 'Svelte', 'HTML5 / CSS', 'Php'],
-    backend: ['Node JS', 'Laravel', 'Express', 'Django', 'FastAPI'],
-    database: ['MongoDB', 'MySQL', 'PostgreSQL', 'Firebase'],
-    other: ['Webpack', 'Vite', 'Docker', 'AWS']
-  },
-  'Mobile App Development': {
-    frontend: ['Flutter'],
-    backend: ['Node JS', 'Django', 'FastAPI', 'Spring Boot'],
-    database: ['MongoDB', 'Firebase', 'PostgreSQL'],
-    other: ['AWS', 'Docker']
-  },
-  'E-commerce': {
-    frontend: ['React JS', 'Next JS', 'Vue JS', 'WordPress'],
-    backend: ['Node JS', 'Laravel', 'Django'],
+    frontend: ['React JS', 'Next JS', 'Vue JS', 'HTML5', 'Tailwind CSS', 'Bootstrap'],
+    backend: ['Node JS', 'Express JS', 'Laravel', 'PHP'],
     database: ['MongoDB', 'MySQL', 'PostgreSQL'],
-    other: ['Stripe', 'PayPal', 'AWS', 'Docker']
+    other: []
   },
-  'Custom Software': {
-    frontend: ['React JS', 'Angular', 'Vue JS', 'Flutter'],
-    backend: ['Node JS', 'Python', 'Java', 'C#'],
-    database: ['MongoDB', 'PostgreSQL', 'MySQL', 'Oracle'],
-    other: ['Docker', 'Kubernetes', 'AWS', 'Azure']
+  'Software Development': {
+    frontend: ['React JS', 'Electron', 'Flutter Desktop'],
+    backend: ['Node JS', '.NET', 'Java Spring'],
+    database: ['MongoDB', 'MySQL', 'PostgreSQL'],
+    other: []
   },
-  'AI/ML Solutions': {
-    frontend: ['React JS', 'Vue JS', 'Next JS'],
-    backend: ['Python', 'Node JS', 'FastAPI', 'Python LLM', 'Machine Learning Models'],
-    database: ['MongoDB', 'PostgreSQL', 'MySQL', 'MS SQL Server'],
-    other: ['TensorFlow', 'PyTorch', 'AWS', 'Google Cloud']
+  'Core PHP/Laravel': {
+    frontend: ['Blade', 'HTML5', 'Bootstrap'],
+    backend: ['Laravel', 'PHP'],
+    database: ['MySQL', 'MariaDB'],
+    other: []
+  },
+  'SEO': {
+    frontend: ['SEO Tools'],
+    backend: [],
+    database: [],
+    other: []
+  },
+  'Digital Marketing': {
+    frontend: ['Analytics Dashboard', 'Marketing Tools'],
+    backend: [],
+    database: [],
+    other: []
   }
 };
 
@@ -102,6 +109,64 @@ const FloatingTextarea = ({ label, name, value, onChange, rows = 3, error }) => 
     {error && <span className="error-text">{error}</span>}
   </div>
 );
+
+const TechMultiSelect = ({ label, options, selectedValues, onChange, required, error, placeholder }) => {
+  const selectOptions = options.map(opt => ({ value: opt, label: opt }));
+  const selectedOptions = selectedValues.map(val => ({ value: val, label: val }));
+
+  const handleChange = (selected) => {
+    const values = selected ? selected.map(opt => opt.value) : [];
+    onChange(values);
+  };
+
+  return (
+    <div className="tech-select-group">
+      <label className="tech-select-label">
+        {label}{required && ' *'}
+      </label>
+      <Select
+        isMulti
+        isSearchable
+        closeMenuOnSelect={false}
+        hideSelectedOptions={false}
+        menuPlacement="auto"
+        menuPortalTarget={document.body}
+        options={selectOptions}
+        value={selectedOptions}
+        onChange={handleChange}
+        placeholder={placeholder || `Select ${label.toLowerCase()}...`}
+        className={`tech-select ${error ? 'error' : ''}`}
+        styles={{
+          menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+          control: (base) => ({
+            ...base,
+            minHeight: 40,
+            borderColor: error ? '#ef4444' : '#e5e7eb',
+            borderRadius: 8,
+            fontSize: 14,
+          }),
+          multiValue: (base) => ({
+            ...base,
+            backgroundColor: '#eff6ff',
+            borderRadius: 6,
+          }),
+          multiValueLabel: (base) => ({
+            ...base,
+            color: '#1d4ed8',
+            fontSize: 12,
+            fontWeight: 500,
+          }),
+          multiValueRemove: (base) => ({
+            ...base,
+            color: '#1d4ed8',
+            ':hover': { backgroundColor: '#dbeafe', color: '#1e40af' },
+          }),
+        }}
+      />
+      {error && <span className="error-text">{error}</span>}
+    </div>
+  );
+};
 
 const MultiSelectDropdown = ({ label, options, selectedValues, onChange, required, error, placeholder, priceMap }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -812,45 +877,41 @@ const ProjectModalNew = ({ isOpen, onClose, onSubmit, project }) => {
                     rows={4}
                   />
 
-                  {techOptions.frontend && techOptions.frontend.length > 0 && (
-                    <MultiSelectDropdown
-                      label="Frontend Technologies"
-                      options={techOptions.frontend}
-                      selectedValues={formData.technologies.frontend}
-                      onChange={(selected) => updateNestedField('technologies', 'frontend', selected)}
-                      placeholder="Select frontend technologies..."
-                    />
-                  )}
+                  <div className="tech-section">
+                    <h4 className="tech-section-title">Technologies Used</h4>
 
-                  {techOptions.backend && techOptions.backend.length > 0 && (
-                    <MultiSelectDropdown
-                      label="Backend Technologies"
-                      options={techOptions.backend}
-                      selectedValues={formData.technologies.backend}
-                      onChange={(selected) => updateNestedField('technologies', 'backend', selected)}
-                      placeholder="Select backend technologies..."
-                    />
-                  )}
+                    {techOptions.frontend && techOptions.frontend.length > 0 && (
+                      <TechMultiSelect
+                        label="Frontend Technologies"
+                        options={techOptions.frontend}
+                        selectedValues={formData.technologies.frontend}
+                        onChange={(selected) => updateNestedField('technologies', 'frontend', selected)}
+                        required
+                        error={errors.frontendTech}
+                        placeholder="Select frontend technologies..."
+                      />
+                    )}
 
-                  {techOptions.database && techOptions.database.length > 0 && (
-                    <MultiSelectDropdown
-                      label="Database Technologies"
-                      options={techOptions.database}
-                      selectedValues={formData.technologies.database}
-                      onChange={(selected) => updateNestedField('technologies', 'database', selected)}
-                      placeholder="Select databases..."
-                    />
-                  )}
+                    {techOptions.backend && techOptions.backend.length > 0 && (
+                      <TechMultiSelect
+                        label="Backend Technologies"
+                        options={techOptions.backend}
+                        selectedValues={formData.technologies.backend}
+                        onChange={(selected) => updateNestedField('technologies', 'backend', selected)}
+                        placeholder="Select backend technologies..."
+                      />
+                    )}
 
-                  {techOptions.other && techOptions.other.length > 0 && (
-                    <MultiSelectDropdown
-                      label="Tools / Other"
-                      options={techOptions.other}
-                      selectedValues={formData.technologies.other}
-                      onChange={(selected) => updateNestedField('technologies', 'other', selected)}
-                      placeholder="Select tools..."
-                    />
-                  )}
+                    {techOptions.database && techOptions.database.length > 0 && (
+                      <TechMultiSelect
+                        label="Database Technologies"
+                        options={techOptions.database}
+                        selectedValues={formData.technologies.database}
+                        onChange={(selected) => updateNestedField('technologies', 'database', selected)}
+                        placeholder="Select databases..."
+                      />
+                    )}
+                  </div>
 
                   <FloatingSelect
                     label="Status"
@@ -898,6 +959,14 @@ const ProjectModalNew = ({ isOpen, onClose, onSubmit, project }) => {
                   <div className="summary-timeline">
                     <span>{formData.timeline.value} {formData.timeline.unit}</span>
                     {calculatedEndDate && <span className="summary-end-date">Ends: {new Date(calculatedEndDate).toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' })}</span>}
+                  </div>
+                )}
+                {(formData.technologies?.frontend?.length > 0 || formData.technologies?.backend?.length > 0 || formData.technologies?.database?.length > 0) && (
+                  <div className="summary-tech">
+                    <span className="summary-tech-label">Tech:</span>
+                    {formData.technologies.frontend?.length > 0 && <span className="summary-tech-item">FE: {formData.technologies.frontend.join(', ')}</span>}
+                    {formData.technologies.backend?.length > 0 && <span className="summary-tech-item">BE: {formData.technologies.backend.join(', ')}</span>}
+                    {formData.technologies.database?.length > 0 && <span className="summary-tech-item">DB: {formData.technologies.database.join(', ')}</span>}
                   </div>
                 )}
               </div>

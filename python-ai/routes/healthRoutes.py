@@ -11,7 +11,6 @@ router = APIRouter(prefix="/health", tags=["health"])
 
 health_service = AIHealthService()
 
-
 @router.get("")
 async def health_check():
     """Check service health"""
@@ -21,7 +20,6 @@ async def health_check():
     except Exception as e:
         logger.error(f"Health check error: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
-
 
 @router.get("/status")
 async def get_status():
