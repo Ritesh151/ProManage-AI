@@ -7,10 +7,12 @@ const proposalRoutes = require('./routes/proposalRoutes');
 const exportRoutes = require('./routes/exportRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
+const scopeRoutes = require('./routes/scopeRoutes');
 const aiRoutes = require('./ai/routes/aiRoutes');
 const errorHandler = require('./middleware/errorMiddleware');
 const notFound = require('./middleware/notFoundMiddleware');
 const { initializeAI, shutdownAI } = require('./ai/init');
+const scopeService = require('./services/scopeService');
 
 dotenv.config();
 
@@ -29,6 +31,7 @@ app.use('/api/proposal', proposalRoutes);
 app.use('/api/export', exportRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/scopes', scopeRoutes);
 app.use('/api/ai', aiRoutes);
 
 app.use(notFound);
@@ -39,6 +42,14 @@ const PORT = process.env.PORT || 5000;
 connectDB().then(async () => {
   const server = app.listen(PORT, async () => {
     console.log(`Server running on port ${PORT}`);
+    
+    // Initialize default scope categories
+    try {
+      await scopeService.initializeDefaultCategories();
+      console.log('Scope categories initialized');
+    } catch (err) {
+      console.error('Error initializing scope categories:', err.message);
+    }
     
     // Initialize AI system
     try {

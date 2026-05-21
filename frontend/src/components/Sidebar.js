@@ -14,7 +14,8 @@ import {
   FiDatabase,
   FiSearch,
   FiClock,
-  FiSettings
+  FiSettings,
+  FiBriefcase
 } from 'react-icons/fi';
 import { useApp } from '../context/AppContext';
 
@@ -22,6 +23,7 @@ const mainLinks = [
   { to: '/', icon: FiHome, label: 'Dashboard' },
   { to: '/projects', icon: FiFolder, label: 'Projects' },
   { to: '/proposal', icon: FiFileText, label: 'Proposal' },
+  { to: '/scope-work', icon: FiBriefcase, label: 'Scope Of Work' },
   { to: '/analytics', icon: FiBarChart2, label: 'Analytics' },
   { to: '/export', icon: FiDownload, label: 'Export Center' },
   { to: '/ai', icon: FiMessageSquare, label: 'AI Assistant' },

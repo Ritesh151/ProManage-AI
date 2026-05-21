@@ -1,0 +1,40 @@
+ok jese hi Scope of Work perfectly work ho gaya :
+
+abhi iske liye prompt de prompt :
+
+in Projects /project page user jab bhi project Create per click kre toh kuch iss hisab se inputs chahiye mujhe :
+Ek hi form for the input ek me hi krna hai sab kuch =
+
+Client Information section ->
+-- Client Name, Client's Mobile No. Client E-Mail (Optional), Inquiry Date, Company Name, Company's Location (Optional)
+-- Which kind of business : drop down menu krna hai (StartUp, Large Corporate, MSME, Retail / E-commerce, Manufacturing / Production)
+-- Your Services : Text field dalna hai 
+-- How old are you in business ?? - year field
+-- Client have any Sales or Marketing Team ?? - Yes or No Button
+-- Client have any Social Media Profiles ?? - Yes or No (If Yes then drop downmenu : Instagram - Link URL, Facebook - Link URL, Linked-In - Link URL, Other - Link URL)
+-- Annual Turn Over - Dropdown menu (<50K, 50k - 10 Lakh, 10Lakh - 50 Lakh, 50 Lakh +)
+-- Current Google Ranking ?? - Dropdown menu (Not Listed, Page 2+, Page 1)
+-- Google business Profile ?? - Yes or no
+-- Client have domain ?? - Yes or No 
+-- Client have Logo ? - Yes or No 
+-- Client have content ? - Yes or No 
+-- Features - Dropdownmenu (Whatsapp integration, Payment integration, Custom {Custom agr select kiya toh us hisab se text dalega user}) also multiple select ho skte hai.
+
+
+
+Project Details section ->
+-- Select Branch: drop downmenu (Kutch Infoline, Lakshmi Healthcare Services, OptiMatrix, OptiMatrix Cash, OptiMatrix Domestic, OptiMatrix Export)
+-- Project ID, Project Name.
+-- Project Category - ye jo project category hai na wo Scope of Work wale page se dynamic fetch ho ske
+-- Scope of Work - ye bhi jo hai iska dynamic dropdown dena hai Category wise input se also user can select mutiple scope of work here, 
+                   and jo bhi user scope of work select kre last me apne aap hi project ka cost ready ho kar aa jaaye.
+-- Project Timeline (end project timeline ke hisab se project ka end date dynamic aayega, also user has option of days, weeks, months ) ye tino apne hisab se dynamic add kr skta hai eg. 5 days, 2 months iska proper dropdown menu dena hai days and week optional hai month mandadory hai
+-- Project Details, No. of Pages.
+-- Techonologies used -> 
+    Frontend, backend, database 
+    ye jo hai dynamic ho category wise like Web. Dev. select kiya hai toh uska Frontend or backend or database -> (React Js, Node Js, MySQL)
+    also suer multiple bhi select kar skte hai.
+
+-- Project Cost (dynamic calculate by the scope of work selected) 
+-- Prpject End Date (apne aap calculate hogi) form me hi 
+

@@ -244,7 +244,7 @@ graph TD
 ## 📂 Folder Structure
 
 ```text
-ProManage-AI/
+Project B/
 ├── frontend/                          # React Application
 │   ├── public/
 │   │   └── index.html                 # HTML template
@@ -258,37 +258,69 @@ ProManage-AI/
 │       ├── index.css                  # Global styles
 │       ├── components/                # Reusable UI components
 │       │   ├── AIChatHistory.jsx
+│       │   ├── AIChatHistory.css
 │       │   ├── AIChatWindow.jsx
+│       │   ├── AIChatWindow.css
 │       │   ├── AIMessage.jsx
+│       │   ├── AIMessage.css
 │       │   ├── AIProjectSidebar.jsx
+│       │   ├── AIProjectSidebar.css
 │       │   ├── AITyping.jsx
+│       │   ├── AITyping.css
+│       │   ├── AnalyticsCard.jsx
+│       │   ├── ChartContainer.jsx
 │       │   ├── ConfirmModal.js
-│       │   ├── CostCalculator.js
 │       │   ├── DashboardCard.js
 │       │   ├── Drawer.js
+│       │   ├── EmptyState.jsx
+│       │   ├── ExportCard.jsx
 │       │   ├── GanttChart.js
+│       │   ├── KnowledgeCard.jsx
 │       │   ├── Loader.js
 │       │   ├── MultiSelect.js
+│       │   ├── PageHeader.jsx
 │       │   ├── Pagination.js
 │       │   ├── ProjectModal.js
 │       │   ├── ProjectTable.js
 │       │   ├── ProposalPreview.js
-│       │   └── Sidebar.js
+│       │   ├── SearchResultCard.jsx
+│       │   ├── SettingSection.jsx
+│       │   ├── Sidebar.js
+│       │   └── TrainingStatusCard.jsx
 │       ├── context/                   # Global state management
 │       │   └── AppContext.js
 │       ├── hooks/                     # Custom React hooks
+│       │   ├── useAI.js
+│       │   ├── useAnalytics.js
 │       │   ├── useCategories.js
-│       │   └── useDashboard.js
+│       │   ├── useDashboard.js
+│       │   ├── useExport.js
+│       │   ├── useSearch.js
+│       │   ├── useSettings.js
+│       │   └── useTraining.js
 │       ├── pages/                     # Main application pages
 │       │   ├── AIChat.jsx
-│       │   ├── Calculator.js
+│       │   ├── AIChat.css
+│       │   ├── Analytics.jsx
+│       │   ├── ExportCenter.jsx
 │       │   ├── ExportData.js
 │       │   ├── Home.js
+│       │   ├── KnowledgeBase.jsx
 │       │   ├── NotFound.js
 │       │   ├── Projects.js
-│       │   └── Proposal.js
+│       │   ├── Proposal.js
+│       │   ├── SemanticSearch.jsx
+│       │   ├── Settings.jsx
+│       │   ├── TrainingCenter.jsx
+│       │   └── TrainingHistory.jsx
 │       ├── services/                  # API service layer
-│       │   └── api.js
+│       │   ├── aiService.js
+│       │   ├── analyticsService.js
+│       │   ├── api.js
+│       │   ├── exportService.js
+│       │   ├── searchService.js
+│       │   ├── settingsService.js
+│       │   └── trainingService.js
 │       └── utils/                     # Helper functions
 │           ├── debounce.js
 │           ├── formatters.js
@@ -296,15 +328,20 @@ ProManage-AI/
 │
 ├── backend/                           # Node.js/Express API
 │   ├── .env                           # Environment variables
+│   ├── .env.example                   # Environment variables template
 │   ├── package.json                   # Backend dependencies
 │   ├── server.js                      # Express server entry point
-│   ├── ai/                            # AI Knowledge System
+│   ├── ai/                            # AI Knowledge System (Node.js Layer)
 │   │   ├── init.js                    # AI system initialization
+│   │   ├── README.md                  # AI system documentation
 │   │   ├── config/                    # AI configuration
+│   │   │   ├── aiConfig.js
+│   │   │   └── projectPaths.js
 │   │   ├── controllers/               # AI route handlers
+│   │   │   └── aiController.js
 │   │   ├── models/                    # AI data models
 │   │   ├── routes/                    # AI API routes
-│   │   │   └── aiRoutes.js           # /api/ai/* endpoints
+│   │   │   └── aiRoutes.js            # /api/ai/* endpoints
 │   │   ├── services/                  # AI business logic
 │   │   │   ├── AIChatService.js
 │   │   │   ├── AIEmbeddingService.js
@@ -318,6 +355,9 @@ ProManage-AI/
 │   │   │   ├── retrainAI.js
 │   │   │   └── aiStatus.js
 │   │   └── utils/                     # AI utilities
+│   │       ├── fileUtils.js
+│   │       ├── logger.js
+│   │       └── textUtils.js
 │   ├── config/
 │   │   └── db.js                      # MongoDB connection
 │   ├── controllers/                   # Route request handlers
@@ -344,17 +384,29 @@ ProManage-AI/
 │   │   ├── exportService.js
 │   │   ├── pdfService.js
 │   │   ├── proposalService.js
-│   │   └── wordService.js
+│   │   ├── wordService.js
+│   │   ├── Style Options.html         # Proposal style templates
+│   │   └── proposalService copy.js    # Backup file
 │   └── utils/
 │       └── apiResponse.js             # API response helper
 │
 ├── python-ai/                         # Python AI Microservice
 │   ├── app.py                         # FastAPI entry point
 │   ├── requirements.txt               # Python dependencies
-│   ├── config/
+│   ├── .env                           # Environment variables
+│   ├── .env.example                   # Environment variables template
+│   ├── run.sh                         # Unix startup script
+│   ├── run.bat                        # Windows startup script
+│   ├── README.md                      # Python AI documentation
+│   ├── myenv/                         # Python virtual environment
+│   ├── logs/                          # Log files
+│   ├── config/                        # Configuration
+│   │   ├── __init__.py
 │   │   ├── settings.py
-│   │   └── aiConfig.py
+│   │   ├── aiConfig.py
+│   │   └── projectPaths.py
 │   ├── services/                      # AI microservices
+│   │   ├── __init__.py
 │   │   ├── AIChatService.py
 │   │   ├── AIEmbeddingService.py
 │   │   ├── AIHealthService.py
@@ -362,18 +414,36 @@ ProManage-AI/
 │   │   ├── AIProjectDiscoveryService.py
 │   │   ├── AITrainingService.py
 │   │   └── AIWatcherService.py
-│   ├── routes/
+│   ├── routes/                        # API routes
+│   │   ├── __init__.py
 │   │   ├── healthRoutes.py
 │   │   ├── trainRoutes.py
 │   │   ├── chatRoutes.py
 │   │   └── statusRoutes.py
-│   └── utils/
+│   └── utils/                         # Utility functions
+│       ├── __init__.py
 │       ├── logger.py
 │       ├── fileUtils.py
 │       └── textUtils.py
 │
 ├── Documents/                         # Generated proposal PDFs
 ├── .gitignore
+├── AI_QUICK_START.md
+├── AI_SYSTEM_DOCUMENTATION.md
+├── CHANGES_SUMMARY.md
+├── COMPLETION_REPORT.md
+├── DEPLOYMENT_GUIDE.md
+├── FRONTEND_EXTENSION_COMPLETE.md
+├── FRONTEND_IMPLEMENTATION_SUMMARY.txt
+├── FRONTEND_QUICK_REFERENCE.md
+├── IMPLEMENTATION_CHECKLIST.md
+├── INTEGRATION_GUIDE.md
+├── PYTHON_AI_INTEGRATION.md
+├── PYTHON_AI_QUICK_START.md
+├── PYTHON_AI_SUMMARY.md
+├── PYTHON_MICROSERVICE_COMPLETE.md
+├── START_HERE.md
+├── VERIFICATION_CHECKLIST.md
 └── README.md
 ```
 

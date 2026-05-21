@@ -1,5 +1,6 @@
 const Project = require('../models/Project');
 const ApiResponse = require('../utils/apiResponse');
+const dashboardService = require('../services/dashboardService');
 
 const getDashboard = async (req, res, next) => {
   try {
@@ -128,4 +129,13 @@ const getDashboard = async (req, res, next) => {
   }
 };
 
-module.exports = { getDashboard };
+const getAnalytics = async (req, res, next) => {
+  try {
+    const analytics = await dashboardService.getFullAnalytics();
+    ApiResponse.success(res, analytics);
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getDashboard, getAnalytics };

@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { FiChevronDown, FiRefreshCw, FiClock } from 'react-icons/fi';
+import { FiChevronDown, FiRefreshCw, FiClock as FiHistory } from 'react-icons/fi';
 import './AIProjectSidebar.css';
 
 const AIProjectSidebar = ({
@@ -91,7 +91,7 @@ const AIProjectSidebar = ({
           <FiRefreshCw /> Train AI
         </button>
         <button className="ai-action-btn" onClick={onShowHistory} title="Show history">
-          <FiClock /> History
+          <FiHistory /> History
         </button>
       </div>
 

@@ -1,17 +1,46 @@
 const Project = require('../models/Project');
 const ApiResponse = require('../utils/apiResponse');
 
+const generateProjectId = async () => {
+  const year = new Date().getFullYear();
+  const lastProject = await Project.findOne({ projectId: { $regex: `^PF-${year}` } }).sort({ projectId: -1 });
+  
+  let nextNumber = 1001;
+  if (lastProject) {
+    const match = lastProject.projectId.match(/PF-\d+-(\d+)/);
+    if (match) {
+      nextNumber = parseInt(match[1]) + 1;
+    }
+  }
+  
+  return `PF-${year}-${nextNumber}`;
+};
+
 const createProject = async (req, res, next) => {
   try {
     const lastProject = await Project.findOne({}).sort({ srNo: -1 });
     const nextSrNo = lastProject ? lastProject.srNo + 1 : 1;
-    const projectId = `PROJ-${String(nextSrNo).padStart(4, '0')}`;
+    const projectId = await generateProjectId();
+
     const projectData = {
       ...req.body,
       srNo: nextSrNo,
       projectId,
-      technologies: typeof req.body.technologies === 'object' ? req.body.technologies : {},
+      inquiryDate: req.body.inquiryDate || new Date(),
+      technologies: req.body.technologies || { frontend: [], backend: [], database: [], other: [] },
+      features: req.body.features || [],
+      customFeatures: req.body.customFeatures || [],
+      socialMediaProfiles: req.body.socialMediaProfiles || { instagram: '', facebook: '', linkedin: '', other: '' },
     };
+
+    // Validate required fields
+    if (!projectData.clientName) throw new Error('Client name is required');
+    if (!projectData.clientMobileNumber) throw new Error('Client mobile number is required');
+    if (!projectData.companyName) throw new Error('Company name is required');
+    if (!projectData.projectName) throw new Error('Project name is required');
+    if (!projectData.category) throw new Error('Category is required');
+    if (!projectData.scopeOfWork || projectData.scopeOfWork.length === 0) throw new Error('Scope of work is required');
+
     const project = await Project.create(projectData);
     ApiResponse.success(res, project, null, 201);
   } catch (error) {
@@ -35,8 +64,8 @@ const getProjects = async (req, res, next) => {
         { projectName: { $regex: search, $options: 'i' } },
         { category: { $regex: search, $options: 'i' } },
         { description: { $regex: search, $options: 'i' } },
-        { technologies: { $regex: search, $options: 'i' } },
         { clientName: { $regex: search, $options: 'i' } },
+        { companyName: { $regex: search, $options: 'i' } },
       ];
     }
     if (status) query.status = status;
@@ -70,7 +99,15 @@ const getProject = async (req, res, next) => {
 
 const updateProject = async (req, res, next) => {
   try {
-    const project = await Project.findByIdAndUpdate(req.params.id, req.body, {
+    const updateData = {
+      ...req.body,
+      technologies: req.body.technologies || { frontend: [], backend: [], database: [], other: [] },
+      features: req.body.features || [],
+      customFeatures: req.body.customFeatures || [],
+      socialMediaProfiles: req.body.socialMediaProfiles || { instagram: '', facebook: '', linkedin: '', other: '' },
+    };
+
+    const project = await Project.findByIdAndUpdate(req.params.id, updateData, {
       new: true,
       runValidators: true,
     });

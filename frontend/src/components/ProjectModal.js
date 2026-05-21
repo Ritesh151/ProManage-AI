@@ -172,34 +172,36 @@ const ProjectModal = ({ isOpen, onClose, onSubmit, project }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 bg-black/40 z-50 drawer-overlay"
+          className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center"
           onClick={onClose}
         />
       )}
       <motion.div
-        initial={{ x: '100%' }}
-        animate={{ x: isOpen ? 0 : '100%' }}
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: isOpen ? 1 : 0.95, opacity: isOpen ? 1 : 0 }}
+        exit={{ scale: 0.95, opacity: 0 }}
         transition={{ type: 'tween', duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-        className="fixed right-0 top-0 h-full w-full max-w-[700px] bg-white shadow-2xl z-50 flex flex-col"
+        className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none"
       >
-        <div className="flex items-center justify-between p-6 border-b border-gray-100">
-          <div>
-            <h2 className="text-xl font-bold text-text">
-              {project ? 'Edit Project' : 'New Project'}
-            </h2>
-            <p className="text-sm text-gray-400 mt-0.5">
-              {project ? 'Update project details' : 'Enter project details'}
-            </p>
+        <div className="w-[90%] max-w-[1000px] max-h-[90vh] bg-white rounded-xl shadow-2xl flex flex-col pointer-events-auto dark:bg-gray-900">
+          <div className="sticky top-0 z-10 flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-white dark:bg-gray-900 dark:border-gray-800">
+            <div>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                {project ? 'Edit Project' : 'New Project'}
+              </h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
+                {project ? 'Update project details' : 'Enter project details'}
+              </p>
+            </div>
+            <button
+              onClick={onClose}
+              className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+            >
+              <FiX size={20} />
+            </button>
           </div>
-          <button
-            onClick={onClose}
-            className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-400 hover:text-text transition-colors"
-          >
-            <FiX size={20} />
-          </button>
-        </div>
 
-        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6">
+          <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto overflow-x-hidden px-6 py-4 scroll-smooth">
           <div className="mb-8">
             <p className="section-title">Identification</p>
             <div className="grid grid-cols-2 gap-4">
@@ -312,17 +314,17 @@ const ProjectModal = ({ isOpen, onClose, onSubmit, project }) => {
             </div>
           </div>
 
-          <div className="flex items-center justify-end gap-3 p-6 border-t border-gray-100 -mx-6 -mb-6 mt-8">
-            <button type="button" onClick={onClose} className="btn-secondary">
+          <div className="sticky bottom-0 z-10 flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-100 bg-white dark:bg-gray-900 dark:border-gray-800">
+            <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="btn-primary min-w-[160px]"
+              className="px-6 py-2 rounded-lg bg-blue-600 dark:bg-blue-500 text-white font-medium hover:bg-blue-700 dark:hover:bg-blue-600 disabled:opacity-60 disabled:cursor-not-allowed transition-colors min-w-[160px] flex items-center justify-center gap-2"
             >
               {submitting ? (
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
                 <><FiSave size={18} /> {project ? 'Update' : 'Create'}</>
               )}

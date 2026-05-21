@@ -53,6 +53,82 @@ const projectSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  clientMobileNumber: {
+    type: String,
+    trim: true,
+  },
+  inquiryDate: {
+    type: Date,
+  },
+  companyName: {
+    type: String,
+    trim: true,
+  },
+  companyLocation: {
+    type: String,
+    trim: true,
+  },
+  businessType: {
+    type: String,
+    enum: ['Startup', 'Large Corporate', 'MSME', 'Retail / E-commerce', 'Manufacturing / Production'],
+  },
+  yourServices: {
+    type: String,
+    trim: true,
+  },
+  yearsInBusiness: {
+    type: Number,
+    min: 0,
+  },
+  hasSalesTeam: {
+    type: Boolean,
+  },
+  hasSocialMedia: {
+    type: Boolean,
+  },
+  socialMediaProfiles: {
+    instagram: String,
+    facebook: String,
+    linkedin: String,
+    other: String,
+  },
+  annualTurnover: {
+    type: String,
+    enum: ['<50K', '50K–10 Lakh', '10–50 Lakh', '50 Lakh+'],
+  },
+  currentGoogleRanking: {
+    type: String,
+    enum: ['Not Listed', 'Page 2+', 'Page 1'],
+  },
+  hasGoogleBusinessProfile: {
+    type: Boolean,
+  },
+  hasClientDomain: {
+    type: Boolean,
+  },
+  hasClientLogo: {
+    type: Boolean,
+  },
+  hasClientContent: {
+    type: Boolean,
+  },
+  features: [String],
+  customFeatures: [String],
+  branch: {
+    type: String,
+    enum: ['Kutch Infoline', 'Lakshmi Healthcare Services', 'OptiMatrix', 'OptiMatrix Cash', 'OptiMatrix Domestic', 'OptiMatrix Export'],
+  },
+  numberOfPages: {
+    type: Number,
+    min: 0,
+  },
+  projectEndDate: {
+    type: Date,
+  },
+  projectDetails: {
+    type: String,
+    trim: true,
+  },
   signature: {
     type: String,
     trim: true,
@@ -75,3 +151,4 @@ const projectSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Project', projectSchema);
+

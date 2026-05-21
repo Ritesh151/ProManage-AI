@@ -23,6 +23,11 @@ router.delete('/conversation/:conversationId', aiController.clearConversation);
 // Project endpoints
 router.get('/projects', aiController.getProjects);
 
+// Knowledge base endpoints
+router.get('/knowledge', aiController.getKnowledgeBase);
+router.get('/knowledge/search', aiController.searchKnowledge);
+router.get('/knowledge/:id', aiController.getKnowledgeProject);
+
 // Feedback endpoint
 router.post('/feedback', aiController.submitFeedback);
 

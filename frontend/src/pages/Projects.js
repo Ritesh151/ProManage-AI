@@ -4,8 +4,8 @@ import { FiPlus, FiSearch, FiDownload, FiRefreshCw, FiFolder, FiCheckCircle, FiA
 import { FaRupeeSign } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import ProjectTable from '../components/ProjectTable';
-import ProjectModal from '../components/ProjectModal';
-import ConfirmModal from '../components/ConfirmModal';
+import ProjectModalNew from '../components/ProjectModalNew';
+import ConfirmModal from '../components/ConfirmModal'; 
 import GanttChart from '../components/GanttChart';
 import Pagination from '../components/Pagination';
 import Loader from '../components/Loader';
@@ -380,7 +380,7 @@ const Projects = () => {
         </motion.div>
       )}
 
-      <ProjectModal
+      <ProjectModalNew
         isOpen={modalOpen}
         onClose={() => {
           setModalOpen(false);

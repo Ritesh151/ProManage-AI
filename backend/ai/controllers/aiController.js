@@ -5,11 +5,13 @@
  */
 
 const PythonAIClient = require('../services/PythonAIClient');
+const AIKnowledgeService = require('../services/AIKnowledgeService');
 const AILogger = require('../utils/logger');
 
 const logger = new AILogger('AIController');
 
 const pythonAIClient = new PythonAIClient();
+const knowledgeService = new AIKnowledgeService();
 
 /**
  * POST /api/ai/train
@@ -269,6 +271,91 @@ exports.submitFeedback = async (req, res) => {
     });
   } catch (err) {
     logger.error('Submit feedback error', { error: err.message });
+    res.status(500).json({
+      success: false,
+      error: err.message,
+    });
+  }
+};
+
+/**
+ * GET /api/ai/knowledge
+ * Get knowledge base with indexed projects and stats
+ */
+exports.getKnowledgeBase = async (req, res) => {
+  try {
+    const [projects, stats] = await Promise.all([
+      knowledgeService.getIndexedProjects(),
+      knowledgeService.getKnowledgeStats(),
+    ]);
+
+    res.json({
+      success: true,
+      projects,
+      stats,
+    });
+  } catch (err) {
+    logger.error('Get knowledge base error', { error: err.message });
+    res.status(500).json({
+      success: false,
+      error: err.message,
+    });
+  }
+};
+
+/**
+ * GET /api/ai/knowledge/:id
+ * Get details of a specific indexed project
+ */
+exports.getKnowledgeProject = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const project = await knowledgeService.getProjectDetails(decodeURIComponent(id));
+
+    if (!project) {
+      return res.status(404).json({
+        success: false,
+        error: 'Project not found in knowledge base',
+      });
+    }
+
+    res.json({
+      success: true,
+      project,
+    });
+  } catch (err) {
+    logger.error('Get knowledge project error', { error: err.message });
+    res.status(500).json({
+      success: false,
+      error: err.message,
+    });
+  }
+};
+
+/**
+ * GET /api/ai/knowledge/search
+ * Search across knowledge base
+ */
+exports.searchKnowledge = async (req, res) => {
+  try {
+    const { q } = req.query;
+
+    if (!q || q.trim().length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: 'Search query is required',
+      });
+    }
+
+    const results = await knowledgeService.searchKnowledge(q);
+
+    res.json({
+      success: true,
+      results,
+      total: results.length,
+    });
+  } catch (err) {
+    logger.error('Search knowledge error', { error: err.message });
     res.status(500).json({
       success: false,
       error: err.message,

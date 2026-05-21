@@ -15,6 +15,7 @@ import KnowledgeBase from './pages/KnowledgeBase';
 import SemanticSearch from './pages/SemanticSearch';
 import TrainingHistory from './pages/TrainingHistory';
 import Settings from './pages/Settings';
+import ScopeOfWork from './pages/ScopeOfWork';
 import NotFound from './pages/NotFound';
 import { useApp } from './context/AppContext';
 
@@ -42,6 +43,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/proposal" element={<Proposal />} />
+                <Route path="/scope-work" element={<ScopeOfWork />} />
                 <Route path="/export" element={<ExportData />} />
                 <Route path="/ai" element={<AIChat />} />
                 <Route path="/analytics" element={<Analytics />} />
