@@ -46,6 +46,16 @@ const projectSchema = new mongoose.Schema({
     min: 0,
     default: 0,
   },
+  pagesCost: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
+  timelineExtraCost: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
   costBreakdown: [{
     name: { type: String },
     amount: { type: Number },

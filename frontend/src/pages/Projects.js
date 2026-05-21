@@ -149,7 +149,7 @@ const Projects = () => {
     { label: 'Total Projects', value: pagination.total || 0, icon: FiFolder },
     { label: 'Active', value: projects.filter((p) => p.status === 'Active').length, icon: FiCheckCircle },
     { label: 'Completed', value: completedProjects.length, icon: FiAward },
-    { label: 'Revenue', value: formatCurrency(revenueTotal), icon: FaRupeeSign },
+    { label: 'Cost of Project', value: formatCurrency(revenueTotal), icon: FaRupeeSign },
   ];
 
   return (
@@ -458,3 +458,7 @@ const Projects = () => {
 };
 
 export default Projects;
+
+
+// Jab export krna ho toh abhi input me jo jo bhi details liya hai na client ka and project details ka uska mujhe export me ecel file s chahiye jitna bhi data project creation me input kiya hai wo puri ki puri columns k sath proper accurate hona chahiye 
+// iske liye badiya sa powerfull AI IDE codex prompt dena :

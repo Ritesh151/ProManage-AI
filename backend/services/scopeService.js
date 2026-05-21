@@ -15,7 +15,6 @@ const defaultCategories = [
       { title: 'Testing & Deployment', description: 'QA testing and app deployment', price: 6000, currency: 'INR' },
     ],
   },
-  
   {
     name: 'Website Development',
     description: 'Website development services',
@@ -266,4 +265,3 @@ class ScopeService {
 }
 
 module.exports = new ScopeService();
-

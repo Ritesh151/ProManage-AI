@@ -58,6 +58,8 @@ const createProject = async (req, res, next) => {
       cost,
       scopeCost,
       extrasCost,
+      pagesCost,
+      timelineExtraCost,
       projectEndDate,
       status,
     } = req.body;
@@ -110,6 +112,8 @@ const createProject = async (req, res, next) => {
       cost: cost ? parseFloat(cost) : 0,
       scopeCost: scopeCost ? parseFloat(scopeCost) : 0,
       extrasCost: extrasCost ? parseFloat(extrasCost) : 0,
+      pagesCost: pagesCost ? parseFloat(pagesCost) : 0,
+      timelineExtraCost: timelineExtraCost ? parseFloat(timelineExtraCost) : 0,
       projectEndDate: projectEndDate || undefined,
       status: status || 'Active',
     };
@@ -208,6 +212,8 @@ const updateProject = async (req, res, next) => {
       cost,
       scopeCost,
       extrasCost,
+      pagesCost,
+      timelineExtraCost,
       projectEndDate,
       status,
     } = req.body;
@@ -255,6 +261,8 @@ const updateProject = async (req, res, next) => {
       cost: cost ? parseFloat(cost) : 0,
       scopeCost: scopeCost ? parseFloat(scopeCost) : undefined,
       extrasCost: extrasCost ? parseFloat(extrasCost) : undefined,
+      pagesCost: pagesCost ? parseFloat(pagesCost) : undefined,
+      timelineExtraCost: timelineExtraCost ? parseFloat(timelineExtraCost) : undefined,
       projectEndDate: projectEndDate || undefined,
       status: status || 'Active',
     };

@@ -134,7 +134,7 @@
   min-height: 0;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* ============================================
@@ -479,6 +479,7 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+  z-index: 1;
 }
 
 .multi-select-header {
@@ -853,6 +854,30 @@
 
 :root[data-theme="dark"] .summary-extras .summary-value {
   color: #fbbf24;
+}
+
+.summary-pages .summary-value {
+  color: #7c3aed;
+}
+
+:root[data-theme="dark"] .summary-pages .summary-value {
+  color: #a78bfa;
+}
+
+.summary-timeline-cost .summary-value {
+  color: #0891b2;
+}
+
+:root[data-theme="dark"] .summary-timeline-cost .summary-value {
+  color: #22d3ee;
+}
+
+.summary-timeline-value {
+  color: #0891b2;
+}
+
+:root[data-theme="dark"] .summary-timeline-value {
+  color: #22d3ee;
 }
 
 .summary-grand {

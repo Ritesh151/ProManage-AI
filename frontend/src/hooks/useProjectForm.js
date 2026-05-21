@@ -116,7 +116,7 @@ export const useProjectForm = (project = null) => {
         })));
       }
 
-      setCalculatedCost(projectCost);
+      setCalculatedCost(project.scopeCost || projectCost);
     }
   }, [project]);
 

@@ -17,33 +17,33 @@ const STATUSES = ['Active', 'Completed', 'On Hold', 'Cancelled'];
 
 const TECHNOLOGIES_BY_CATEGORY = {
   'Website Development': {
-    frontend: ['React JS', 'Next JS', 'Vue JS', 'Angular', 'Svelte'],
+    frontend: ['React JS', 'Next JS', 'Vue JS', 'Angular', 'Svelte', 'HTML5 / CSS', 'Php'],
     backend: ['Node JS', 'Laravel', 'Express', 'Django', 'FastAPI'],
     database: ['MongoDB', 'MySQL', 'PostgreSQL', 'Firebase'],
     other: ['Webpack', 'Vite', 'Docker', 'AWS']
   },
   'Mobile App Development': {
-    frontend: ['React Native', 'Flutter', 'Swift', 'Kotlin'],
+    frontend: ['Flutter'],
     backend: ['Node JS', 'Django', 'FastAPI', 'Spring Boot'],
     database: ['MongoDB', 'Firebase', 'PostgreSQL'],
-    other: ['Firebase', 'AWS', 'Docker']
+    other: ['AWS', 'Docker']
   },
   'E-commerce': {
-    frontend: ['React JS', 'Next JS', 'Vue JS'],
+    frontend: ['React JS', 'Next JS', 'Vue JS', 'WordPress'],
     backend: ['Node JS', 'Laravel', 'Django'],
     database: ['MongoDB', 'MySQL', 'PostgreSQL'],
     other: ['Stripe', 'PayPal', 'AWS', 'Docker']
   },
   'Custom Software': {
-    frontend: ['React JS', 'Angular', 'Vue JS'],
+    frontend: ['React JS', 'Angular', 'Vue JS', 'Flutter'],
     backend: ['Node JS', 'Python', 'Java', 'C#'],
     database: ['MongoDB', 'PostgreSQL', 'MySQL', 'Oracle'],
     other: ['Docker', 'Kubernetes', 'AWS', 'Azure']
   },
   'AI/ML Solutions': {
-    frontend: ['React JS', 'Vue JS'],
-    backend: ['Python', 'Node JS', 'FastAPI'],
-    database: ['MongoDB', 'PostgreSQL'],
+    frontend: ['React JS', 'Vue JS', 'Next JS'],
+    backend: ['Python', 'Node JS', 'FastAPI', 'Python LLM', 'Machine Learning Models'],
+    database: ['MongoDB', 'PostgreSQL', 'MySQL', 'MS SQL Server'],
     other: ['TensorFlow', 'PyTorch', 'AWS', 'Google Cloud']
   }
 };
@@ -314,37 +314,44 @@ const ProjectModalNew = ({ isOpen, onClose, onSubmit, project }) => {
   };
 
   const EXTRAS_COST_PER_ITEM = 1500;
+  const PAGE_COST = 1500;
 
-  const extrasSummary = useMemo(() => {
-    const items = [];
-    let extrasTotal = 0;
+  const costBreakdown = useMemo(() => {
+    const scopeCost = calculatedCost;
 
-    if (!formData.hasGoogleBusinessProfile) {
-      items.push({ label: 'Google Business Profile Missing', cost: EXTRAS_COST_PER_ITEM });
-      extrasTotal += EXTRAS_COST_PER_ITEM;
-    }
-    if (!formData.hasClientDomain) {
-      items.push({ label: 'Client Domain Missing', cost: EXTRAS_COST_PER_ITEM });
-      extrasTotal += EXTRAS_COST_PER_ITEM;
-    }
-    if (!formData.hasClientLogo) {
-      items.push({ label: 'Client Logo Missing', cost: EXTRAS_COST_PER_ITEM });
-      extrasTotal += EXTRAS_COST_PER_ITEM;
-    }
-    if (!formData.hasClientContent) {
-      items.push({ label: 'Client Content Missing', cost: EXTRAS_COST_PER_ITEM });
-      extrasTotal += EXTRAS_COST_PER_ITEM;
+    const extrasTotal = [
+      !formData.hasClientDomain,
+      !formData.hasClientLogo,
+      !formData.hasClientContent,
+    ].filter(Boolean).length * EXTRAS_COST_PER_ITEM;
+
+    const numPages = parseInt(formData.numberOfPages) || 0;
+    const pagesCost = numPages * PAGE_COST;
+
+    const timelineMonths = formData.timeline.unit === 'Months'
+      ? parseInt(formData.timeline.value) || 0
+      : formData.timeline.unit === 'Weeks'
+      ? Math.ceil((parseInt(formData.timeline.value) || 0) / 4.33)
+      : Math.ceil((parseInt(formData.timeline.value) || 0) / 30);
+
+    let timelineExtraCost = 0;
+    if (timelineMonths === 1) {
+      timelineExtraCost = Math.round(scopeCost * 0.05);
+    } else if (timelineMonths === 2) {
+      timelineExtraCost = Math.round(scopeCost * 0.10);
     }
 
-    const grandTotal = calculatedCost + extrasTotal;
+    const grandTotal = scopeCost + extrasTotal + pagesCost + timelineExtraCost;
 
     return {
-      items,
+      scopeCost,
       extrasTotal,
+      pagesCost,
+      timelineExtraCost,
       grandTotal,
-      scopeCost: calculatedCost,
+      timelineMonths,
     };
-  }, [formData.hasGoogleBusinessProfile, formData.hasClientDomain, formData.hasClientLogo, formData.hasClientContent, calculatedCost]);
+  }, [calculatedCost, formData.hasClientDomain, formData.hasClientLogo, formData.hasClientContent, formData.numberOfPages, formData.timeline.value, formData.timeline.unit]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -367,9 +374,11 @@ const ProjectModalNew = ({ isOpen, onClose, onSubmit, project }) => {
       const submitData = {
         ...formData,
         projectEndDate: calculatedEndDate,
-        cost: extrasSummary.grandTotal,
-        scopeCost: extrasSummary.scopeCost,
-        extrasCost: extrasSummary.extrasTotal,
+        cost: costBreakdown.grandTotal,
+        scopeCost: costBreakdown.scopeCost,
+        extrasCost: costBreakdown.extrasTotal,
+        pagesCost: costBreakdown.pagesCost,
+        timelineExtraCost: costBreakdown.timelineExtraCost,
         timeline: `${formData.timeline.value} ${formData.timeline.unit}`,
         timelineValue: parseInt(formData.timeline.value),
         timelineUnit: formData.timeline.unit,
@@ -852,6 +861,7 @@ const ProjectModalNew = ({ isOpen, onClose, onSubmit, project }) => {
                   />
                 </div>
               </AccordionSection>
+
               </form>
             </div>
 
@@ -860,17 +870,29 @@ const ProjectModalNew = ({ isOpen, onClose, onSubmit, project }) => {
               <div className="footer-summary">
                 <div className="summary-row">
                   <span className="summary-label">Scope Cost</span>
-                  <span className="summary-value">{formatCurrencyINR(extrasSummary.scopeCost)}</span>
+                  <span className="summary-value">{formatCurrencyINR(costBreakdown.scopeCost)}</span>
                 </div>
-                {extrasSummary.extrasTotal > 0 && (
+                {costBreakdown.extrasTotal > 0 && (
                   <div className="summary-row summary-extras">
                     <span className="summary-label">Extras</span>
-                    <span className="summary-value summary-extras-value">+{formatCurrencyINR(extrasSummary.extrasTotal)}</span>
+                    <span className="summary-value summary-extras-value">+{formatCurrencyINR(costBreakdown.extrasTotal)}</span>
+                  </div>
+                )}
+                {costBreakdown.pagesCost > 0 && (
+                  <div className="summary-row summary-pages">
+                    <span className="summary-label">Pages</span>
+                    <span className="summary-value">+{formatCurrencyINR(costBreakdown.pagesCost)}</span>
+                  </div>
+                )}
+                {costBreakdown.timelineExtraCost > 0 && (
+                  <div className="summary-row summary-timeline-cost">
+                    <span className="summary-label">Timeline</span>
+                    <span className="summary-value summary-timeline-value">+{formatCurrencyINR(costBreakdown.timelineExtraCost)}</span>
                   </div>
                 )}
                 <div className="summary-row summary-grand">
                   <span className="summary-label">Grand Total</span>
-                  <span className="summary-value summary-grand-value">{formatCurrencyINR(extrasSummary.grandTotal)}</span>
+                  <span className="summary-value summary-grand-value">{formatCurrencyINR(costBreakdown.grandTotal)}</span>
                 </div>
                 {formData.timeline.value && (
                   <div className="summary-timeline">
@@ -906,6 +928,3 @@ const ProjectModalNew = ({ isOpen, onClose, onSubmit, project }) => {
 
 export default ProjectModalNew;
 
-// abhi ye add krna hai :
-// agr Timeline 1 month hai toh project ka 5% add krke project cost batani hai 
-// Number of pages me each page has 
