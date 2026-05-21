@@ -22,24 +22,93 @@ const createProject = async (req, res, next) => {
     const nextSrNo = lastProject ? lastProject.srNo + 1 : 1;
     const projectId = await generateProjectId();
 
+    const {
+      clientName,
+      clientMobileNumber,
+      clientEmail,
+      inquiryDate,
+      companyName,
+      companyLocation,
+      businessType,
+      yourServices,
+      yearsInBusiness,
+      hasSalesTeam,
+      hasSocialMedia,
+      socialMediaProfiles,
+      annualTurnover,
+      currentGoogleRanking,
+      hasGoogleBusinessProfile,
+      hasClientDomain,
+      hasClientLogo,
+      hasClientContent,
+      features,
+      customFeatures,
+      branch,
+      projectName,
+      category,
+      projectCategory,
+      scopeOfWork,
+      scopeOfWorkDetails,
+      projectDetails,
+      numberOfPages,
+      technologies,
+      timeline,
+      timelineValue,
+      timelineUnit,
+      cost,
+      projectEndDate,
+      status,
+    } = req.body;
+
+    if (!clientName || !clientName.trim()) throw new Error('Client name is required');
+    if (!clientMobileNumber || !clientMobileNumber.trim()) throw new Error('Client mobile number is required');
+    if (!/^[6-9]\d{9}$/.test(clientMobileNumber.replace(/\D/g, ''))) throw new Error('Invalid Indian mobile number');
+    if (clientEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clientEmail)) throw new Error('Invalid email address');
+    if (!companyName || !companyName.trim()) throw new Error('Company name is required');
+    if (!projectName || !projectName.trim()) throw new Error('Project name is required');
+    if (!category) throw new Error('Project category is required');
+    if (!scopeOfWork || !Array.isArray(scopeOfWork) || scopeOfWork.length === 0) throw new Error('Scope of work is required');
+    if (!timeline) throw new Error('Timeline is required');
+
     const projectData = {
-      ...req.body,
       srNo: nextSrNo,
       projectId,
-      inquiryDate: req.body.inquiryDate || new Date(),
-      technologies: req.body.technologies || { frontend: [], backend: [], database: [], other: [] },
-      features: req.body.features || [],
-      customFeatures: req.body.customFeatures || [],
-      socialMediaProfiles: req.body.socialMediaProfiles || { instagram: '', facebook: '', linkedin: '', other: '' },
+      clientName: clientName.trim(),
+      clientMobileNumber: clientMobileNumber.trim(),
+      clientEmail: clientEmail ? clientEmail.trim() : undefined,
+      inquiryDate: inquiryDate || new Date(),
+      companyName: companyName.trim(),
+      companyLocation: companyLocation ? companyLocation.trim() : undefined,
+      businessType,
+      yourServices: yourServices ? yourServices.trim() : undefined,
+      yearsInBusiness: yearsInBusiness ? parseInt(yearsInBusiness) : undefined,
+      hasSalesTeam: hasSalesTeam === true || hasSalesTeam === 'true' ? true : hasSalesTeam === false || hasSalesTeam === 'false' ? false : undefined,
+      hasSocialMedia: !!hasSocialMedia,
+      socialMediaProfiles: socialMediaProfiles || { instagram: '', facebook: '', linkedin: '', other: '' },
+      annualTurnover,
+      currentGoogleRanking,
+      hasGoogleBusinessProfile: !!hasGoogleBusinessProfile,
+      hasClientDomain: !!hasClientDomain,
+      hasClientLogo: !!hasClientLogo,
+      hasClientContent: !!hasClientContent,
+      features: Array.isArray(features) ? features : [],
+      customFeatures: Array.isArray(customFeatures) ? customFeatures : [],
+      branch,
+      projectName: projectName.trim(),
+      category,
+      projectCategory: projectCategory || { id: '', name: category },
+      scopeOfWork: Array.isArray(scopeOfWork) ? scopeOfWork : [],
+      scopeOfWorkDetails: Array.isArray(scopeOfWorkDetails) ? scopeOfWorkDetails : [],
+      projectDetails: projectDetails ? projectDetails.trim() : undefined,
+      numberOfPages: numberOfPages ? parseInt(numberOfPages) : undefined,
+      technologies: technologies || { frontend: [], backend: [], database: [], other: [] },
+      timeline,
+      timelineValue: timelineValue ? parseInt(timelineValue) : undefined,
+      timelineUnit,
+      cost: cost ? parseFloat(cost) : 0,
+      projectEndDate: projectEndDate || undefined,
+      status: status || 'Active',
     };
-
-    // Validate required fields
-    if (!projectData.clientName) throw new Error('Client name is required');
-    if (!projectData.clientMobileNumber) throw new Error('Client mobile number is required');
-    if (!projectData.companyName) throw new Error('Company name is required');
-    if (!projectData.projectName) throw new Error('Project name is required');
-    if (!projectData.category) throw new Error('Category is required');
-    if (!projectData.scopeOfWork || projectData.scopeOfWork.length === 0) throw new Error('Scope of work is required');
 
     const project = await Project.create(projectData);
     ApiResponse.success(res, project, null, 201);
@@ -99,13 +168,94 @@ const getProject = async (req, res, next) => {
 
 const updateProject = async (req, res, next) => {
   try {
+    const {
+      clientName,
+      clientMobileNumber,
+      clientEmail,
+      inquiryDate,
+      companyName,
+      companyLocation,
+      businessType,
+      yourServices,
+      yearsInBusiness,
+      hasSalesTeam,
+      hasSocialMedia,
+      socialMediaProfiles,
+      annualTurnover,
+      currentGoogleRanking,
+      hasGoogleBusinessProfile,
+      hasClientDomain,
+      hasClientLogo,
+      hasClientContent,
+      features,
+      customFeatures,
+      branch,
+      projectName,
+      category,
+      projectCategory,
+      scopeOfWork,
+      scopeOfWorkDetails,
+      projectDetails,
+      numberOfPages,
+      technologies,
+      timeline,
+      timelineValue,
+      timelineUnit,
+      cost,
+      projectEndDate,
+      status,
+    } = req.body;
+
+    if (clientMobileNumber && !/^[6-9]\d{9}$/.test(clientMobileNumber.replace(/\D/g, ''))) {
+      throw new Error('Invalid Indian mobile number');
+    }
+    if (clientEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clientEmail)) {
+      throw new Error('Invalid email address');
+    }
+
     const updateData = {
-      ...req.body,
-      technologies: req.body.technologies || { frontend: [], backend: [], database: [], other: [] },
-      features: req.body.features || [],
-      customFeatures: req.body.customFeatures || [],
-      socialMediaProfiles: req.body.socialMediaProfiles || { instagram: '', facebook: '', linkedin: '', other: '' },
+      clientName: clientName ? clientName.trim() : undefined,
+      clientMobileNumber: clientMobileNumber ? clientMobileNumber.trim() : undefined,
+      clientEmail: clientEmail ? clientEmail.trim() : undefined,
+      inquiryDate: inquiryDate || undefined,
+      companyName: companyName ? companyName.trim() : undefined,
+      companyLocation: companyLocation ? companyLocation.trim() : undefined,
+      businessType,
+      yourServices: yourServices ? yourServices.trim() : undefined,
+      yearsInBusiness: yearsInBusiness ? parseInt(yearsInBusiness) : undefined,
+      hasSalesTeam: hasSalesTeam === true || hasSalesTeam === 'true' ? true : hasSalesTeam === false || hasSalesTeam === 'false' ? false : undefined,
+      hasSocialMedia: !!hasSocialMedia,
+      socialMediaProfiles: socialMediaProfiles || { instagram: '', facebook: '', linkedin: '', other: '' },
+      annualTurnover,
+      currentGoogleRanking,
+      hasGoogleBusinessProfile: !!hasGoogleBusinessProfile,
+      hasClientDomain: !!hasClientDomain,
+      hasClientLogo: !!hasClientLogo,
+      hasClientContent: !!hasClientContent,
+      features: Array.isArray(features) ? features : undefined,
+      customFeatures: Array.isArray(customFeatures) ? customFeatures : undefined,
+      branch,
+      projectName: projectName ? projectName.trim() : undefined,
+      category,
+      projectCategory: projectCategory || undefined,
+      scopeOfWork: Array.isArray(scopeOfWork) ? scopeOfWork : undefined,
+      scopeOfWorkDetails: Array.isArray(scopeOfWorkDetails) ? scopeOfWorkDetails : undefined,
+      projectDetails: projectDetails ? projectDetails.trim() : undefined,
+      numberOfPages: numberOfPages ? parseInt(numberOfPages) : undefined,
+      technologies: technologies || { frontend: [], backend: [], database: [], other: [] },
+      timeline,
+      timelineValue: timelineValue ? parseInt(timelineValue) : undefined,
+      timelineUnit,
+      cost: cost ? parseFloat(cost) : 0,
+      projectEndDate: projectEndDate || undefined,
+      status: status || 'Active',
     };
+
+    Object.keys(updateData).forEach(key => {
+      if (updateData[key] === undefined) {
+        delete updateData[key];
+      }
+    });
 
     const project = await Project.findByIdAndUpdate(req.params.id, updateData, {
       new: true,

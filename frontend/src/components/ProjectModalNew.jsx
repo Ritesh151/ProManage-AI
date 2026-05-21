@@ -215,6 +215,7 @@ const ProjectModalNew = ({ isOpen, onClose, onSubmit, project }) => {
   const [submitting, setSubmitting] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [categoriesFull, setCategoriesFull] = useState([]);
   const [scopeItems, setScopeItems] = useState([]);
   const [loadingCategories, setLoadingCategories] = useState(false);
   const [loadingScopes, setLoadingScopes] = useState(false);
@@ -239,7 +240,9 @@ const ProjectModalNew = ({ isOpen, onClose, onSubmit, project }) => {
       setCategoryError('');
       try {
         const categories = await scopeService.getCategories();
-        setCategories(Array.isArray(categories) ? categories.map(cat => cat.name) : []);
+        const cats = Array.isArray(categories) ? categories : [];
+        setCategoriesFull(cats);
+        setCategories(cats.map(cat => cat.name));
       } catch (error) {
         console.error('Error fetching categories:', error);
         setCategoryError('Failed to load categories');
@@ -315,11 +318,26 @@ const ProjectModalNew = ({ isOpen, onClose, onSubmit, project }) => {
 
     setSubmitting(true);
     try {
+      const selectedCategory = categoriesFull.find(cat => cat.name === formData.category);
+      const scopeDetails = scopeItems
+        .filter(item => formData.scopeOfWork.includes(item.title || item.name))
+        .map(item => ({
+          scopeId: item._id || '',
+          title: item.title || item.name,
+          price: item.price || 0,
+        }));
+
       const submitData = {
         ...formData,
         projectEndDate: calculatedEndDate,
         cost: calculatedCost,
         timeline: `${formData.timeline.value} ${formData.timeline.unit}`,
+        timelineValue: parseInt(formData.timeline.value),
+        timelineUnit: formData.timeline.unit,
+        projectCategory: selectedCategory
+          ? { id: selectedCategory._id, name: selectedCategory.name }
+          : { id: '', name: formData.category },
+        scopeOfWorkDetails: scopeDetails,
       };
       await onSubmit(submitData);
       onClose();

@@ -70,6 +70,9 @@ export const useProjectForm = (project = null) => {
 
   useEffect(() => {
     if (project) {
+      const parsedTimeline = project.timeline ? parseTimeline(project.timeline) : { value: '', unit: 'Months' };
+      const projectCost = project.cost || 0;
+
       setFormData({
         clientName: project.clientName || '',
         clientMobileNumber: project.clientMobileNumber || '',
@@ -80,7 +83,7 @@ export const useProjectForm = (project = null) => {
         businessType: project.businessType || '',
         yourServices: project.yourServices || '',
         yearsInBusiness: project.yearsInBusiness || '',
-        hasSalesTeam: project.hasSalesTeam || null,
+        hasSalesTeam: project.hasSalesTeam !== undefined && project.hasSalesTeam !== null ? project.hasSalesTeam : null,
         hasSocialMedia: project.hasSocialMedia || false,
         socialMediaProfiles: project.socialMediaProfiles || { instagram: '', facebook: '', linkedin: '', other: '' },
         annualTurnover: project.annualTurnover || '',
@@ -100,9 +103,20 @@ export const useProjectForm = (project = null) => {
         projectDetails: project.projectDetails || '',
         numberOfPages: project.numberOfPages || '',
         technologies: project.technologies || { frontend: [], backend: [], database: [], other: [] },
-        cost: project.cost || 0,
-        timeline: project.timeline ? parseTimeline(project.timeline) : { value: '', unit: 'Months' },
+        cost: projectCost,
+        timeline: parsedTimeline,
       });
+
+      if (project.scopeOfWorkDetails && project.scopeOfWorkDetails.length > 0) {
+        setScopeItems(project.scopeOfWorkDetails.map(item => ({
+          _id: item.scopeId,
+          title: item.title,
+          name: item.title,
+          price: item.price,
+        })));
+      }
+
+      setCalculatedCost(projectCost);
     }
   }, [project]);
 
