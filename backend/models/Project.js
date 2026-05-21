@@ -16,9 +16,18 @@ const projectSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  projectCategory: {
+    id: { type: String },
+    name: { type: String },
+  },
   scopeOfWork: {
     type: [String],
   },
+  scopeOfWorkDetails: [{
+    scopeId: { type: String },
+    title: { type: String },
+    price: { type: Number, default: 0 },
+  }],
   description: {
     type: String,
     trim: true,
@@ -41,12 +50,20 @@ const projectSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  timelineValue: {
+    type: Number,
+  },
+  timelineUnit: {
+    type: String,
+    enum: ['Days', 'Weeks', 'Months'],
+  },
   paymentTerms: {
     type: String,
     trim: true,
   },
   clientName: {
     type: String,
+    required: [true, 'Client name is required'],
     trim: true,
   },
   clientEmail: {
@@ -55,6 +72,7 @@ const projectSchema = new mongoose.Schema({
   },
   clientMobileNumber: {
     type: String,
+    required: [true, 'Client mobile number is required'],
     trim: true,
   },
   inquiryDate: {
@@ -62,6 +80,7 @@ const projectSchema = new mongoose.Schema({
   },
   companyName: {
     type: String,
+    required: [true, 'Company name is required'],
     trim: true,
   },
   companyLocation: {
