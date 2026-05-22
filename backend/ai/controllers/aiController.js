@@ -1,17 +1,16 @@
 /**
  * AI Controller
  * Handles HTTP requests for AI operations
- * Proxies to Python AI microservice
  */
 
 const PythonAIClient = require('../services/PythonAIClient');
-const AIKnowledgeService = require('../services/AIKnowledgeService');
+const AITrainingService = require('../services/AITrainingService');
 const AILogger = require('../utils/logger');
 
 const logger = new AILogger('AIController');
 
 const pythonAIClient = new PythonAIClient();
-const knowledgeService = new AIKnowledgeService();
+const trainingService = new AITrainingService();
 
 /**
  * POST /api/ai/train
@@ -21,12 +20,22 @@ exports.startTraining = async (req, res) => {
   try {
     logger.info('Training request received');
 
-    const result = await pythonAIClient.startTraining();
+    if (trainingService.isTraining) {
+      return res.status(409).json({
+        success: false,
+        error: 'Training already in progress',
+      });
+    }
+
+    trainingService.startFullTraining().catch(err => {
+      logger.error('Training failed in background', { error: err.message });
+    });
 
     res.json({
       success: true,
       message: 'Training started',
-      ...result,
+      sessionId: trainingService.currentSession?.sessionId,
+      isTraining: true,
     });
   } catch (err) {
     logger.error('Training error', { error: err.message });
@@ -45,15 +54,44 @@ exports.startRetrain = async (req, res) => {
   try {
     logger.info('Retrain request received');
 
-    const result = await pythonAIClient.startRetrain();
+    if (trainingService.isTraining) {
+      return res.status(409).json({
+        success: false,
+        error: 'Training already in progress',
+      });
+    }
+
+    trainingService.startIncrementalTraining().catch(err => {
+      logger.error('Retrain failed in background', { error: err.message });
+    });
 
     res.json({
       success: true,
       message: 'Incremental training started',
-      ...result,
+      sessionId: trainingService.currentSession?.sessionId,
+      isTraining: true,
     });
   } catch (err) {
     logger.error('Retrain error', { error: err.message });
+    res.status(500).json({
+      success: false,
+      error: err.message,
+    });
+  }
+};
+
+/**
+ * POST /api/ai/stop
+ * Stop active training
+ */
+exports.stopTraining = async (req, res) => {
+  try {
+    logger.info('Stop training request received');
+    const result = await trainingService.stopTraining();
+
+    res.json(result);
+  } catch (err) {
+    logger.error('Stop training error', { error: err.message });
     res.status(500).json({
       success: false,
       error: err.message,
@@ -67,7 +105,7 @@ exports.startRetrain = async (req, res) => {
  */
 exports.getStatus = async (req, res) => {
   try {
-    const status = await pythonAIClient.getStatus();
+    const status = await trainingService.getTrainingStatus();
 
     res.json({
       success: true,
@@ -212,11 +250,11 @@ exports.clearConversation = async (req, res) => {
 exports.getTrainingHistory = async (req, res) => {
   try {
     const limit = parseInt(req.query.limit) || 10;
-    const result = await pythonAIClient.getTrainingHistory(limit);
+    const history = await trainingService.getTrainingHistory(limit);
 
     res.json({
       success: true,
-      ...result,
+      history,
     });
   } catch (err) {
     logger.error('Get training history error', { error: err.message });
@@ -233,14 +271,35 @@ exports.getTrainingHistory = async (req, res) => {
  */
 exports.getTrainingStats = async (req, res) => {
   try {
-    const result = await pythonAIClient.getTrainingStats();
+    const stats = await trainingService.getTrainingStatistics();
 
     res.json({
       success: true,
-      ...result,
+      ...stats,
     });
   } catch (err) {
     logger.error('Get training stats error', { error: err.message });
+    res.status(500).json({
+      success: false,
+      error: err.message,
+    });
+  }
+};
+
+/**
+ * GET /api/ai/training/logs
+ * Get training logs
+ */
+exports.getTrainingLogs = async (req, res) => {
+  try {
+    const logs = trainingService.getTrainingLogs();
+
+    res.json({
+      success: true,
+      logs,
+    });
+  } catch (err) {
+    logger.error('Get training logs error', { error: err.message });
     res.status(500).json({
       success: false,
       error: err.message,
@@ -271,91 +330,6 @@ exports.submitFeedback = async (req, res) => {
     });
   } catch (err) {
     logger.error('Submit feedback error', { error: err.message });
-    res.status(500).json({
-      success: false,
-      error: err.message,
-    });
-  }
-};
-
-/**
- * GET /api/ai/knowledge
- * Get knowledge base with indexed projects and stats
- */
-exports.getKnowledgeBase = async (req, res) => {
-  try {
-    const [projects, stats] = await Promise.all([
-      knowledgeService.getIndexedProjects(),
-      knowledgeService.getKnowledgeStats(),
-    ]);
-
-    res.json({
-      success: true,
-      projects,
-      stats,
-    });
-  } catch (err) {
-    logger.error('Get knowledge base error', { error: err.message });
-    res.status(500).json({
-      success: false,
-      error: err.message,
-    });
-  }
-};
-
-/**
- * GET /api/ai/knowledge/:id
- * Get details of a specific indexed project
- */
-exports.getKnowledgeProject = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const project = await knowledgeService.getProjectDetails(decodeURIComponent(id));
-
-    if (!project) {
-      return res.status(404).json({
-        success: false,
-        error: 'Project not found in knowledge base',
-      });
-    }
-
-    res.json({
-      success: true,
-      project,
-    });
-  } catch (err) {
-    logger.error('Get knowledge project error', { error: err.message });
-    res.status(500).json({
-      success: false,
-      error: err.message,
-    });
-  }
-};
-
-/**
- * GET /api/ai/knowledge/search
- * Search across knowledge base
- */
-exports.searchKnowledge = async (req, res) => {
-  try {
-    const { q } = req.query;
-
-    if (!q || q.trim().length === 0) {
-      return res.status(400).json({
-        success: false,
-        error: 'Search query is required',
-      });
-    }
-
-    const results = await knowledgeService.searchKnowledge(q);
-
-    res.json({
-      success: true,
-      results,
-      total: results.length,
-    });
-  } catch (err) {
-    logger.error('Search knowledge error', { error: err.message });
     res.status(500).json({
       success: false,
       error: err.message,

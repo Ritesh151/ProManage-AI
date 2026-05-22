@@ -1,6 +1,7 @@
+// src/components/ScopeCategoryCard.js
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiChevronDown, FiEdit2, FiTrash2, FiPlus, FiLayers, FiDollarSign } from 'react-icons/fi';
+import { FiChevronDown, FiEdit2, FiTrash2, FiPlus, FiLayers, FiDollarSign, FiTrendingUp } from 'react-icons/fi';
 import { ScopeItemCard } from './ScopeItemCard';
 import { formatPrice } from '../utils/currencyFormatter';
 
@@ -15,132 +16,183 @@ export const ScopeCategoryCard = ({
   const [isExpanded, setIsExpanded] = useState(true);
 
   const totalPrice = category.scopeItems.reduce((sum, item) => sum + item.price, 0);
+  const avgPrice = category.scopeItems.length > 0 ? totalPrice / category.scopeItems.length : 0;
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="group relative bg-white rounded-xl border border-gray-200/80 overflow-hidden hover:shadow-lg hover:border-gray-300/80 transition-all duration-300"
+      whileHover={{ y: -2 }}
+      transition={{ duration: 0.3 }}
+      className="group relative backdrop-blur-lg bg-white/80 dark:bg-slate-900/80 rounded-2xl border border-white/20 dark:border-slate-700/50 overflow-hidden hover:shadow-2xl transition-all duration-300"
     >
-      {/* Left accent bar */}
-      <div className={`absolute left-0 top-0 bottom-0 w-1 transition-colors duration-300 ${isExpanded ? 'bg-blue-500' : 'bg-gray-200'}`} />
+      {/* Gradient Top Border */}
+      <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-pink-500 transition-all duration-300 ${isExpanded ? 'opacity-100' : 'opacity-0'}`} />
+      
+      {/* Left Accent Glow */}
+      <div className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-pink-500 transition-opacity duration-300 ${isExpanded ? 'opacity-100' : 'opacity-0'}`} />
 
       {/* Header */}
       <div
         onClick={() => setIsExpanded(!isExpanded)}
-        className="pl-4 pr-5 py-4 cursor-pointer hover:bg-gray-50/50 transition-colors duration-200"
+        className="pl-5 pr-6 py-5 cursor-pointer hover:bg-gradient-to-r hover:from-blue-500/5 hover:to-pink-500/5 transition-all duration-300"
       >
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3 flex-1 min-w-0">
+          <div className="flex items-center gap-4 flex-1 min-w-0">
             <motion.div
               animate={{ rotate: isExpanded ? 180 : 0 }}
-              transition={{ duration: 0.2 }}
-              className="flex-shrink-0 text-gray-400 group-hover:text-gray-600 transition-colors"
+              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              className="flex-shrink-0 w-8 h-8 rounded-xl bg-gradient-to-br from-blue-500/10 to-pink-500/10 flex items-center justify-center text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
             >
               <FiChevronDown size={18} />
             </motion.div>
+            
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-gray-900 text-base">{category.name}</h3>
+              <h3 className="font-bold text-lg text-gray-900 dark:text-white tracking-tight">
+                {category.name}
+              </h3>
               {category.description && (
-                <p className="text-sm text-gray-500 mt-0.5 truncate">{category.description}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5 line-clamp-1">
+                  {category.description}
+                </p>
               )}
             </div>
           </div>
 
-          <div className="flex items-center gap-3 ml-4 flex-shrink-0">
-            {/* Pill badges */}
+          <div className="flex items-center gap-4 ml-4 flex-shrink-0">
+            {/* Stats Badges */}
             <div className="flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
-                <FiLayers size={11} />
-                {category.scopeItems.length}
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full">
-                <FiDollarSign size={11} />
+              <motion.div 
+                whileHover={{ scale: 1.05 }}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-br from-blue-500/10 to-indigo-500/10 text-blue-700 dark:text-blue-400 text-xs font-semibold rounded-full"
+              >
+                <FiLayers size={12} />
+                {category.scopeItems.length} items
+              </motion.div>
+              
+              <motion.div 
+                whileHover={{ scale: 1.05 }}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-br from-emerald-500/10 to-teal-500/10 text-emerald-700 dark:text-emerald-400 text-xs font-semibold rounded-full"
+              >
+                <FiDollarSign size={12} />
                 {formatPrice(totalPrice)}
-              </span>
+              </motion.div>
+
+              {category.scopeItems.length > 0 && (
+                <motion.div 
+                  whileHover={{ scale: 1.05 }}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-br from-purple-500/10 to-pink-500/10 text-purple-700 dark:text-purple-400 text-xs font-semibold rounded-full"
+                >
+                  <FiTrendingUp size={12} />
+                  Ø {formatPrice(avgPrice)}
+                </motion.div>
+              )}
             </div>
 
-            {/* Action icons - faded by default, light up on hover */}
-            <div className="flex items-center gap-1 opacity-40 group-hover:opacity-100 transition-opacity duration-200">
-              <button
+            {/* Action Buttons */}
+            <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0">
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={(e) => {
                   e.stopPropagation();
                   onEditCategory(category);
                 }}
-                className="p-1.5 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                className="p-2 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-xl transition-all"
                 title="Edit category"
               >
-                <FiEdit2 size={15} />
-              </button>
-              <button
+                <FiEdit2 size={16} />
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={(e) => {
                   e.stopPropagation();
                   onDeleteCategory(category);
                 }}
-                className="p-1.5 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                className="p-2 text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-xl transition-all"
                 title="Delete category"
               >
-                <FiTrash2 size={15} />
-              </button>
+                <FiTrash2 size={16} />
+              </motion.button>
             </div>
           </div>
         </div>
       </div>
 
       {/* Divider */}
-      <div className="pl-4 pr-5">
-        <div className="h-px bg-gray-100" />
+      <div className="px-5">
+        <div className="h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-slate-700 to-transparent" />
       </div>
 
       {/* Content */}
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {isExpanded && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
-            className="p-5"
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            className="overflow-hidden"
           >
-            {category.scopeItems.length === 0 ? (
-              <div className="text-center py-8">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 mb-3">
-                  <FiLayers size={20} className="text-gray-400" />
-                </div>
-                <p className="text-gray-500 text-sm mb-4">No scope items yet</p>
-                <button
-                  onClick={() => onAddItem(category)}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200 font-medium text-sm shadow-sm hover:shadow-md"
+            <div className="p-6">
+              {category.scopeItems.length === 0 ? (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="text-center py-12"
                 >
-                  <FiPlus size={14} />
-                  Add Item
-                </button>
-              </div>
-            ) : (
-              <>
-                <div className="space-y-2 mb-4">
-                  {category.scopeItems.map((item) => (
-                    <ScopeItemCard
-                      key={item._id}
-                      item={item}
-                      onEdit={() => onEditItem(category._id, item)}
-                      onDelete={() => onDeleteItem(category._id, item)}
-                    />
-                  ))}
-                </div>
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-blue-500/10 to-pink-500/10 flex items-center justify-center">
+                    <FiLayers size={28} className="text-gray-400 dark:text-gray-500" />
+                  </div>
+                  <p className="text-gray-500 dark:text-gray-400 font-medium mb-4">No scope items yet</p>
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => onAddItem(category)}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-pink-500 text-white rounded-xl font-medium text-sm shadow-lg hover:shadow-xl transition-all"
+                  >
+                    <FiPlus size={14} />
+                    Add First Item
+                  </motion.button>
+                </motion.div>
+              ) : (
+                <>
+                  <div className="space-y-2 mb-5">
+                    {category.scopeItems.map((item, index) => (
+                      <motion.div
+                        key={item._id}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.03 }}
+                      >
+                        <ScopeItemCard
+                          item={item}
+                          onEdit={() => onEditItem(category._id, item)}
+                          onDelete={() => onDeleteItem(category._id, item)}
+                        />
+                      </motion.div>
+                    ))}
+                  </div>
 
-                <button
-                  onClick={() => onAddItem(category)}
-                  className="w-full px-4 py-2.5 border border-dashed border-gray-300 text-gray-500 rounded-lg hover:bg-gray-50 hover:border-gray-400 hover:text-gray-700 transition-all duration-200 font-medium text-sm flex items-center justify-center gap-2"
-                >
-                  <FiPlus size={14} />
-                  Add Item
-                </button>
-              </>
-            )}
+                  <motion.button
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
+                    onClick={() => onAddItem(category)}
+                    className="w-full px-5 py-3 border-2 border-dashed border-gray-300 dark:border-slate-600 text-gray-500 dark:text-gray-400 rounded-xl hover:border-blue-500 dark:hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gradient-to-r hover:from-blue-500/5 hover:to-pink-500/5 transition-all duration-200 font-medium text-sm flex items-center justify-center gap-2 group"
+                  >
+                    <FiPlus size={14} className="group-hover:rotate-90 transition-transform duration-300" />
+                    Add Item
+                  </motion.button>
+                </>
+              )}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Bottom Glow Effect */}
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-blue-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
     </motion.div>
   );
 };

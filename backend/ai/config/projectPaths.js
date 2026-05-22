@@ -8,21 +8,28 @@ const os = require('os');
 
 // Define all project paths to scan
 const PROJECT_PATHS = [
-  // Current project
+  // Current project root (scans frontend/, backend/, python-ai/, docs/, etc.)
   path.join(__dirname, '../../..'),
-  
+
+  // Explicit project directories to train
+  path.join(__dirname, '../../../frontend/src'),
+  path.join(__dirname, '../../../backend'),
+  path.join(__dirname, '../../../python-ai'),
+  path.join(__dirname, '../../../MD Files Documents'),
+  path.join(__dirname, '../../../Documents'),
+
   // Common project directories (customize based on your system)
   path.join(os.homedir(), 'Projects'),
   path.join(os.homedir(), 'Development'),
   path.join(os.homedir(), 'Code'),
-  
+
   // Windows paths (if applicable)
   ...(process.platform === 'win32' ? [
     'D:\\Projects',
     'C:\\Projects',
     'E:\\Development',
   ] : []),
-  
+
   // Linux/Mac paths
   ...(process.platform !== 'win32' ? [
     path.join(os.homedir(), 'projects'),

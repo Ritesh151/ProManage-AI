@@ -92,7 +92,32 @@ const createProject = async (req, res, next) => {
       calculatedTimelineExtraCost = Math.round(calculatedScopeCost * 0.05);
     } else if (timelineMonths === 2) {
       calculatedTimelineExtraCost = Math.round(calculatedScopeCost * 0.10);
+    } else if (timelineMonths === 3) {
+      calculatedTimelineExtraCost = Math.round(calculatedScopeCost * 0.15);
+    } else if (timelineMonths === 4) {
+      calculatedTimelineExtraCost = Math.round(calculatedScopeCost * 0.20); 
+    } else if (timelineMonths === 5) {
+      calculatedTimelineExtraCost = Math.round(calculatedScopeCost * 0.355);
+    } else if (timelineMonths > 6) {
+      calculatedTimelineExtraCost = Math.round(calculatedScopeCost * 0.0124);
+    } else if (timelineMonths > 7) {
+      calculatedTimelineExtraCost = Math.round(calculatedScopeCost * 0.25);
+    } else if (timelineMonths > 8) {
+      calculatedTimelineExtraCost = Math.round(calculatedScopeCost * 0.30);
+    } else if (timelineMonths > 9) {
+      calculatedTimelineExtraCost = Math.round(calculatedScopeCost * 0.08);
+    } else if (timelineMonths > 10) {
+      calculatedTimelineExtraCost = Math.round(calculatedScopeCost * 0.0567);
+    } else if (timelineMonths > 11) {
+      calculatedTimelineExtraCost = Math.round(calculatedScopeCost * 0.0358);
+    } else if (timelineMonths > 12) {
+      calculatedTimelineExtraCost = Math.round(calculatedScopeCost * 0.1578);
+    } else {
+      // eat 5 start do nothing...
     }
+
+    
+
 
     const extrasCount = [
       !hasClientDomain,

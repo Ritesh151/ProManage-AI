@@ -3,9 +3,9 @@ import axios from 'axios';
 const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 export const trainingService = {
-  startTraining: async (projectIds = []) => {
+  startTraining: async () => {
     try {
-      const response = await axios.post(`${API_BASE}/ai/train`, { projectIds });
+      const response = await axios.post(`${API_BASE}/ai/train`);
       return response.data;
     } catch (error) {
       console.error('Error starting training:', error);
@@ -13,12 +13,22 @@ export const trainingService = {
     }
   },
 
-  retrain: async (sessionId) => {
+  retrain: async () => {
     try {
-      const response = await axios.post(`${API_BASE}/ai/retrain`, { sessionId });
+      const response = await axios.post(`${API_BASE}/ai/retrain`);
       return response.data;
     } catch (error) {
       console.error('Error retraining:', error);
+      throw error;
+    }
+  },
+
+  stopTraining: async () => {
+    try {
+      const response = await axios.post(`${API_BASE}/ai/stop`);
+      return response.data;
+    } catch (error) {
+      console.error('Error stopping training:', error);
       throw error;
     }
   },
@@ -43,28 +53,23 @@ export const trainingService = {
     }
   },
 
-  getSessionLogs: async (sessionId) => {
+  getStats: async () => {
     try {
-      const response = await axios.get(`${API_BASE}/ai/training/${sessionId}/logs`);
+      const response = await axios.get(`${API_BASE}/ai/training-stats`);
       return response.data;
     } catch (error) {
-      console.error('Error fetching session logs:', error);
+      console.error('Error fetching training stats:', error);
       throw error;
     }
   },
 
-  getMockStatus: () => ({
-    status: 'idle',
-    documents: 45,
-    processedDocuments: 45,
-    totalChunks: 1250,
-    projects: 8,
-    currentSession: null,
-    lastTraining: new Date(Date.now() - 86400000),
-  }),
-
-  getMockHistory: () => [
-    { id: 1, startTime: new Date(Date.now() - 86400000), endTime: new Date(Date.now() - 82800000), status: 'completed', filesProcessed: 45, chunksCreated: 1250 },
-    { id: 2, startTime: new Date(Date.now() - 172800000), endTime: new Date(Date.now() - 169200000), status: 'completed', filesProcessed: 42, chunksCreated: 1180 },
-  ],
+  getLogs: async () => {
+    try {
+      const response = await axios.get(`${API_BASE}/ai/training/logs`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching training logs:', error);
+      throw error;
+    }
+  },
 };

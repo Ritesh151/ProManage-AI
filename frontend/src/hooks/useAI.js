@@ -8,7 +8,12 @@ export const useAI = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [status, setStatus] = useState(null);
+  const [training, setTraining] = useState(false);
+  const [trainingStatus, setTrainingStatus] = useState(null);
+  const [trainingStats, setTrainingStats] = useState(null);
+  const [trainingLogs, setTrainingLogs] = useState([]);
   const abortControllerRef = useRef(null);
+  const pollIntervalRef = useRef(null);
 
   const fetchConversations = useCallback(async () => {
     try {
@@ -28,6 +33,95 @@ export const useAI = () => {
       console.error('Error fetching status:', err);
     }
   }, []);
+
+  const fetchTrainingStatus = useCallback(async () => {
+    try {
+      const data = await aiService.getStatus();
+      setTrainingStatus(data);
+      setTraining(data.isTraining || false);
+    } catch (err) {
+      console.error('Error fetching training status:', err);
+    }
+  }, []);
+
+  const fetchTrainingStats = useCallback(async () => {
+    try {
+      const data = await aiService.getTrainingStats();
+      setTrainingStats(data);
+    } catch (err) {
+      console.error('Error fetching training stats:', err);
+    }
+  }, []);
+
+  const fetchTrainingLogs = useCallback(async () => {
+    try {
+      const data = await aiService.getTrainingLogs();
+      setTrainingLogs(data.logs || []);
+    } catch (err) {
+      console.error('Error fetching training logs:', err);
+    }
+  }, []);
+
+  const startPolling = useCallback(() => {
+    if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
+
+    pollIntervalRef.current = setInterval(async () => {
+      try {
+        const data = await aiService.getStatus();
+        setTrainingStatus(data);
+        setTraining(data.isTraining || false);
+
+        const logsData = await aiService.getTrainingLogs();
+        setTrainingLogs(logsData.logs || []);
+
+        if (!data.isTraining) {
+          clearInterval(pollIntervalRef.current);
+          setTraining(false);
+          fetchTrainingStats();
+        }
+      } catch (err) {
+        console.error('Polling error:', err);
+      }
+    }, 2000);
+  }, [fetchTrainingStats]);
+
+  const startTraining = useCallback(async () => {
+    setTraining(true);
+    setError(null);
+    setTrainingLogs([]);
+    try {
+      await aiService.startTraining();
+      startPolling();
+    } catch (err) {
+      setError(err.response?.data?.error || err.message);
+      setTraining(false);
+    }
+  }, [startPolling]);
+
+  const retrain = useCallback(async () => {
+    setTraining(true);
+    setError(null);
+    setTrainingLogs([]);
+    try {
+      await aiService.retrain();
+      startPolling();
+    } catch (err) {
+      setError(err.response?.data?.error || err.message);
+      setTraining(false);
+    }
+  }, [startPolling]);
+
+  const stopTraining = useCallback(async () => {
+    try {
+      await aiService.stopTraining();
+      if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
+      setTraining(false);
+      fetchTrainingStatus();
+      fetchTrainingStats();
+    } catch (err) {
+      setError(err.response?.data?.error || err.message);
+    }
+  }, [fetchTrainingStatus, fetchTrainingStats]);
 
   const sendMessage = useCallback(async (message) => {
     if (!message.trim()) return;
@@ -117,7 +211,13 @@ export const useAI = () => {
   useEffect(() => {
     fetchConversations();
     fetchStatus();
-  }, [fetchConversations, fetchStatus]);
+    fetchTrainingStatus();
+    fetchTrainingStats();
+
+    return () => {
+      if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
+    };
+  }, [fetchConversations, fetchStatus, fetchTrainingStatus, fetchTrainingStats]);
 
   return {
     conversations,
@@ -126,11 +226,21 @@ export const useAI = () => {
     loading,
     error,
     status,
+    training,
+    trainingStatus,
+    trainingStats,
+    trainingLogs,
     sendMessage,
     createConversation,
     selectConversation,
     deleteConversation,
     clearMessages,
+    startTraining,
+    retrain,
+    stopTraining,
     refetchConversations: fetchConversations,
+    refetchTrainingStatus: fetchTrainingStatus,
+    refetchTrainingStats: fetchTrainingStats,
+    refetchTrainingLogs: fetchTrainingLogs,
   };
 };

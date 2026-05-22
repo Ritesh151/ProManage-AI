@@ -1,3 +1,4 @@
+// src/hooks/useProjectForm.js
 import { useState, useEffect, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -57,6 +58,7 @@ export const useProjectForm = (project = null) => {
   const [calculatedCost, setCalculatedCost] = useState(0);
   const [calculatedEndDate, setCalculatedEndDate] = useState('');
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
     register,
@@ -64,6 +66,8 @@ export const useProjectForm = (project = null) => {
     watch,
     formState: { errors: formErrors },
     reset,
+    setValue,
+    getValues,
   } = useForm({
     defaultValues: formData,
   });
@@ -141,6 +145,7 @@ export const useProjectForm = (project = null) => {
   };
 
   const validateURL = (url) => {
+    if (!url) return true;
     try {
       new URL(url);
       return true;
@@ -153,26 +158,32 @@ export const useProjectForm = (project = null) => {
     const newErrors = {};
 
     // Client Information Validation
-    if (!formData.clientName.trim()) newErrors.clientName = 'Client name is required';
-    if (!formData.clientMobileNumber.trim()) newErrors.clientMobileNumber = 'Mobile number is required';
-    else if (!validateIndianMobile(formData.clientMobileNumber)) newErrors.clientMobileNumber = 'Invalid Indian mobile number';
-    if (formData.clientEmail && !validateEmail(formData.clientEmail)) newErrors.clientEmail = 'Invalid email';
-    if (!formData.companyName.trim()) newErrors.companyName = 'Company name is required';
+    if (!formData.clientName?.trim()) newErrors.clientName = 'Client name is required';
+    if (!formData.clientMobileNumber?.trim()) newErrors.clientMobileNumber = 'Mobile number is required';
+    else if (!validateIndianMobile(formData.clientMobileNumber)) newErrors.clientMobileNumber = 'Invalid Indian mobile number (10 digits, starting with 6-9)';
+    if (formData.clientEmail && !validateEmail(formData.clientEmail)) newErrors.clientEmail = 'Invalid email address';
+    if (!formData.companyName?.trim()) newErrors.companyName = 'Company name is required';
     if (!formData.businessType) newErrors.businessType = 'Business type is required';
-    if (formData.yearsInBusiness && formData.yearsInBusiness < 0) newErrors.yearsInBusiness = 'Years cannot be negative';
+    if (formData.yearsInBusiness && (formData.yearsInBusiness < 0 || formData.yearsInBusiness > 100)) 
+      newErrors.yearsInBusiness = 'Years must be between 0 and 100';
     if (formData.hasSocialMedia) {
-      if (formData.socialMediaProfiles.instagram && !validateURL(formData.socialMediaProfiles.instagram)) newErrors.instagramURL = 'Invalid Instagram URL';
-      if (formData.socialMediaProfiles.facebook && !validateURL(formData.socialMediaProfiles.facebook)) newErrors.facebookURL = 'Invalid Facebook URL';
-      if (formData.socialMediaProfiles.linkedin && !validateURL(formData.socialMediaProfiles.linkedin)) newErrors.linkedinURL = 'Invalid LinkedIn URL';
-      if (formData.socialMediaProfiles.other && !validateURL(formData.socialMediaProfiles.other)) newErrors.otherURL = 'Invalid URL';
+      if (formData.socialMediaProfiles?.instagram && !validateURL(formData.socialMediaProfiles.instagram)) 
+        newErrors.instagramURL = 'Invalid Instagram URL';
+      if (formData.socialMediaProfiles?.facebook && !validateURL(formData.socialMediaProfiles.facebook)) 
+        newErrors.facebookURL = 'Invalid Facebook URL';
+      if (formData.socialMediaProfiles?.linkedin && !validateURL(formData.socialMediaProfiles.linkedin)) 
+        newErrors.linkedinURL = 'Invalid LinkedIn URL';
+      if (formData.socialMediaProfiles?.other && !validateURL(formData.socialMediaProfiles.other)) 
+        newErrors.otherURL = 'Invalid URL';
     }
 
     // Project Details Validation
-    if (!formData.projectName.trim()) newErrors.projectName = 'Project name is required';
+    if (!formData.projectName?.trim()) newErrors.projectName = 'Project name is required';
     if (!formData.category) newErrors.category = 'Category is required';
-    if (formData.scopeOfWork.length === 0) newErrors.scopeOfWork = 'Select at least one scope item';
-    if (!formData.timeline.value) newErrors.timeline = 'Timeline is required';
-    if (formData.numberOfPages && formData.numberOfPages < 0) newErrors.numberOfPages = 'Pages cannot be negative';
+    if (formData.scopeOfWork?.length === 0) newErrors.scopeOfWork = 'Select at least one scope item';
+    if (!formData.timeline?.value) newErrors.timeline = 'Timeline is required';
+    if (formData.numberOfPages && (formData.numberOfPages < 0 || formData.numberOfPages > 1000)) 
+      newErrors.numberOfPages = 'Pages must be between 0 and 1000';
     if (formData.technologies?.frontend?.length === 0) newErrors.frontendTech = 'Select at least one frontend technology';
 
     setErrors(newErrors);
@@ -180,7 +191,7 @@ export const useProjectForm = (project = null) => {
   }, [formData]);
 
   const calculateCost = useCallback((selectedScopeNames, availableScopeItems) => {
-    if (!selectedScopeNames || !availableScopeItems || availableScopeItems.length === 0) {
+    if (!selectedScopeNames?.length || !availableScopeItems?.length) {
       setCalculatedCost(0);
       return 0;
     }
@@ -192,7 +203,7 @@ export const useProjectForm = (project = null) => {
   }, []);
 
   const calculateEndDate = useCallback(() => {
-    if (!formData.timeline.value) return;
+    if (!formData.timeline?.value) return;
     const startDate = new Date();
     const { value, unit } = formData.timeline;
     const days = unit === 'Days' ? parseInt(value) : unit === 'Weeks' ? parseInt(value) * 7 : parseInt(value) * 30;
@@ -209,7 +220,9 @@ export const useProjectForm = (project = null) => {
       ...prev,
       [field]: value,
     }));
-  }, []);
+    // Also update react-hook-form
+    setValue(field, value);
+  }, [setValue]);
 
   const updateNestedField = useCallback((parent, field, value) => {
     setFormData((prev) => ({
@@ -219,13 +232,32 @@ export const useProjectForm = (project = null) => {
         [field]: value,
       },
     }));
-  }, []);
+    setValue(`${parent}.${field}`, value);
+  }, [setValue]);
 
   const formatTimelineString = () => {
-    if (!formData.timeline.value) return '';
+    if (!formData.timeline?.value) return '';
     const unit = formData.timeline.unit.endsWith('s') ? formData.timeline.unit : formData.timeline.unit + 's';
     return `${formData.timeline.value} ${unit}`;
   };
+
+  const resetForm = useCallback(() => {
+    setFormData(initialFormData);
+    setScopeItems([]);
+    setCalculatedCost(0);
+    setCalculatedEndDate('');
+    setErrors({});
+    reset(initialFormData);
+  }, [reset]);
+
+  const getFormDataForSubmission = useCallback(() => {
+    return {
+      ...formData,
+      timeline: formatTimelineString(),
+      cost: calculatedCost,
+      projectEndDate: calculatedEndDate,
+    };
+  }, [formData, calculatedCost, calculatedEndDate, formatTimelineString]);
 
   return {
     formData,
@@ -252,5 +284,13 @@ export const useProjectForm = (project = null) => {
     watch,
     formErrors,
     reset,
+    resetForm,
+    isSubmitting,
+    setIsSubmitting,
+    getFormDataForSubmission,
+    setValue,
+    getValues,
   };
 };
+
+export default useProjectForm;

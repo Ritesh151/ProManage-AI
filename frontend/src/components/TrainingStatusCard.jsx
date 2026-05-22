@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FiCheckCircle, FiAlertCircle, FiLoader } from 'react-icons/fi';
+import { FiCheckCircle, FiAlertCircle, FiLoader, FiHardDrive, FiDatabase, FiCpu, FiFileText, FiLayers } from 'react-icons/fi';
 
-export const TrainingStatusCard = ({ status, loading }) => {
-  if (!status) return null;
+export const TrainingStatusCard = ({ status, stats, loading }) => {
+  if (!status && !stats) return null;
 
   const getStatusIcon = (s) => {
     switch (s) {
@@ -14,7 +14,7 @@ export const TrainingStatusCard = ({ status, loading }) => {
       case 'in_progress':
         return <FiLoader size={24} className="text-blue-600 animate-spin" />;
       default:
-        return null;
+        return <FiHardDrive size={24} className="text-gray-400" />;
     }
   };
 
@@ -31,48 +31,104 @@ export const TrainingStatusCard = ({ status, loading }) => {
     }
   };
 
+  const currentStatus = status?.status || stats?.status || 'idle';
+  const progress = status?.progress || 0;
+  const currentFile = status?.currentFile;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`rounded-lg border p-6 ${getStatusColor(status.currentSession?.status || 'idle')}`}
+      className={`rounded-lg border p-6 ${getStatusColor(currentStatus)}`}
     >
-      <div className="flex items-start justify-between">
+      <div className="flex items-start justify-between mb-4">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900">Training Status</h3>
-          <div className="mt-4 space-y-2">
-            <p className="text-sm text-gray-600">
-              Documents: <span className="font-semibold text-gray-900">{status.documents}</span>
-            </p>
-            <p className="text-sm text-gray-600">
-              Processed: <span className="font-semibold text-gray-900">{status.processedDocuments}</span>
-            </p>
-            <p className="text-sm text-gray-600">
-              Chunks: <span className="font-semibold text-gray-900">{status.totalChunks}</span>
-            </p>
-            <p className="text-sm text-gray-600">
-              Projects: <span className="font-semibold text-gray-900">{status.projects}</span>
-            </p>
-          </div>
-        </div>
-        {status.currentSession && getStatusIcon(status.currentSession.status)}
-      </div>
-      {status.currentSession?.status === 'in_progress' && (
-        <div className="mt-4">
-          <div className="w-full bg-gray-200 rounded-full h-2">
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{
-                width: `${(status.currentSession.filesProcessed / (status.currentSession.totalFiles || 1)) * 100}%`,
-              }}
-              className="bg-blue-600 h-2 rounded-full"
-            />
-          </div>
-          <p className="text-xs text-gray-600 mt-2">
-            {status.currentSession.filesProcessed} / {status.currentSession.totalFiles} files
+          <h3 className="text-lg font-semibold text-gray-900">AI Status</h3>
+          <p className="text-sm text-gray-500 mt-1">
+            {currentStatus === 'in_progress' ? 'Training in progress' : currentStatus === 'completed' ? 'Training complete' : 'Ready to train'}
           </p>
         </div>
+        {getStatusIcon(currentStatus)}
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+        <div className="bg-white rounded-lg p-3 border border-gray-100">
+          <div className="flex items-center gap-2 text-gray-500 text-xs mb-1">
+            <FiFileText size={14} />
+            <span>Files Indexed</span>
+          </div>
+          <p className="text-xl font-bold text-gray-900">
+            {stats?.totalDocuments || status?.filesProcessed || 0}
+          </p>
+        </div>
+
+        <div className="bg-white rounded-lg p-3 border border-gray-100">
+          <div className="flex items-center gap-2 text-gray-500 text-xs mb-1">
+            <FiCheckCircle size={14} />
+            <span>Processed</span>
+          </div>
+          <p className="text-xl font-bold text-gray-900">
+            {stats?.processedDocuments || status?.filesProcessed || 0}
+          </p>
+        </div>
+
+        <div className="bg-white rounded-lg p-3 border border-gray-100">
+          <div className="flex items-center gap-2 text-gray-500 text-xs mb-1">
+            <FiLayers size={14} />
+            <span>Total Chunks</span>
+          </div>
+          <p className="text-xl font-bold text-gray-900">
+            {stats?.totalChunks || status?.chunksCreated || 0}
+          </p>
+        </div>
+
+        <div className="bg-white rounded-lg p-3 border border-gray-100">
+          <div className="flex items-center gap-2 text-gray-500 text-xs mb-1">
+            <FiDatabase size={14} />
+            <span>Projects</span>
+          </div>
+          <p className="text-xl font-bold text-gray-900">
+            {stats?.totalProjects || status?.totalProjects || 0}
+          </p>
+        </div>
+      </div>
+
+      {currentStatus === 'in_progress' && (
+        <div className="mt-4 bg-white rounded-lg p-4 border border-gray-100">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm font-medium text-gray-700">Training Progress</span>
+            <span className="text-sm font-bold text-blue-600">{progress}%</span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-2.5">
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.5 }}
+              className="bg-blue-600 h-2.5 rounded-full"
+            />
+          </div>
+          {currentFile && (
+            <p className="text-xs text-gray-500 mt-2 truncate">
+              Currently processing: {currentFile}
+            </p>
+          )}
+        </div>
       )}
+
+      <div className="mt-4 grid grid-cols-3 gap-3 text-xs">
+        <div className="bg-white rounded p-2 border border-gray-100">
+          <span className="text-gray-500">Embedding Model</span>
+          <p className="font-medium text-gray-900 truncate">{stats?.embeddingModel || 'huggingface'}</p>
+        </div>
+        <div className="bg-white rounded p-2 border border-gray-100">
+          <span className="text-gray-500">Vector DB</span>
+          <p className="font-medium text-gray-900 truncate">{stats?.vectorDatabase || 'chroma'}</p>
+        </div>
+        <div className="bg-white rounded p-2 border border-gray-100">
+          <span className="text-gray-500">LLM</span>
+          <p className="font-medium text-gray-900 truncate">{stats?.currentLLM || 'openai'}</p>
+        </div>
+      </div>
     </motion.div>
   );
 };

@@ -1,40 +1,144 @@
-ok jese hi Scope of Work perfectly work ho gaya :
+in Training Center page ke Content ko pura remove krke ye sare features add krne wala AI IDEX codex prompt dena :
 
-abhi iske liye prompt de prompt :
+just give me the perfect cursor prompt :
 
-in Projects /project page user jab bhi project Create per click kre toh kuch iss hisab se inputs chahiye mujhe :
-Ek hi form for the input ek me hi krna hai sab kuch =
+--> Live AI Pipeline Visualization (MOST IMPORTANT)
 
-Client Information section ->
--- Client Name, Client's Mobile No. Client E-Mail (Optional), Inquiry Date, Company Name, Company's Location (Optional)
--- Which kind of business : drop down menu krna hai (StartUp, Large Corporate, MSME, Retail / E-commerce, Manufacturing / Production)
--- Your Services : Text field dalna hai 
--- How old are you in business ?? - year field
--- Client have any Sales or Marketing Team ?? - Yes or No Button
--- Client have any Social Media Profiles ?? - Yes or No (If Yes then drop downmenu : Instagram - Link URL, Facebook - Link URL, Linked-In - Link URL, Other - Link URL)
--- Annual Turn Over - Dropdown menu (<50K, 50k - 10 Lakh, 10Lakh - 50 Lakh, 50 Lakh +)
--- Current Google Ranking ?? - Dropdown menu (Not Listed, Page 2+, Page 1)
--- Google business Profile ?? - Yes or no
--- Client have domain ?? - Yes or No 
--- Client have Logo ? - Yes or No 
--- Client have content ? - Yes or No 
--- Features - Dropdownmenu (Whatsapp integration, Payment integration, Custom {Custom agr select kiya toh us hisab se text dalega user}) also multiple select ho skte hai.
+Abhi probably sirf progress bar hoga.
+
+Instead:
+Realtime pipeline stages dikhao.
+
+Example UI:
+
+[✓] Discovering Files
+[✓] Reading Content
+[✓] Chunking Documents
+[⚡] Generating Embeddings
+[ ] Uploading to ChromaDB
+[ ] Updating Metadata
+
+Aur active stage animate ho.
+
+MERN Implementation
+
+Backend se:
+
+{
+  stage: "embedding",
+  progress: 67,
+  currentFile: "AITrainingService.js"
+}
+
+Frontend:
+
+Framer Motion
+Animated stepper
+Pulse/glow effects
+
+This instantly gives:
+
+“Actual AI processing chal raha hai”
 
 
+-------------- Features 2 ------------------
+--> AI Brain Activity Visualization
 
-Project Details section ->
--- Select Branch: drop downmenu (Kutch Infoline, Lakshmi Healthcare Services, OptiMatrix, OptiMatrix Cash, OptiMatrix Domestic, OptiMatrix Export)
--- Project ID, Project Name.
--- Project Category - ye jo project category hai na wo Scope of Work wale page se dynamic fetch ho ske
--- Scope of Work - ye bhi jo hai iska dynamic dropdown dena hai Category wise input se also user can select mutiple scope of work here, 
-                   and jo bhi user scope of work select kre last me apne aap hi project ka cost ready ho kar aa jaaye.
--- Project Timeline (end project timeline ke hisab se project ka end date dynamic aayega, also user has option of days, weeks, months ) ye tino apne hisab se dynamic add kr skta hai eg. 5 days, 2 months iska proper dropdown menu dena hai days and week optional hai month mandadory hai
--- Project Details, No. of Pages.
--- Techonologies used -> 
-    Frontend, backend, database 
-    ye jo hai dynamic ho category wise like Web. Dev. select kiya hai toh uska Frontend or backend or database -> (React Js, Node Js, MySQL)
-    also suer multiple bhi select kar skte hai.
+THIS IS HUGE.
 
--- Project Cost (dynamic calculate by the scope of work selected) 
--- Prpject End Date (apne aap calculate hogi) form me hi 
+Add animated AI nodes.
 
+Example:
+
+Files → embeddings → vector DB → LLM
+
+Visual animated flow.
+
+Use:
+reactflow
+d3.js
+framer-motion
+
+Like:
+
+frontend/src/App.js
+        ↓
+Chunk #21
+        ↓
+Embedding Generated
+        ↓
+Stored in ChromaDB
+        ↓
+Available for AI Chat
+
+Users LOVE this.
+
+
+-------------- Features 3 ------------------
+--> Knowledge Statistics Dashboard
+
+Add AI metrics cards:
+
+Documents Indexed
+Chunks Created
+Embedding Count
+Training Speed
+Vector DB Size
+Average Similarity
+Active Provider
+Last Retrain
+
+With animated counters.
+
+Use:
+
+CountUp.js
+Recharts
+Framer Motion
+
+
+-------------- Features 4 ------------------
+--> Real-Time Training Speed
+
+Show:
+
+12.4 chunks/sec
+3 embeddings/sec
+ETA: 02m 12s
+
+Feels extremely AI infra level.
+
+
+-------------- Features 5 ------------------
+--> Add “Semantic Search Testing”
+
+After training:
+
+Test Query:
+"How proposal generation works?"
+
+Show retrieved chunks.
+
+THIS IS MASSIVE FOR DEMO.
+
+🔥 BEST FEATURES TO IMPLEMENT FIRST
+
+Priority order:
+
+Feature	Impact
+Terminal logs UI	🔥🔥🔥🔥🔥
+Animated pipeline	🔥🔥🔥🔥🔥
+AI metrics cards	🔥🔥🔥🔥
+WebSockets realtime	🔥🔥🔥🔥
+Neural graph	🔥🔥🔥🔥🔥
+Semantic retrieval tester	🔥🔥🔥🔥🔥
+🚀 Tech Stack You Can Add
+Purpose	Library
+Animations	Framer Motion
+Graphs	ReactFlow
+Terminal	xterm.js
+Counters	react-countup
+Realtime	Socket.io
+Particles	tsparticles
+Charts	Recharts
+Glow UI	Tailwind + CSS

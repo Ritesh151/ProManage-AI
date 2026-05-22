@@ -6,21 +6,31 @@ Defines where the AI system should scan for projects
 import os
 from pathlib import Path
 
+# Base project root
+PROJECT_ROOT = str(Path(__file__).parent.parent.parent)
+
 # Define all project paths to scan
 PROJECT_PATHS = [
-    # Current project
-    str(Path(__file__).parent.parent.parent),
-    
+    # Current project root (scans frontend/, backend/, python-ai/, docs/, etc.)
+    PROJECT_ROOT,
+
+    # Explicit project directories to train
+    os.path.join(PROJECT_ROOT, 'frontend', 'src'),
+    os.path.join(PROJECT_ROOT, 'backend'),
+    os.path.join(PROJECT_ROOT, 'python-ai'),
+    os.path.join(PROJECT_ROOT, 'MD Files Documents'),
+    os.path.join(PROJECT_ROOT, 'Documents'),
+
     # Common project directories
     os.path.expanduser("~/Projects"),
     os.path.expanduser("~/Development"),
     os.path.expanduser("~/Code"),
-    
+
     # Windows paths (if applicable)
     "D:\\Projects",
     "C:\\Projects",
     "E:\\Development",
-    
+
     # Linux/Mac paths
     "/home/projects",
     "/opt/projects",

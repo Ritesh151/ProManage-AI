@@ -1,3 +1,4 @@
+// src/components/Sidebar.js
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -11,11 +12,11 @@ import {
   FiBarChart2,
   FiDownload,
   FiCpu,
-  FiDatabase,
-  FiSearch,
   FiClock,
   FiSettings,
-  FiBriefcase
+  FiBriefcase,
+  FiTrendingUp,
+  FiStar
 } from 'react-icons/fi';
 import { useApp } from '../context/AppContext';
 
@@ -31,8 +32,6 @@ const mainLinks = [
 
 const aiLinks = [
   { to: '/training', icon: FiCpu, label: 'Training Center' },
-  { to: '/knowledge', icon: FiDatabase, label: 'Knowledge Base' },
-  { to: '/search', icon: FiSearch, label: 'Semantic Search' },
   { to: '/training-history', icon: FiClock, label: 'Training History' },
 ];
 
@@ -47,7 +46,7 @@ const Sidebar = () => {
     <motion.aside
       initial={false}
       animate={{
-        width: sidebarOpen ? 260 : 72
+        width: sidebarOpen ? 280 : 80
       }}
       transition={{
         duration: 0.3,
@@ -61,15 +60,18 @@ const Sidebar = () => {
         z-50
         flex
         flex-col
-        bg-white
+        backdrop-blur-xl
+        bg-white/70
+        dark:bg-slate-900/70
         border-r
-        border-gray-100
-        shadow-sm
+        border-white/20
+        dark:border-slate-700/50
+        shadow-2xl
         overflow-hidden
       "
     >
       {/* Logo Section */}
-      <div className="flex items-center justify-between px-4 py-5 border-b border-gray-100">
+      <div className="flex items-center justify-between px-5 py-6 border-b border-white/20 dark:border-slate-700/50">
         <AnimatePresence>
           {sidebarOpen && (
             <motion.div
@@ -78,31 +80,36 @@ const Sidebar = () => {
               exit={{ opacity: 0, x: -10 }}
               transition={{ duration: 0.2 }}
             >
-              <h1 className="text-lg font-semibold text-gray-900 tracking-tight">
-                ProposalForge AI
+              <h1 className="text-xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-pink-500 bg-clip-text text-transparent">
+                OptiMatrix
               </h1>
-              <p className="text-xs text-gray-400 mt-0.5">
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
                 Ritesh Gajjar
               </p>
             </motion.div>
           )}
         </AnimatePresence>
 
-        <button
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className="
             w-8
             h-8
-            rounded-lg
-            bg-gray-50
+            rounded-xl
+            bg-gradient-to-br
+            from-blue-500/10
+            to-pink-500/10
             flex
             items-center
             justify-center
-            hover:bg-gray-100
+            hover:from-blue-500/20
+            hover:to-pink-500/20
             transition-all
             duration-200
-            text-gray-500
-            hover:text-gray-700
+            text-gray-600
+            dark:text-gray-300
           "
         >
           {sidebarOpen ? (
@@ -110,14 +117,14 @@ const Sidebar = () => {
           ) : (
             <FiChevronRight size={16} />
           )}
-        </button>
+        </motion.button>
       </div>
 
       {/* Navigation Menu */}
-      <nav className="flex-1 px-3 py-6 space-y-6 overflow-y-auto">
+      <nav className="flex-1 px-3 py-8 space-y-8 overflow-y-auto">
         {/* Main Navigation */}
-        <div className="space-y-1">
-          {mainLinks.map(({ to, icon: Icon, label }) => (
+        <div className="space-y-1.5">
+          {mainLinks.map(({ to, icon: Icon, label }, index) => (
             <NavLink
               key={to}
               to={to}
@@ -130,18 +137,27 @@ const Sidebar = () => {
                   gap-3
                   px-3
                   py-2.5
-                  rounded-lg
+                  rounded-xl
                   transition-all
-                  duration-200
+                  duration-300
+                  group
                   ${isActive
                     ? `
-                      bg-gray-100
+                      bg-gradient-to-r
+                      from-blue-600/10
+                      to-pink-500/10
                       text-gray-900
+                      dark:text-white
+                      shadow-sm
                       `
                     : `
-                      text-gray-500
-                      hover:bg-gray-50
-                      hover:text-gray-700
+                      text-gray-600
+                      dark:text-gray-400
+                      hover:bg-gradient-to-r
+                      hover:from-blue-600/5
+                      hover:to-pink-500/5
+                      hover:text-gray-900
+                      dark:hover:text-white
                       `
                   }
                 `
@@ -149,44 +165,75 @@ const Sidebar = () => {
             >
               {({ isActive }) => (
                 <>
-                  <Icon size={18} className="flex-shrink-0" />
-                  <AnimatePresence>
-                    {sidebarOpen && (
-                      <motion.span
-                        initial={{ opacity: 0, width: 0 }}
-                        animate={{ opacity: 1, width: 'auto' }}
-                        exit={{ opacity: 0, width: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="
-                          text-sm
-                          font-medium
-                          whitespace-nowrap
-                          overflow-hidden
-                        "
-                      >
-                        {label}
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeNav"
+                      className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-pink-500/10 rounded-xl"
+                      transition={{ type: "spring", duration: 0.5 }}
+                    />
+                  )}
+                  <div className="relative z-10 flex items-center gap-3">
+                    <div className={`
+                      p-1.5 rounded-lg transition-all duration-300
+                      ${isActive 
+                        ? 'text-blue-600 dark:text-blue-400' 
+                        : 'text-gray-500 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400'
+                      }
+                    `}>
+                      <Icon size={18} />
+                    </div>
+                    <AnimatePresence>
+                      {sidebarOpen && (
+                        <motion.span
+                          initial={{ opacity: 0, width: 0 }}
+                          animate={{ opacity: 1, width: 'auto' }}
+                          exit={{ opacity: 0, width: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="
+                            text-sm
+                            font-semibold
+                            whitespace-nowrap
+                            overflow-hidden
+                            tracking-tight
+                          "
+                        >
+                          {label}
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 </>
               )}
             </NavLink>
           ))}
         </div>
 
-        {/* AI System */}
+        {/* AI System Section */}
         {sidebarOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="pt-4 border-t border-gray-200"
+            className="pt-2"
           >
-            <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-              AI System
-            </p>
+            <div className="px-3 mb-3">
+              <div className="flex items-center gap-2">
+                <div className="h-px flex-1 bg-gradient-to-r from-transparent via-pink-500/30 to-transparent" />
+                <p className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                  AI Intelligence
+                </p>
+                <div className="h-px flex-1 bg-gradient-to-r from-transparent via-pink-500/30 to-transparent" />
+              </div>
+            </div>
           </motion.div>
         )}
-        <div className="space-y-1">
+        
+        {!sidebarOpen && (
+          <div className="flex justify-center pt-2">
+            <div className="w-8 h-px bg-gradient-to-r from-transparent via-pink-500/30 to-transparent" />
+          </div>
+        )}
+
+        <div className="space-y-1.5">
           {aiLinks.map(({ to, icon: Icon, label }) => (
             <NavLink
               key={to}
@@ -199,18 +246,26 @@ const Sidebar = () => {
                   gap-3
                   px-3
                   py-2.5
-                  rounded-lg
+                  rounded-xl
                   transition-all
-                  duration-200
+                  duration-300
+                  group
                   ${isActive
                     ? `
-                      bg-gray-100
+                      bg-gradient-to-r
+                      from-pink-500/10
+                      to-purple-500/10
                       text-gray-900
+                      dark:text-white
                       `
                     : `
-                      text-gray-500
-                      hover:bg-gray-50
-                      hover:text-gray-700
+                      text-gray-600
+                      dark:text-gray-400
+                      hover:bg-gradient-to-r
+                      hover:from-pink-500/5
+                      hover:to-purple-500/5
+                      hover:text-gray-900
+                      dark:hover:text-white
                       `
                   }
                 `
@@ -218,44 +273,75 @@ const Sidebar = () => {
             >
               {({ isActive }) => (
                 <>
-                  <Icon size={18} className="flex-shrink-0" />
-                  <AnimatePresence>
-                    {sidebarOpen && (
-                      <motion.span
-                        initial={{ opacity: 0, width: 0 }}
-                        animate={{ opacity: 1, width: 'auto' }}
-                        exit={{ opacity: 0, width: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="
-                          text-sm
-                          font-medium
-                          whitespace-nowrap
-                          overflow-hidden
-                        "
-                      >
-                        {label}
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeAILink"
+                      className="absolute inset-0 bg-gradient-to-r from-pink-500/10 to-purple-500/10 rounded-xl"
+                      transition={{ type: "spring", duration: 0.5 }}
+                    />
+                  )}
+                  <div className="relative z-10 flex items-center gap-3">
+                    <div className={`
+                      p-1.5 rounded-lg transition-all duration-300
+                      ${isActive 
+                        ? 'text-pink-600 dark:text-pink-400' 
+                        : 'text-gray-500 dark:text-gray-500 group-hover:text-pink-600 dark:group-hover:text-pink-400'
+                      }
+                    `}>
+                      <Icon size={18} />
+                    </div>
+                    <AnimatePresence>
+                      {sidebarOpen && (
+                        <motion.span
+                          initial={{ opacity: 0, width: 0 }}
+                          animate={{ opacity: 1, width: 'auto' }}
+                          exit={{ opacity: 0, width: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="
+                            text-sm
+                            font-semibold
+                            whitespace-nowrap
+                            overflow-hidden
+                            tracking-tight
+                          "
+                        >
+                          {label}
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 </>
               )}
             </NavLink>
           ))}
         </div>
 
-        {/* Settings */}
+        {/* System Section */}
         {sidebarOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="pt-4 border-t border-gray-200"
+            className="pt-2"
           >
-            <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-              System
-            </p>
+            <div className="px-3 mb-3">
+              <div className="flex items-center gap-2">
+                <div className="h-px flex-1 bg-gradient-to-r from-transparent via-blue-500/30 to-transparent" />
+                <p className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                  System
+                </p>
+                <div className="h-px flex-1 bg-gradient-to-r from-transparent via-blue-500/30 to-transparent" />
+              </div>
+            </div>
           </motion.div>
         )}
-        <div className="space-y-1">
+        
+        {!sidebarOpen && (
+          <div className="flex justify-center pt-2">
+            <div className="w-8 h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent" />
+          </div>
+        )}
+
+        <div className="space-y-1.5">
           {settingsLinks.map(({ to, icon: Icon, label }) => (
             <NavLink
               key={to}
@@ -268,18 +354,26 @@ const Sidebar = () => {
                   gap-3
                   px-3
                   py-2.5
-                  rounded-lg
+                  rounded-xl
                   transition-all
-                  duration-200
+                  duration-300
+                  group
                   ${isActive
                     ? `
-                      bg-gray-100
+                      bg-gradient-to-r
+                      from-blue-600/10
+                      to-indigo-500/10
                       text-gray-900
+                      dark:text-white
                       `
                     : `
-                      text-gray-500
-                      hover:bg-gray-50
-                      hover:text-gray-700
+                      text-gray-600
+                      dark:text-gray-400
+                      hover:bg-gradient-to-r
+                      hover:from-blue-600/5
+                      hover:to-indigo-500/5
+                      hover:text-gray-900
+                      dark:hover:text-white
                       `
                   }
                 `
@@ -287,25 +381,43 @@ const Sidebar = () => {
             >
               {({ isActive }) => (
                 <>
-                  <Icon size={18} className="flex-shrink-0" />
-                  <AnimatePresence>
-                    {sidebarOpen && (
-                      <motion.span
-                        initial={{ opacity: 0, width: 0 }}
-                        animate={{ opacity: 1, width: 'auto' }}
-                        exit={{ opacity: 0, width: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="
-                          text-sm
-                          font-medium
-                          whitespace-nowrap
-                          overflow-hidden
-                        "
-                      >
-                        {label}
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeSettingsLink"
+                      className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-indigo-500/10 rounded-xl"
+                      transition={{ type: "spring", duration: 0.5 }}
+                    />
+                  )}
+                  <div className="relative z-10 flex items-center gap-3">
+                    <div className={`
+                      p-1.5 rounded-lg transition-all duration-300
+                      ${isActive 
+                        ? 'text-blue-600 dark:text-blue-400' 
+                        : 'text-gray-500 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400'
+                      }
+                    `}>
+                      <Icon size={18} />
+                    </div>
+                    <AnimatePresence>
+                      {sidebarOpen && (
+                        <motion.span
+                          initial={{ opacity: 0, width: 0 }}
+                          animate={{ opacity: 1, width: 'auto' }}
+                          exit={{ opacity: 0, width: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="
+                            text-sm
+                            font-semibold
+                            whitespace-nowrap
+                            overflow-hidden
+                            tracking-tight
+                          "
+                        >
+                          {label}
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 </>
               )}
             </NavLink>
@@ -314,7 +426,7 @@ const Sidebar = () => {
       </nav>
 
       {/* Footer Section */}
-      <div className="px-4 py-5 border-t border-gray-100">
+      <div className="px-5 py-5 border-t border-white/20 dark:border-slate-700/50">
         <AnimatePresence>
           {sidebarOpen && (
             <motion.div
@@ -324,12 +436,24 @@ const Sidebar = () => {
               transition={{ duration: 0.2 }}
               className="text-center"
             >
-              <p className="text-xs text-gray-400">
-                Made by Ritesh Gajjar
-              </p>
+              <div className="flex items-center justify-center gap-1">
+                <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-blue-600 to-pink-500" />
+                <p className="text-[10px] font-medium text-gray-400 dark:text-gray-500">
+                  Made by Ritesh Gajjar
+                </p>
+                <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-pink-500 to-blue-600" />
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
+        
+        {!sidebarOpen && (
+          <div className="flex justify-center">
+            <div className="w-6 h-6 rounded-full bg-gradient-to-r from-blue-600/10 to-pink-500/10 flex items-center justify-center">
+              <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-blue-600 to-pink-500" />
+            </div>
+          </div>
+        )}
       </div>
     </motion.aside>
   );

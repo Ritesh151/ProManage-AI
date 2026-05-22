@@ -27,10 +27,13 @@ async def start_training(background_tasks: BackgroundTasks):
 
         background_tasks.add_task(run_training)
 
+        status = training_service.get_training_status()
+
         return {
             'success': True,
             'message': 'Training started',
-            'status': 'in_progress',
+            'sessionId': status.get('session_id'),
+            'isTraining': status.get('is_training', False),
         }
     except Exception as e:
         logger.error(f"Training error: {str(e)}")
@@ -52,13 +55,32 @@ async def start_retrain(background_tasks: BackgroundTasks):
 
         background_tasks.add_task(run_retrain)
 
+        status = training_service.get_training_status()
+
         return {
             'success': True,
             'message': 'Incremental training started',
-            'status': 'in_progress',
+            'sessionId': status.get('session_id'),
+            'isTraining': status.get('is_training', False),
         }
     except Exception as e:
         logger.error(f"Retrain error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/stop")
+async def stop_training():
+    """Stop active training"""
+    try:
+        logger.info("Stop training request received")
+        result = training_service.stop_training()
+
+        return {
+            'success': result['success'],
+            'message': result['message'],
+        }
+    except Exception as e:
+        logger.error(f"Stop training error: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -67,10 +89,7 @@ async def get_training_status():
     """Get training status"""
     try:
         status = training_service.get_training_status()
-        if status:
-            return status
-        else:
-            return {'status': 'idle', 'message': 'No training in progress'}
+        return status
     except Exception as e:
         logger.error(f"Status error: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -95,4 +114,15 @@ async def get_training_stats():
         return stats
     except Exception as e:
         logger.error(f"Stats error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/logs")
+async def get_training_logs():
+    """Get training logs"""
+    try:
+        logs = training_service.get_training_logs()
+        return {'logs': logs}
+    except Exception as e:
+        logger.error(f"Logs error: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))

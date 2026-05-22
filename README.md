@@ -4,7 +4,7 @@
 
 **Enterprise-Grade Project Management & Proposal Automation Platform**
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge)]()
+[![Version](https://img.shields.io/badge/version-2.0.0-blue?style=for-the-badge)]()
 [![Build](https://img.shields.io/badge/build-passing-success?style=for-the-badge)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![Node](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
@@ -13,6 +13,9 @@
 [![Express](https://img.shields.io/badge/Express-4-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Python](https://img.shields.io/badge/Python-3.13-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
+[![ChromaDB](https://img.shields.io/badge/ChromaDB-FFD000?style=for-the-badge)](https://www.trychroma.com/)
+[![LLM](https://img.shields.io/badge/LLM-OpenAI%20%7C%20Gemini%20%7C%20Ollama%20%7C%20Anthropic-8A2BE2?style=for-the-badge)]()
 [![Maintenance](https://img.shields.io/badge/maintenance-active-success?style=for-the-badge)]()
 [![Deployment](https://img.shields.io/badge/deployment-ready-blue?style=for-the-badge)]()
 [![PRs](https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge)]()
@@ -47,7 +50,7 @@
 
 **ProposalForge AI** is a full-stack MERN application that streamlines the sales and project planning lifecycle for agencies, freelancers, and consulting firms. It enables users to create and manage projects, dynamically select scope of work and technologies, perform automated cost calculations, and generate professional proposals in PDF or DOCX format — all with a single click.
 
-An integrated **AI Knowledge System** (Node.js + Python microservice) provides semantic search, intelligent Q&A over project code, and a ChatGPT-style chat interface, powered by LLMs (OpenAI / Gemini / Ollama) and vector embeddings.
+An integrated **AI Knowledge System** (Node.js + Python microservice) provides intelligent Q&A over project code and a ChatGPT-style chat interface, powered by multiple LLM providers (OpenAI, Gemini, Ollama, Anthropic) and vector embeddings via ChromaDB. The system features a fully functional Training Center with real-time progress tracking, live logs, and training history.
 
 | Aspect | Details |
 | :--- | :--- |
@@ -91,13 +94,15 @@ An integrated **AI Knowledge System** (Node.js + Python microservice) provides s
 - Custom ad-hoc line items with specific pricing
 
 ### 🤖 AI Knowledge System
-- Semantic search over project codebase using vector embeddings (384-dim)
 - ChatGPT-style conversational chat interface
 - Supports OpenAI, Gemini, and local Ollama LLM providers
-- Automatic project discovery and file ingestion
+- **New LLM Integration**: Added support for additional LLM providers with flexible configuration via `AI_LLM_PROVIDER` environment variable
+- **Enhanced Training Pipeline**: Full training, incremental retraining, and safe stop controls via Training Center UI
+- Automatic project discovery and file ingestion across `frontend/`, `backend/`, `python-ai/`, `docs/`, `templates/`
 - Real-time file watcher for incremental indexing
-- Training pipeline with CLI commands (`npm run train-ai`, `npm run retrain-ai`, `npm run ai-status`)
-- Python FastAPI microservice for advanced AI operations
+- Training Center page with real-time progress bars, live logs, training history, and knowledge statistics
+- Python FastAPI microservice for advanced AI operations with ChromaDB vector storage
+- Polling-based real-time status updates (2s interval) during training sessions
 
 ---
 
@@ -106,7 +111,7 @@ An integrated **AI Knowledge System** (Node.js + Python microservice) provides s
 ```
 ┌─────────────────────────────────────────────────────┐
 │                  React Frontend                      │
-│   (ProposalForge UI + AI Chat Interface)            │
+│   (ProposalForge UI + AI Chat + Training Center)    │
 └──────────────────────┬──────────────────────────────┘
                        │  REST API (HTTP / JSON)
                        ▼
@@ -132,27 +137,39 @@ An integrated **AI Knowledge System** (Node.js + Python microservice) provides s
 ┌─────────────────────────────────────────────────────┐
 │                    MongoDB                           │
 │              (Mongoose ODM via Mongoose 8)           │
-└──────────────────────┬──────────────────────────────┘
-                       │
-                       ▼
-┌─────────────────────────────────────────────────────┐
-│          Document Generation Services                │
-│  ┌──────────┐ ┌────────┐ ┌───────┐ ┌───────────┐  │
-│  │ Puppeteer│ │ docx   │ │json2csv│ │ xlsx      │  │
-│  │ (PDF)    │ │ (DOCX) │ │ (CSV)  │ │ (Excel)   │  │
-│  └──────────┘ └────────┘ └───────┘ └───────────┘  │
+│   ┌─────────────┐ ┌──────────────┐ ┌─────────────┐ │
+│   │ Projects    │ │ AIDocument   │ │ AITraining  │ │
+│   │ Scopes      │ │ AIChatHistory│ │ Sessions    │ │
+│   └─────────────┘ └──────────────┘ └─────────────┘ │
 └─────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────┐
 │              AI Knowledge System                     │
 │  ┌─────────────────────┐  ┌──────────────────────┐  │
 │  │ Node.js AI Layer    │  │ Python FastAPI       │  │
-│  │ (LangChain-style)   │◄─┤ Microservice         │  │
-│  │ - Chat Service      │  │ - LangChain          │  │
-│  │ - Embedding Service │  │ - ChromaDB (vectors) │  │
-│  │ - Training Pipeline │  │ - Sentence           │  │
-│  │ - File Watcher      │  │   Transformers       │  │
-│  └─────────────────────┘  └──────────────────────┘  │
+│  │ (Training Pipeline) │◄─┤ Microservice         │  │
+│  │ - AITrainingService │  │ - AITrainingService  │  │
+│  │ - AIEmbeddingSvc    │  │ - AIEmbeddingService │  │
+│  │ - AIIngestService   │  │ - AIIngestService    │  │
+│  │ - AIChatService     │  │ - AIChatService      │  │
+│  │ - File Watcher      │  │ - File Watcher       │  │
+│  │ - PythonAIClient    │  │ - Project Discovery  │  │
+│  └─────────────────────┘  └──────────┬───────────┘  │
+│                                      │              │
+│                                      ▼              │
+│                          ┌──────────────────────┐  │
+│                          │  ChromaDB            │  │
+│                          │  (Vector Database)   │  │
+│                          │  - Embeddings        │  │
+│                          │  - Vector Search     │  │
+│                          └──────────────────────┘  │
+│                                      │              │
+│                                      ▼              │
+│                          ┌──────────────────────┐  │
+│                          │  LLM Provider        │  │
+│                          │  OpenAI / Gemini /   │  │
+│                          │  Ollama / Anthropic  │  │
+│                          └──────────────────────┘  │
 └─────────────────────────────────────────────────────┘
 ```
 
@@ -166,13 +183,17 @@ graph TD
     D --> E[MongoDB]
     D --> F[PDF/DOCX/CSV/Excel Engine]
     D --> G[AI Chat Service]
-    G --> H[Python AI Microservice]
-    H --> I[ChromaDB Vector Store]
-    H --> J[LLM Provider<br/>OpenAI / Gemini / Ollama]
+    D --> H[AI Training Service]
+    G --> I[Python AI Microservice]
+    H --> I
+    I --> J[ChromaDB Vector Store]
+    I --> K[LLM Provider<br/>OpenAI / Gemini / Ollama / Anthropic]
 
     style A fill:#61DAFB,color:#000
     style B fill:#68A063,color:#fff
     style E fill:#4EA94B,color:#fff
+    style J fill:#FFD000,color:#000
+    style K fill:#8A2BE2,color:#fff
 ```
 
 ---
@@ -224,20 +245,29 @@ graph TD
 | Technology | Purpose |
 | :--- | :--- |
 | **LangChain-style Services** | AI chat, embedding, ingestion, training pipeline |
-| **uuid** | Unique conversation IDs |
-| **Axios** | HTTP client to Python microservice |
+| **AITrainingService** | Full training, incremental retraining, stop controls, progress tracking, real-time logs |
+| **AIProjectDiscoveryService** | Auto-discovery of projects from configured paths |
+| **AIIngestService** | File scanning, chunking (1000/200 overlap), metadata extraction |
+| **AIEmbeddingService** | Embedding generation with ChromaDB storage, caching, cosine similarity search |
+| **AIWatcherService** | File change detection for incremental retraining |
+| **PythonAIClient** | HTTP client with retry logic for Python microservice communication |
+| **uuid** | Unique session and conversation IDs |
+| **Axios** | HTTP client for Python microservice and external APIs |
 
 ### AI Knowledge System (Python Microservice)
 
 | Technology | Purpose |
 | :--- | :--- |
-| **FastAPI** | Python web framework |
+| **FastAPI** | Python web framework for AI microservice |
 | **LangChain + LangChain-Community** | LLM orchestration & RAG pipelines |
-| **ChromaDB** | Vector database for semantic search |
-| **sentence-transformers** | 384-dim embedding generation |
-| **OpenAI / Gemini / Ollama** | LLM provider support |
-| **PyMongo / Motor** | MongoDB integration |
-| **pypdf / python-docx** | PDF and DOCX text extraction |
+| **ChromaDB** | Vector database for semantic search and embedding storage |
+| **sentence-transformers** | 384-dim embedding generation (all-MiniLM-L6-v2) |
+| **OpenAI / Gemini / Ollama** | Multi-LLM provider support with configurable selection |
+| **New LLM Providers** | Extended support for additional LLM backends via environment configuration |
+| **PyMongo / Motor** | MongoDB integration for training session persistence |
+| **pypdf / python-docx** | PDF and DOCX text extraction for knowledge ingestion |
+| **numpy** | Numerical computing for embedding operations |
+| **Threading** | Background training execution with abort controls |
 
 ---
 
@@ -297,7 +327,6 @@ Project B/
 │       │   ├── ExportCard.jsx
 │       │   ├── FilterBar.jsx
 │       │   ├── GanttChart.js
-│       │   ├── KnowledgeCard.jsx
 │       │   ├── Loader.js
 │       │   ├── MultiSelect.js
 │       │   ├── PageHeader.jsx
@@ -311,7 +340,6 @@ Project B/
 │       │   ├── ScopeCategoryCard.jsx
 │       │   ├── ScopeItemCard.jsx
 │       │   ├── ScopeItemModal.jsx
-│       │   ├── SearchResultCard.jsx
 │       │   ├── SettingSection.jsx
 │       │   ├── Sidebar.js
 │       │   └── TrainingStatusCard.jsx
@@ -325,7 +353,6 @@ Project B/
 │       │   ├── useExport.js
 │       │   ├── useProjectForm.js
 │       │   ├── useScope.js
-│       │   ├── useSearch.js
 │       │   ├── useSettings.js
 │       │   └── useTraining.js
 │       ├── pages/                     # Main application pages
@@ -335,12 +362,10 @@ Project B/
 │       │   ├── ExportCenter.jsx
 │       │   ├── ExportData.js
 │       │   ├── Home.js
-│       │   ├── KnowledgeBase.jsx
 │       │   ├── NotFound.js
 │       │   ├── Projects.js
 │       │   ├── Proposal.js
 │       │   ├── ScopeOfWork.jsx
-│       │   ├── SemanticSearch.jsx
 │       │   ├── Settings.jsx
 │       │   ├── TrainingCenter.jsx
 │       │   └── TrainingHistory.jsx
@@ -350,7 +375,6 @@ Project B/
 │       │   ├── api.js
 │       │   ├── exportService.js
 │       │   ├── scopeService.js
-│       │   ├── searchService.js
 │       │   ├── settingsService.js
 │       │   └── trainingService.js
 │       └── utils/                     # Helper functions
@@ -368,33 +392,32 @@ Project B/
 │   │   ├── init.js                    # AI system initialization
 │   │   ├── README.md                  # AI system documentation
 │   │   ├── config/                    # AI configuration
-│   │   │   ├── aiConfig.js
-│   │   │   └── projectPaths.js
+│   │   │   ├── aiConfig.js            # LLM, embedding, vector DB, chunking config
+│   │   │   └── projectPaths.js        # Project scan paths, file extensions, exclusions
 │   │   ├── controllers/               # AI route handlers
-│   │   │   └── aiController.js
+│   │   │   └── aiController.js        # Train, retrain, stop, status, chat, logs endpoints
 │   │   ├── models/                    # AI data models
-│   │   │   ├── AIChatHistory.js
-│   │   │   ├── AIDocument.js
-│   │   │   └── AITrainingSession.js
+│   │   │   ├── AIChatHistory.js       # Chat conversation model
+│   │   │   ├── AIDocument.js          # Indexed document model
+│   │   │   └── AITrainingSession.js   # Training session tracking model
 │   │   ├── routes/                    # AI API routes
 │   │   │   └── aiRoutes.js            # /api/ai/* endpoints
 │   │   ├── services/                  # AI business logic
-│   │   │   ├── AIChatService.js
-│   │   │   ├── AIEmbeddingService.js
-│   │   │   ├── AIIngestService.js
-│   │   │   ├── AIKnowledgeService.js
-│   │   │   ├── AIProjectDiscoveryService.js
-│   │   │   ├── AITrainingService.js
-│   │   │   ├── AIWatcherService.js
-│   │   │   └── PythonAIClient.js
+│   │   │   ├── AIChatService.js       # Chat conversation handling
+│   │   │   ├── AIEmbeddingService.js  # Embedding generation + ChromaDB storage
+│   │   │   ├── AIIngestService.js     # File ingestion, chunking, metadata
+│   │   │   ├── AIProjectDiscoveryService.js  # Auto project discovery
+│   │   │   ├── AITrainingService.js   # Training orchestration (full/incremental/stop)
+│   │   │   ├── AIWatcherService.js    # File change detection
+│   │   │   └── PythonAIClient.js      # HTTP client to Python microservice
 │   │   ├── scripts/                   # CLI scripts
 │   │   │   ├── aiStatus.js
 │   │   │   ├── retrainAI.js
 │   │   │   └── trainAI.js
 │   │   └── utils/                     # AI utilities
-│   │       ├── fileUtils.js
-│   │       ├── logger.js
-│   │       └── textUtils.js
+│   │       ├── fileUtils.js           # File scanning, hashing, metadata extraction
+│   │       ├── logger.js              # Structured logging
+│   │       └── textUtils.js           # Text chunking, cleaning, keyword extraction
 │   ├── config/
 │   │   └── db.js                      # MongoDB connection
 │   ├── controllers/                   # Route request handlers
@@ -424,10 +447,8 @@ Project B/
 │   │   ├── exportService.js
 │   │   ├── pdfService.js
 │   │   ├── proposalService.js
-│   │   ├── proposalService copy.js    # Backup file
 │   │   ├── scopeService.js            # Scope management service
-│   │   ├── wordService.js
-│   │   └── Style Options.html         # Proposal style templates
+│   │   └── wordService.js
 │   └── utils/
 │       └── apiResponse.js             # API response helper
 │
@@ -443,29 +464,29 @@ Project B/
 │   ├── logs/                          # Log files
 │   ├── config/                        # Configuration
 │   │   ├── __init__.py
-│   │   ├── aiConfig.py
-│   │   ├── projectPaths.py
-│   │   └── settings.py
+│   │   ├── aiConfig.py                # Embedding and LLM configuration
+│   │   ├── projectPaths.py            # Project scan paths
+│   │   └── settings.py                # Application settings
 │   ├── routes/                        # API routes
 │   │   ├── __init__.py
-│   │   ├── chatRoutes.py
-│   │   ├── healthRoutes.py
-│   │   ├── statusRoutes.py
-│   │   └── trainRoutes.py
+│   │   ├── chatRoutes.py              # Chat endpoints
+│   │   ├── healthRoutes.py            # Health check endpoint
+│   │   ├── statusRoutes.py            # Status and projects endpoints
+│   │   └── trainRoutes.py             # Train, retrain, stop, status, history, stats, logs
 │   ├── services/                      # AI microservices
 │   │   ├── __init__.py
-│   │   ├── AIChatService.py
-│   │   ├── AIEmbeddingService.py
-│   │   ├── AIHealthService.py
-│   │   ├── AIIngestService.py
-│   │   ├── AIProjectDiscoveryService.py
-│   │   ├── AITrainingService.py
-│   │   └── AIWatcherService.py
+│   │   ├── AIChatService.py           # Chat conversation handling
+│   │   ├── AIEmbeddingService.py      # Embedding generation with sentence-transformers
+│   │   ├── AIHealthService.py         # Health monitoring
+│   │   ├── AIIngestService.py         # File ingestion and chunking
+│   │   ├── AIProjectDiscoveryService.py  # Project discovery from paths
+│   │   ├── AITrainingService.py       # Training orchestration with threading/abort
+│   │   └── AIWatcherService.py        # File change detection
 │   └── utils/                         # Utility functions
 │       ├── __init__.py
-│       ├── fileUtils.py
-│       ├── logger.py
-│       └── textUtils.py
+│       ├── fileUtils.py               # File scanning, hashing, metadata
+│       ├── logger.py                  # Structured logging
+│       └── textUtils.py               # Text chunking, cleaning, keyword extraction
 │
 ├── Documents/                         # Generated proposal PDFs
 ├── .gitignore
@@ -535,9 +556,35 @@ uvicorn app:app --reload     # Starts on http://localhost:8000
 
 ### 5. Train AI Knowledge Base
 
+**Option A: Via Training Center UI (Recommended)**
+1. Navigate to `http://localhost:3000/training-center`
+2. Click **Start Training** for full training or **Retrain** for incremental updates
+3. Monitor real-time progress, logs, and statistics in the Training Center dashboard
+
+**Option B: Via CLI Commands**
 ```bash
 cd backend
 npm run train-ai       # Index project files into vector store
+npm run retrain-ai     # Incremental training (changed files only)
+npm run ai-status      # Check AI system status
+```
+
+**Option C: Via API**
+```bash
+# Start full training
+curl -X POST http://localhost:5000/api/ai/train
+
+# Start incremental training
+curl -X POST http://localhost:5000/api/ai/retrain
+
+# Stop active training
+curl -X POST http://localhost:5000/api/ai/stop
+
+# Check training status
+curl http://localhost:5000/api/ai/status
+
+# View training logs
+curl http://localhost:5000/api/ai/training/logs
 ```
 
 ---
@@ -555,9 +602,9 @@ PORT=5000
 NODE_ENV=development
 
 # AI System Configuration
-AI_LLM_PROVIDER=openai           # openai | gemini | ollama
-AI_EMBEDDING_PROVIDER=huggingface
-AI_VECTOR_DB_TYPE=chroma
+AI_LLM_PROVIDER=openai           # openai | gemini | ollama | anthropic | custom
+AI_EMBEDDING_PROVIDER=huggingface # huggingface | openai
+AI_VECTOR_DB_TYPE=chroma         # chroma | pinecone | weaviate
 
 # OpenAI Configuration (required if AI_LLM_PROVIDER=openai)
 OPENAI_API_KEY=sk-your-key-here
@@ -573,6 +620,15 @@ GEMINI_TEMPERATURE=0.7
 # Ollama Configuration (optional, for local LLM)
 OLLAMA_BASE_URL=http://localhost:11434
 OLLAMA_MODEL=mistral
+
+# Anthropic Configuration (optional, for Claude)
+ANTHROPIC_API_KEY=your-key-here
+ANTHROPIC_MODEL=claude-3-sonnet-20240229
+
+# Custom LLM Configuration (optional, for custom OpenAI-compatible endpoints)
+CUSTOM_LLM_BASE_URL=http://localhost:8080/v1
+CUSTOM_LLM_MODEL=custom-model
+CUSTOM_LLM_API_KEY=optional-key
 
 # Chroma Vector Database
 CHROMA_HOST=localhost
@@ -590,6 +646,9 @@ AI_MAX_CONCURRENT_FILES=5
 # AI Watcher
 AI_WATCHER_ENABLED=true
 AI_WATCHER_DEBOUNCE=2000
+
+# Python AI Microservice
+PYTHON_AI_URL=http://localhost:8000
 ```
 
 ---
@@ -600,12 +659,14 @@ AI_WATCHER_DEBOUNCE=2000
 flowchart LR
     A[MongoDB] --> B[Backend<br/>:5000]
     C[Python AI<br/>Microservice :8000] --> B
-    B --> D[Frontend<br/>:3000]
+    D[ChromaDB<br/>:8000] --> C
+    B --> E[Frontend<br/>:3000]
 ```
 
 | Service | Command | Directory | URL |
 | :--- | :--- | :--- | :--- |
 | MongoDB | `docker run -d -p 27017:27017 mongo:latest` | — | `mongodb://localhost:27017` |
+| ChromaDB | `docker run -d -p 8000:8000 chromadb/chroma` | — | `http://localhost:8000` |
 | Backend | `npm run dev` | `./backend` | `http://localhost:5000` |
 | Frontend | `npm start` | `./frontend` | `http://localhost:3000` |
 | Python AI | `uvicorn app:app --reload` | `./python-ai` | `http://localhost:8000` |
@@ -652,12 +713,14 @@ flowchart LR
 
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
-| `POST` | `/api/ai/train` | Start full training |
-| `POST` | `/api/ai/retrain` | Start incremental training |
-| `GET` | `/api/ai/status` | Get AI system status |
-| `GET` | `/api/ai/training-history` | Get training sessions |
-| `GET` | `/api/ai/training-stats` | Get training statistics |
-| `POST` | `/api/ai/chat` | Send a chat message |
+| `POST` | `/api/ai/train` | Start full training of knowledge base |
+| `POST` | `/api/ai/retrain` | Start incremental training (changed files only) |
+| `POST` | `/api/ai/stop` | Stop active training session safely |
+| `GET` | `/api/ai/status` | Get AI system status and current training progress |
+| `GET` | `/api/ai/training-history` | Get training session history |
+| `GET` | `/api/ai/training-stats` | Get training statistics (documents, chunks, sessions) |
+| `GET` | `/api/ai/training/logs` | Get real-time training logs |
+| `POST` | `/api/ai/chat` | Send a chat message and get AI response |
 | `GET` | `/api/ai/conversation/:id` | Get conversation by ID |
 | `GET` | `/api/ai/conversations` | Get all user conversations |
 | `DELETE` | `/api/ai/conversation/:id` | Clear a conversation |
@@ -667,6 +730,8 @@ flowchart LR
 ---
 
 ## 🔄 Workflow
+
+### Project & Proposal Workflow
 
 ```mermaid
 graph TD;
@@ -679,9 +744,30 @@ graph TD;
     G --> H[Preview Proposal]
     H --> I[Download PDF / DOCX]
     E --> J[Ask AI Assistant]
-    J --> K[Semantic Search / Chat]
-    K --> L[Get Insights from Codebase]
+    J --> K[Get Insights from Codebase]
 ```
+
+### AI Training Workflow
+
+```mermaid
+graph TD;
+    A[Training Center Page] --> B[Click Start Training]
+    B --> C[Scan Project Folders]
+    C --> D[Discover Supported Files]
+    D --> E[Read File Content]
+    E --> F[Create Chunks (1000/200 overlap)]
+    F --> G[Generate Embeddings]
+    G --> H[Store in ChromaDB]
+    H --> I[Save Metadata to MongoDB]
+    I --> J[Training Complete]
+
+    style A fill:#61DAFB,color:#000
+    style J fill:#4EA94B,color:#fff
+```
+
+**Retrain Workflow:** Only processes files with changed hashes or modified timestamps, skipping unchanged files for faster incremental updates.
+
+**Stop Training:** Safely aborts the active training session using AbortController (Node.js) / threading.Event (Python), preserving partial progress.
 
 ---
 
@@ -720,20 +806,31 @@ cd python-ai && uvicorn app:app --host 0.0.0.0 --port 8000
 | MongoDB connection refused | Ensure MongoDB is running (`docker ps` or `mongod`) |
 | Backend won't start | Verify `MONGODB_URI` in `.env` and run `npm install` |
 | PDF generation fails | Ensure Chrome/Chromium is available (Puppeteer requirement) |
-| AI chat returns empty | Run `npm run train-ai` first to index project files |
+| AI chat returns empty | Run training from Training Center first to index project files |
 | Python microservice errors | Activate the virtual environment and verify dependencies |
 | CORS errors | Check that frontend proxy is set to `http://localhost:5000` |
 | Slow AI responses | First response is slower (embedding generation); subsequent responses use cache |
+| Training stuck at 0% | Check Python service is running at `http://localhost:8000` and ChromaDB is available |
+| "No projects found to train" | Verify project paths in `backend/ai/config/projectPaths.js` include your project directories |
+| Training failed error | Check logs in Training Center → Logs tab for specific error messages |
+| ChromaDB unavailable | Ensure ChromaDB is running or check `CHROMA_HOST` and `CHROMA_PORT` in `.env` |
+| Stop training not working | Training stop uses graceful abort; current file processing will complete before stopping |
 
 ---
 
 ## 🔮 Future Improvements
 
+- [x] **Functional Training Center**: Fully functional Training Center with real-time progress, logs, history, and statistics
+- [x] **Enhanced LLM Support**: Added support for additional LLM providers (Anthropic, custom OpenAI-compatible endpoints)
+- [x] **Stop Training Control**: Safe training abort with progress preservation
 - [ ] **Email Integration**: Send proposals directly to clients via email
 - [ ] **AI Proposal Suggestions**: OpenAI integration for dynamically writing project summaries
 - [ ] **Multi-User Roles**: Admin, Manager, and Sales representative roles
 - [ ] **Authentication**: Secure JWT login system
+- [ ] **WebSocket Real-time Updates**: Replace polling with WebSocket for instant training updates
 - [ ] **Cloud Deployment**: One-click deploy configurations (Docker, AWS, Vercel)
+- [ ] **Advanced RAG**: Hybrid search (BM25 + embeddings), re-ranking, multi-hop reasoning
+- [ ] **Training Scheduling**: Automated periodic retraining based on file change detection
 
 ---
 

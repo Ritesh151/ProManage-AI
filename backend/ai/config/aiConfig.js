@@ -3,6 +3,7 @@
  * Central configuration for all AI components
  */
 
+// this is the aiConfig.js which includes the 
 require('dotenv').config();
 
 const AI_CONFIG = {
