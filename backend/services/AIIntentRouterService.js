@@ -13,10 +13,6 @@ const AIPageActionService = require('./AIPageActionService');
 const AIKnowledgeService = require('./AIKnowledgeService');
 const AIIntentRouter = require('./AIIntentRouter');
 
-const PREDEFINED_INTENTS = new Set([
-  'create_project_help', 'pdf_export_help', 'project_structure_help', 'assistant_capabilities',
-]);
-
 const LIST_INTENTS = new Set(['show_all_projects', 'show_recent_projects', 'show_active_projects', 'active_projects', 'completed_projects']);
 
 const PROJECT_INTENTS = new Set([

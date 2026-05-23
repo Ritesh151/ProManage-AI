@@ -45,6 +45,7 @@ const AIChat = () => {
   const [initialLoad, setInitialLoad] = useState(true);
   const [followUpSuggestions, setFollowUpSuggestions] = useState([]);
   const [confirmModal, setConfirmModal] = useState(null);
+  const [lastMessage, setLastMessage] = useState(null);
   const messagesEndRef = useRef(null);
 
   const newSession = useCallback(() => {
@@ -54,6 +55,7 @@ const AIChat = () => {
     setCurrentProject(null);
     setStreamingId(null);
     setFollowUpSuggestions([]);
+    setLastMessage(null);
   }, []);
 
   useEffect(() => {
@@ -67,6 +69,22 @@ const AIChat = () => {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, loading]);
+
+  useEffect(() => {
+    if (lastMessage?.responseType === 'navigation' && lastMessage?.route) {
+      console.log('Navigation response:', lastMessage);
+      console.log('Route:', lastMessage.route);
+      const timer = setTimeout(() => {
+        try {
+          navigate(lastMessage.route);
+          console.log('Redirect success');
+        } catch {
+          window.location.href = lastMessage.route;
+        }
+      }, 700);
+      return () => clearTimeout(timer);
+    }
+  }, [lastMessage, navigate]);
 
   const checkHealth = async () => {
     try {
@@ -162,18 +180,26 @@ const AIChat = () => {
       setFollowUpSuggestions(res.followUpSuggestions || []);
       setRecentSearches((prev) => [text, ...prev.filter((q) => q !== text)].slice(0, 8));
 
-      if (res.intent === 'navigation' && res.route) {
-        setMessages((prev) => [...prev, {
+      const nav = res.responseType === 'navigation' || res.intent === 'navigation';
+      const route = res.route || (res.data?.route) || (res.responseType === 'navigation' ? '/' : null);
+
+      if (nav && route) {
+        const navMsg = {
           id: Date.now() + 1,
           role: 'assistant',
-          content: res.message || `Navigating to ${res.route}`,
+          content: res.message || `Opening ${res.page || 'page'}...`,
           format: 'markdown',
           intent: 'navigation',
-          data: { route: res.route, page: res.page },
+          responseType: 'navigation',
+          data: { route, page: res.page },
+          route,
+          page: res.page,
+          message: res.message,
           verified: true,
           timestamp: new Date(),
-        }]);
-        setTimeout(() => navigate(res.route), 500);
+        };
+        setMessages((prev) => [...prev, navMsg]);
+        setLastMessage(navMsg);
         setLoading(false);
         loadSessions();
         return;

@@ -24,8 +24,9 @@ const NAVIGATION_PHRASES = [
   /^(?:take|bring|lead|direct)\s+(?:me\s+)?(?:to|into)\s+(.+)/i,
   /^(?:go|move|jump|switch|head)\s+(?:to|over\s+to|into)\s+(.+)/i,
   /^(?:open|launch)\s+(?:the\s+)?(?:page\s+)?(.+?)(?:\s+page)?$/i,
-  /^(?:navigate|redirect)\s+(?:to|me\s+to)\s+(.+)/i,
+  /^(?:navigate|redirect)\s+(?:to|me\s+to)?\s*(.+)/i,
   /^(?:i want|i need)\s+(?:to\s+)?(?:go|navigate)\s+(?:to\s+)?(.+)/i,
+  /^(?:show|take)\s+me\s+(?:to\s+)?(.+)/i,
 ];
 
 class AINavigationService {
@@ -55,6 +56,8 @@ class AINavigationService {
           page: key,
           route: info.route,
           message: `Opening ${info.label} page`,
+          content: `🔄 *${info.label}*\n\nOpening **${info.label}** page...`,
+          format: 'markdown',
         };
       }
     }
