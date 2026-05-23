@@ -460,8 +460,8 @@ ProposalForge-AI/
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/riteshpatil12/ProposalForge-AI.git
-cd ProposalForge-AI
+git clone https://github.com/Ritesh151/ProManage-AI.git
+cd ProManage-AI
 ```
 
 ### 1️⃣ Backend Setup
@@ -514,7 +514,7 @@ PORT=5000
 NODE_ENV=development
 
 # MongoDB
-MONGODB_URI=mongodb://localhost:27017/proposalforge
+MONGODB_URI=mongodb://localhost:27017/promanage
 
 # JWT
 JWT_SECRET=your_jwt_secret_here
@@ -909,9 +909,9 @@ cd backend && npm run lint
 <table>
   <tr>
     <td align="center">
-      <a href="https://github.com/riteshpatil12">
-        <img src="https://github.com/riteshpatil12.png" width="100px" style="border-radius: 50%;" alt="Ritesh Patil"/><br />
-        <sub><b>Ritesh Patil</b></sub>
+      <a href="https://github.com/Ritesh151">
+        <img src="https://github.com/Ritesh151.png" width="100px" style="border-radius: 50%;" alt="Ritesh Gajjar"/><br />
+        <sub><b>Ritesh Gajjar</b></sub>
       </a>
       <br />
       <sub>🚀 Full-Stack & AI Developer</sub>
@@ -920,14 +920,14 @@ cd backend && npm run lint
 </table>
 
 <p>
-  <a href="https://github.com/riteshpatil12">
-    <img src="https://img.shields.io/badge/GitHub-riteshpatil12-181717?style=for-the-badge&logo=github" />
+  <a href="https://github.com/Ritesh151">
+    <img src="https://img.shields.io/badge/GitHub-Ritesh151-181717?style=for-the-badge&logo=github" />
   </a>
-  <a href="https://www.linkedin.com/in/riteshpatil12/">
-    <img src="https://img.shields.io/badge/LinkedIn-Ritesh%20Patil-0A66C2?style=for-the-badge&logo=linkedin" />
+  <a href="https://www.linkedin.com/in/ritesh-gajjar/">
+    <img src="https://img.shields.io/badge/LinkedIn-Ritesh%20Gajjar-0A66C2?style=for-the-badge&logo=linkedin" />
   </a>
-  <a href="mailto:riteshpatil.dev@gmail.com">
-    <img src="https://img.shields.io/badge/Email-riteshpatil.dev%40gmail.com-EA4335?style=for-the-badge&logo=gmail" />
+  <a href="mailto:ritesh.work.1510@gmail.com">
+    <img src="https://img.shields.io/badge/Email-ritesh.work.1510%40gmail.com-EA4335?style=for-the-badge&logo=gmail" />
   </a>
 </p>
 
@@ -955,7 +955,7 @@ Distributed under the **MIT License**. See `LICENSE` for more information.
 ```
 MIT License
 
-Copyright (c) 2026 Ritesh Patil
+Copyright (c) 2026 Ritesh Gajjar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -1014,7 +1014,7 @@ SOFTWARE.
 </svg>
 
 <p>
-  <sub>© 2026 Ritesh Patil — ProposalForge AI v2.0</sub>
+  <sub>© 2026 Ritesh Gajjar — ProposalForge AI v2.0</sub>
 </p>
 
 </div>
