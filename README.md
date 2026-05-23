@@ -1,26 +1,121 @@
 <div align="center">
 
-# 🚀 ProposalForge AI
+<!-- Animated Gradient Background -->
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12&height=200&section=header&text=ProposalForge%20AI&fontSize=60&fontAlignY=35&animation=fadeIn&fontColor=white" width="100%" alt="Header"/>
 
-**Enterprise-Grade Project Management & Proposal Automation Platform**
+# <picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://fonts.gstatic.com/education/fonts/Starling/v3/wave.svg">
+  <img src="https://fonts.gstatic.com/education/fonts/Starling/v3/wave.svg" width="40" height="40" alt="✨">
+</picture> **ProposalForge AI** <picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://fonts.gstatic.com/education/fonts/Starling/v3/wave.svg">
+  <img src="https://fonts.gstatic.com/education/fonts/Starling/v3/wave.svg" width="40" height="40" alt="✨" style="transform: scaleX(-1)">
+</picture>
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue?style=for-the-badge)]()
-[![Build](https://img.shields.io/badge/build-passing-success?style=for-the-badge)]()
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
-[![Node](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
-[![React](https://img.shields.io/badge/React-18-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-8-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
-[![Express](https://img.shields.io/badge/Express-4-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![Python](https://img.shields.io/badge/Python-3.13-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
-[![ChromaDB](https://img.shields.io/badge/ChromaDB-FFD000?style=for-the-badge)](https://www.trychroma.com/)
-[![LLM](https://img.shields.io/badge/LLM-OpenAI%20%7C%20Gemini%20%7C%20Ollama%20%7C%20Anthropic-8A2BE2?style=for-the-badge)]()
-[![Maintenance](https://img.shields.io/badge/maintenance-active-success?style=for-the-badge)]()
-[![Deployment](https://img.shields.io/badge/deployment-ready-blue?style=for-the-badge)]()
-[![PRs](https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge)]()
+### ⚡ **Enterprise-Grade Project Management & Proposal Automation Platform**
+
+<!-- Animated Badges with Hover Effects -->
+<div style="display: inline-block; margin: 10px;">
+
+<a href="https://nodejs.org/">
+  <img src="https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=nodedotjs&logoColor=white&labelColor=1a1a1a&color=339933" alt="Node.js" style="transition: transform 0.3s;">
+</a>
+
+<a href="https://reactjs.org/">
+  <img src="https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=white&labelColor=1a1a1a&color=61DAFB" alt="React">
+</a>
+
+<a href="https://www.mongodb.com/">
+  <img src="https://img.shields.io/badge/MongoDB-8-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white&labelColor=1a1a1a&color=4EA94B" alt="MongoDB">
+</a>
+
+<a href="https://expressjs.com/">
+  <img src="https://img.shields.io/badge/Express-4-000000?style=for-the-badge&logo=express&logoColor=white&labelColor=1a1a1a&color=000000" alt="Express">
+</a>
+
+<a href="https://tailwindcss.com/">
+  <img src="https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white&labelColor=1a1a1a&color=38B2AC" alt="Tailwind CSS">
+</a>
+
+<a href="https://python.org/">
+  <img src="https://img.shields.io/badge/Python-3.13-3776AB?style=for-the-badge&logo=python&logoColor=white&labelColor=1a1a1a&color=3776AB" alt="Python">
+</a>
+
+<a href="https://fastapi.tiangolo.com/">
+  <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi&logoColor=white&labelColor=1a1a1a&color=005571" alt="FastAPI">
+</a>
+
+<a href="https://www.trychroma.com/">
+  <img src="https://img.shields.io/badge/ChromaDB-FFD000?style=for-the-badge&logo=chromadb&logoColor=black&labelColor=1a1a1a&color=FFD000" alt="ChromaDB">
+</a>
+
+<a href="#">
+  <img src="https://img.shields.io/badge/LLM-Multi--Model-8A2BE2?style=for-the-badge&logo=openai&logoColor=white&labelColor=1a1a1a&color=8A2BE2" alt="LLM Support">
+</a>
 
 </div>
+
+<!-- Animated Status Indicators -->
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=18&duration=3000&pause=500&color=8A2BE2&center=true&vCenter=true&width=500&lines=✨+AI-Powered+Proposals+✨;📊+Real-time+Analytics;🤖+Smart+Automation;⚡+Enterprise+Scalability;🚀+99.9%+Uptime" alt="Animated Status" />
+</p>
+
+<!-- Animated Divider -->
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
+
+<!-- Feature Cards with Hover Animation -->
+<div align="center">
+  <table style="border: none; background: transparent;">
+    <tr>
+      <td align="center" style="border: none; padding: 10px;">
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 20px; width: 250px; transition: transform 0.3s, box-shadow 0.3s;">
+          <h3 style="color: white;">🎯</h3>
+          <h4 style="color: white;">Smart Proposals</h4>
+          <p style="color: rgba(255,255,255,0.9); font-size: 12px;">AI-generated winning proposals</p>
+        </div>
+      </td>
+      <td align="center" style="border: none; padding: 10px;">
+        <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 20px; border-radius: 20px; width: 250px; transition: transform 0.3s, box-shadow 0.3s;">
+          <h3 style="color: white;">📊</h3>
+          <h4 style="color: white;">Real-time Analytics</h4>
+          <p style="color: rgba(255,255,255,0.9); font-size: 12px;">Live metrics & insights</p>
+        </div>
+      </td>
+      <td align="center" style="border: none; padding: 10px;">
+        <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 20px; border-radius: 20px; width: 250px; transition: transform 0.3s, box-shadow 0.3s;">
+          <h3 style="color: white;">🤖</h3>
+          <h4 style="color: white;">AI Automation</h4>
+          <p style="color: rgba(255,255,255,0.9); font-size: 12px;">Intelligent workflow automation</p>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<!-- Animated Counter -->
+<div align="center">
+  <img src="https://komarev.com/ghpvc/?username=proposalforge&style=for-the-badge&color=8A2BE2&label=✨+VISITORS&abbreviated=true" alt="Visitor Counter" />
+</div>
+
+<!-- Animated Footer -->
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12&height=100&section=footer&animation=fadeOut" width="100%" alt="Footer"/>
+
+</div>
+
+<style>
+  /* Hover animations for cards */
+  div[style*="background: linear-gradient"]:hover {
+    transform: translateY(-10px) !important;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3) !important;
+  }
+  
+  /* Badge hover effects */
+  img[alt*="Node.js"]:hover,
+  img[alt*="React"]:hover,
+  img[alt*="MongoDB"]:hover {
+    transform: translateY(-2px);
+    transition: transform 0.3s ease;
+  }
+</style>
 
 ---
 
