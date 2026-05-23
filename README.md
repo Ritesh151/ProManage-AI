@@ -101,21 +101,6 @@
 
 </div>
 
-<style>
-  /* Hover animations for cards */
-  div[style*="background: linear-gradient"]:hover {
-    transform: translateY(-10px) !important;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3) !important;
-  }
-  
-  /* Badge hover effects */
-  img[alt*="Node.js"]:hover,
-  img[alt*="React"]:hover,
-  img[alt*="MongoDB"]:hover {
-    transform: translateY(-2px);
-    transition: transform 0.3s ease;
-  }
-</style>
 
 ---
 
