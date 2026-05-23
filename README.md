@@ -46,6 +46,100 @@
 
 ---
 
+## 📸 Screenshots
+
+<div align="center">
+
+### 🏠 Dashboard & Analytics
+
+<img src="./assets/1.png" width="800" alt="Dashboard Main"/>
+
+<br><br>
+
+<img src="./assets/1.1.png" width="390" alt="Dashboard Analytics"/>
+<img src="./assets/1.2.png" width="390" alt="Dashboard Charts"/>
+
+<br><br>
+
+<img src="./assets/1.3.png" width="390" alt="Dashboard Insights"/>
+<img src="./assets/1.4.png" width="390" alt="Dashboard Overview"/>
+
+---
+
+### 📋 Project Management
+
+<img src="./assets/2.1.png" width="390" alt="Project List"/>
+<img src="./assets/2.2.png" width="390" alt="Project Details"/>
+
+<br><br>
+
+<img src="./assets/2.3.png" width="800" alt="Project Workflow"/>
+
+---
+
+### ⚙️ Scope & Category Management
+
+<img src="./assets/3.png" width="390" alt="Scope Management"/>
+<img src="./assets/3.1.png" width="390" alt="Category Management"/>
+
+<br><br>
+
+<img src="./assets/3.2.png" width="800" alt="Scope Selection"/>
+
+---
+
+### 📊 Analytics Dashboard
+
+<img src="./assets/4.1.png" width="390" alt="Analytics Charts"/>
+<img src="./assets/4.2.png" width="390" alt="Analytics Reports"/>
+
+---
+
+### 📤 Export Center
+
+<img src="./assets/5.1.png" width="390" alt="Export PDF"/>
+<img src="./assets/5.2.png" width="390" alt="Export Excel"/>
+
+---
+
+### 🤖 AI Assistant & Knowledge System
+
+<img src="./assets/6.png" width="800" alt="AI Dashboard"/>
+
+<br><br>
+
+<img src="./assets/7.1.png" width="390" alt="AI Chat"/>
+<img src="./assets/7.2.png" width="390" alt="AI Conversation"/>
+
+---
+
+### 🚀 Training Center
+
+<img src="./assets/8.1.png" width="390" alt="Training Status"/>
+<img src="./assets/8.2.png" width="390" alt="Training History"/>
+
+---
+
+### 🎨 Settings & UI
+
+<img src="./assets/9.1.png" width="390" alt="Settings"/>
+<img src="./assets/9.2.png" width="390" alt="Theme"/>
+
+<br><br>
+
+<img src="./assets/9.3.png" width="390" alt="Preferences"/>
+<img src="./assets/9.4.png" width="390" alt="Customization"/>
+
+<br><br>
+
+<img src="./assets/9.5.png" width="390" alt="Advanced Settings"/>
+<img src="./assets/9.6.png" width="390" alt="Final UI"/>
+
+</div>
+
+
+---
+
 ## 📖 Overview
 
 **ProposalForge AI** is a full-stack MERN application that streamlines the sales and project planning lifecycle for agencies, freelancers, and consulting firms. It enables users to create and manage projects, dynamically select scope of work and technologies, perform automated cost calculations, and generate professional proposals in PDF or DOCX format — all with a single click.
