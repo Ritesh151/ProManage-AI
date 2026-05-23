@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const { formatCurrency } = require('../utils/currencyFormatter');
 
 const launchBrowser = async () => {
   return puppeteer.launch({
@@ -31,7 +32,7 @@ const generateExportPDF = async (projects) => {
       <td>${p.projectId || ''}</td>
       <td>${p.projectName || ''}</td>
       <td>${p.category || ''}</td>
-      <td>₹${(p.cost || 0).toLocaleString('en-IN')}</td>
+      <td>${formatCurrency(p.cost)}</td>
       <td>${p.status || ''}</td>
       <td>${new Date(p.createdAt).toLocaleDateString()}</td>
     </tr>

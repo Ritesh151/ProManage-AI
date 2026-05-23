@@ -1,12 +1,14 @@
 /**
  * AI Project Discovery Service
- * Discovers and catalogs projects from configured paths
+ * Discovers ProposalForge AI modules for training
  */
 
 const fs = require('fs');
-const path = require('path');
-const { PROJECT_PATHS } = require('../config/projectPaths');
-const { scanDirectory, getProjectName, detectProjectType } = require('../utils/fileUtils');
+const {
+  PROJECT_DISPLAY_NAME,
+  getExistingTrainingModules,
+} = require('../config/proposalForgeModules');
+const { scanDirectory } = require('../utils/fileUtils');
 const AILogger = require('../utils/logger');
 
 const logger = new AILogger('ProjectDiscoveryService');
@@ -17,154 +19,52 @@ class AIProjectDiscoveryService {
     this.projectCache = new Map();
   }
 
-  /**
-   * Discover all projects from configured paths
-   */
   async discoverProjects() {
-    logger.info('Starting project discovery');
+    logger.info('Starting ProposalForge AI project discovery');
     this.discoveredProjects = [];
+    this.projectCache.clear();
 
-    for (const projectPath of PROJECT_PATHS) {
-      if (!fs.existsSync(projectPath)) {
-        logger.debug('Project path does not exist', { projectPath });
-        continue;
-      }
+    const modules = getExistingTrainingModules();
 
+    for (const mod of modules) {
       try {
-        const stats = fs.statSync(projectPath);
-        if (!stats.isDirectory()) {
-          logger.debug('Project path is not a directory', { projectPath });
-          continue;
-        }
-
-        // Check if this is a project root
-        if (this.isProjectRoot(projectPath)) {
-          const project = this.createProjectMetadata(projectPath);
-          this.discoveredProjects.push(project);
-          this.projectCache.set(projectPath, project);
-          logger.info('Discovered project', { projectName: project.name, projectPath });
-        } else {
-          // Scan subdirectories for projects
-          await this.scanForSubprojects(projectPath);
-        }
+        const files = scanDirectory(mod.path);
+        const project = {
+          name: mod.label,
+          moduleId: mod.id,
+          path: mod.path,
+          relativePath: mod.relativePath,
+          type: mod.type,
+          fileCount: files.length,
+          discoveredAt: new Date(),
+          lastScanned: null,
+          status: 'pending',
+          rootProject: PROJECT_DISPLAY_NAME,
+        };
+        this.discoveredProjects.push(project);
+        this.projectCache.set(mod.path, project);
+        logger.info('Discovered module', { projectName: project.name, fileCount: files.length });
       } catch (err) {
-        logger.warn('Error discovering projects', { projectPath, error: err.message });
+        logger.warn('Error discovering module', { module: mod.id, error: err.message });
       }
     }
 
-    logger.info('Project discovery completed', { 
-      projectsFound: this.discoveredProjects.length 
-    });
-
+    logger.info('Project discovery completed', { modulesFound: this.discoveredProjects.length });
     return this.discoveredProjects;
   }
 
-  /**
-   * Scan directory for subprojects
-   */
-  async scanForSubprojects(dirPath, maxDepth = 3, currentDepth = 0) {
-    if (currentDepth >= maxDepth) {
-      return;
-    }
-
-    try {
-      const entries = fs.readdirSync(dirPath, { withFileTypes: true });
-
-      for (const entry of entries) {
-        if (!entry.isDirectory()) continue;
-
-        const fullPath = path.join(dirPath, entry.name);
-
-        // Skip hidden directories and common non-project directories
-        if (entry.name.startsWith('.') || 
-            ['node_modules', 'build', 'dist', '.git'].includes(entry.name)) {
-          continue;
-        }
-
-        if (this.isProjectRoot(fullPath)) {
-          const project = this.createProjectMetadata(fullPath);
-          this.discoveredProjects.push(project);
-          this.projectCache.set(fullPath, project);
-          logger.info('Discovered subproject', { projectName: project.name, projectPath: fullPath });
-        } else {
-          // Continue scanning deeper
-          await this.scanForSubprojects(fullPath, maxDepth, currentDepth + 1);
-        }
-      }
-    } catch (err) {
-      logger.warn('Error scanning for subprojects', { dirPath, error: err.message });
-    }
-  }
-
-  /**
-   * Check if directory is a project root
-   */
-  isProjectRoot(dirPath) {
-    const projectIndicators = [
-      'package.json',
-      'pom.xml',
-      'build.gradle',
-      'requirements.txt',
-      'setup.py',
-      'pubspec.yaml',
-      'Cargo.toml',
-      'go.mod',
-      'composer.json',
-      'Gemfile',
-      '.git',
-    ];
-
-    try {
-      const files = fs.readdirSync(dirPath);
-      return projectIndicators.some(indicator => files.includes(indicator));
-    } catch (err) {
-      return false;
-    }
-  }
-
-  /**
-   * Create project metadata
-   */
-  createProjectMetadata(projectPath) {
-    const projectName = getProjectName(projectPath);
-    const projectType = detectProjectType(projectPath);
-    const files = scanDirectory(projectPath);
-
-    return {
-      name: projectName,
-      path: projectPath,
-      type: projectType,
-      fileCount: files.length,
-      discoveredAt: new Date(),
-      lastScanned: null,
-      status: 'pending', // pending, processing, completed, failed
-    };
-  }
-
-  /**
-   * Get all discovered projects
-   */
   getDiscoveredProjects() {
     return this.discoveredProjects;
   }
 
-  /**
-   * Get project by path
-   */
   getProjectByPath(projectPath) {
     return this.projectCache.get(projectPath);
   }
 
-  /**
-   * Get project by name
-   */
   getProjectByName(projectName) {
-    return this.discoveredProjects.find(p => p.name === projectName);
+    return this.discoveredProjects.find((p) => p.name === projectName);
   }
 
-  /**
-   * Update project status
-   */
   updateProjectStatus(projectPath, status) {
     const project = this.projectCache.get(projectPath);
     if (project) {
@@ -173,19 +73,14 @@ class AIProjectDiscoveryService {
     }
   }
 
-  /**
-   * Get projects by type
-   */
   getProjectsByType(projectType) {
-    return this.discoveredProjects.filter(p => p.type === projectType);
+    return this.discoveredProjects.filter((p) => p.type === projectType);
   }
 
-  /**
-   * Get project statistics
-   */
   getStatistics() {
     const stats = {
       totalProjects: this.discoveredProjects.length,
+      rootProject: PROJECT_DISPLAY_NAME,
       byType: {},
       byStatus: {},
       totalFiles: 0,

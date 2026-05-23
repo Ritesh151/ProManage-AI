@@ -33,6 +33,7 @@ export const TrainingStatusCard = ({ status, stats, loading }) => {
 
   const currentStatus = status?.status || stats?.status || 'idle';
   const progress = status?.progress || 0;
+  const currentModule = status?.currentProjectModule || status?.currentModule;
   const currentFile = status?.currentFile;
 
   return (
@@ -41,6 +42,7 @@ export const TrainingStatusCard = ({ status, stats, loading }) => {
       animate={{ opacity: 1, y: 0 }}
       className={`rounded-lg border p-6 ${getStatusColor(currentStatus)}`}
     >
+    
       <div className="flex items-start justify-between mb-4">
         <div>
           <h3 className="text-lg font-semibold text-gray-900">AI Status</h3>
@@ -55,20 +57,20 @@ export const TrainingStatusCard = ({ status, stats, loading }) => {
         <div className="bg-white rounded-lg p-3 border border-gray-100">
           <div className="flex items-center gap-2 text-gray-500 text-xs mb-1">
             <FiFileText size={14} />
-            <span>Files Indexed</span>
+            <span>Project Files Indexed</span>
           </div>
           <p className="text-xl font-bold text-gray-900">
-            {stats?.totalDocuments || status?.filesProcessed || 0}
+            {stats?.projectFilesIndexed || stats?.processedDocuments || status?.filesProcessed || 0}
           </p>
         </div>
 
         <div className="bg-white rounded-lg p-3 border border-gray-100">
           <div className="flex items-center gap-2 text-gray-500 text-xs mb-1">
             <FiCheckCircle size={14} />
-            <span>Processed</span>
+            <span>Source Files Processed</span>
           </div>
           <p className="text-xl font-bold text-gray-900">
-            {stats?.processedDocuments || status?.filesProcessed || 0}
+            {stats?.sourceFilesProcessed || stats?.processedDocuments || status?.filesProcessed || 0}
           </p>
         </div>
 
@@ -107,10 +109,11 @@ export const TrainingStatusCard = ({ status, stats, loading }) => {
               className="bg-blue-600 h-2.5 rounded-full"
             />
           </div>
-          {currentFile && (
-            <p className="text-xs text-gray-500 mt-2 truncate">
-              Currently processing: {currentFile}
-            </p>
+          {(currentModule || currentFile) && (
+            <div className="text-xs text-gray-500 mt-2">
+              {currentModule && <p className="font-medium text-gray-700 truncate">Current Project Module: {currentModule}</p>}
+              {currentFile && <p className="truncate font-mono">{currentFile}</p>}
+            </div>
           )}
         </div>
       )}

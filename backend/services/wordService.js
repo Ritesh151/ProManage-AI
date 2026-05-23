@@ -2,6 +2,7 @@ const {
   Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell,
   WidthType, AlignmentType, BorderStyle, HeadingLevel,
 } = require('docx');
+const { formatCurrency } = require('../utils/currencyFormatter');
 
 const generateWord = async (project) => {
   const today = new Date().toLocaleDateString('en-IN', {
@@ -156,9 +157,9 @@ const generateWord = async (project) => {
               tableRow(['Module / Service', 'Amount'], true),
               ...costItems.map((item) => tableRow([
                 item.name,
-                `\u20B9${Number(item.amount).toLocaleString('en-IN')}`,
+                formatCurrency(item.amount),
               ])),
-              tableRow(['Total Project Cost', `\u20B9${(project.cost || 0).toLocaleString('en-IN')}`]),
+              tableRow(['Total Project Cost', formatCurrency(project.cost)]),
             ],
           }),
 

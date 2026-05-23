@@ -9,7 +9,8 @@ const AIIngestService = require('./AIIngestService');
 const AIEmbeddingService = require('./AIEmbeddingService');
 const AILogger = require('../utils/logger');
 const AI_CONFIG = require('../config/aiConfig');
-const { calculateFileHash, getProjectName, detectProjectType } = require('../utils/fileUtils');
+const { calculateFileHash, detectProjectType } = require('../utils/fileUtils');
+const { getExistingTrainingModules, resolveModuleLabel, isAllowedTrainingPath } = require('../config/proposalForgeModules');
 
 const logger = new AILogger('WatcherService');
 
@@ -84,7 +85,7 @@ class AIWatcherService {
     }
 
     // Check if file should be watched
-    if (!this.shouldWatchFile(filePath)) {
+    if (!this.shouldWatchFile(filePath) || !isAllowedTrainingPath(filePath)) {
       return;
     }
 
@@ -147,9 +148,9 @@ class AIWatcherService {
    */
   async processFileChange(projectPath, filePath) {
     try {
-      logger.info('Processing file change', { filePath });
+      logger.info('Processing source file change', { filePath });
 
-      const projectName = getProjectName(projectPath);
+      const projectName = resolveModuleLabel(filePath);
       const projectType = detectProjectType(projectPath);
 
       // Re-ingest the file

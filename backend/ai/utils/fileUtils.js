@@ -7,6 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const { SUPPORTED_EXTENSIONS, EXCLUDED_DIRS, EXCLUDED_PATTERNS } = require('../config/projectPaths');
+const { resolveModuleLabel, isAllowedTrainingPath } = require('../config/proposalForgeModules');
 const AILogger = require('./logger');
 
 const logger = new AILogger('FileUtils');
@@ -31,7 +32,10 @@ function shouldProcessFile(filePath) {
   const filename = path.basename(filePath);
   const ext = path.extname(filePath);
 
-  // Check excluded patterns
+  if (!isAllowedTrainingPath(filePath)) {
+    return false;
+  }
+
   for (const pattern of EXCLUDED_PATTERNS) {
     if (pattern.test(filename)) {
       return false;
@@ -187,7 +191,7 @@ function detectProjectType(projectPath) {
  * Get project name from directory
  */
 function getProjectName(projectPath) {
-  return path.basename(projectPath);
+  return resolveModuleLabel(projectPath);
 }
 
 module.exports = {

@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FiEdit2, FiTrash2, FiCalendar, FiDollarSign, FiClock } from 'react-icons/fi';
+import { formatPrice } from '../utils/currencyFormatter';
 
 export const ScopeItemCard = ({ item, onEdit, onDelete }) => {
   return (
@@ -64,7 +65,7 @@ export const ScopeItemCard = ({ item, onEdit, onDelete }) => {
           <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gradient-to-r from-emerald-500/10 to-teal-500/10">
             <FiDollarSign size={12} className="text-emerald-600 dark:text-emerald-400" />
             <span className="text-sm font-bold text-gray-900 dark:text-white">
-              ₹{item.price.toLocaleString('en-IN')}
+              {formatPrice(item.price)}
             </span>
             <span className="text-[10px] font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
               Est. Cost

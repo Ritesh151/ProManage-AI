@@ -101,11 +101,12 @@ When answering questions:
     enabled: process.env.AI_WATCHER_ENABLED !== 'false',
     debounceMs: parseInt(process.env.AI_WATCHER_DEBOUNCE || '2000'),
     watchPaths: [
-      'README.md',
-      'src',
+      'frontend',
       'backend',
+      'python-ai',
       'docs',
-      'package.json',
+      'templates',
+      'MD Files Documents',
     ],
   },
 

@@ -1,3 +1,5 @@
+const { formatCurrency } = require('../utils/currencyFormatter');
+
 const generateProposalHTML = (project) => {
   const today = new Date().toLocaleDateString('en-IN', {
     year: 'numeric', month: 'long', day: 'numeric',
@@ -192,8 +194,8 @@ const generateProposalHTML = (project) => {
         <td>${item.name}</td>
         <td>Custom Development</td>
         <td class="center">1</td>
-        <td class="amount">₹${Number(item.amount).toLocaleString('en-IN')}</td>
-        <td class="amount">₹${Number(item.amount).toLocaleString('en-IN')}</td>
+        <td class="amount">${formatCurrency(item.amount)}</td>
+        <td class="amount">${formatCurrency(item.amount)}</td>
       </tr>
     `).join('');
 
@@ -212,15 +214,15 @@ const generateProposalHTML = (project) => {
           ${rows}
           <tr class="subtotal">
             <td colspan="4">Subtotal</td>
-            <td class="amount">₹${subtotal.toLocaleString('en-IN')}</td>
+            <td class="amount">${formatCurrency(subtotal)}</td>
           </tr>
           <tr class="tax">
             <td colspan="4">GST (18%)</td>
-            <td class="amount">₹${gst.toLocaleString('en-IN')}</td>
+            <td class="amount">${formatCurrency(gst)}</td>
           </tr>
           <tr class="grand-total">
             <td colspan="4">Total Project Cost</td>
-            <td class="amount">₹${total.toLocaleString('en-IN')}</td>
+            <td class="amount">${formatCurrency(total)}</td>
           </tr>
         </tbody>
       </table>

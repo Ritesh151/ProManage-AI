@@ -1,53 +1,22 @@
 /**
  * Project Paths Configuration
- * Defines where the AI system should scan for projects
+ * ProposalForge AI codebase training paths only
  */
 
 const path = require('path');
-const os = require('os');
+const { PROJECT_ROOT, TRAINING_MODULES } = require('./proposalForgeModules');
 
-// Define all project paths to scan
-const PROJECT_PATHS = [
-  // Current project root (scans frontend/, backend/, python-ai/, docs/, etc.)
-  path.join(__dirname, '../../..'),
+const PROJECT_PATHS = TRAINING_MODULES.map((m) => m.path);
 
-  // Explicit project directories to train
-  path.join(__dirname, '../../../frontend/src'),
-  path.join(__dirname, '../../../backend'),
-  path.join(__dirname, '../../../python-ai'),
-  path.join(__dirname, '../../../MD Files Documents'),
-  path.join(__dirname, '../../../Documents'),
-
-  // Common project directories (customize based on your system)
-  path.join(os.homedir(), 'Projects'),
-  path.join(os.homedir(), 'Development'),
-  path.join(os.homedir(), 'Code'),
-
-  // Windows paths (if applicable)
-  ...(process.platform === 'win32' ? [
-    'D:\\Projects',
-    'C:\\Projects',
-    'E:\\Development',
-  ] : []),
-
-  // Linux/Mac paths
-  ...(process.platform !== 'win32' ? [
-    path.join(os.homedir(), 'projects'),
-    path.join(os.homedir(), 'dev'),
-  ] : []),
-];
-
-// File extensions to include in scanning
 const SUPPORTED_EXTENSIONS = [
   '.js', '.jsx', '.ts', '.tsx',
   '.py', '.java', '.kt', '.dart',
   '.json', '.md', '.txt',
   '.env', '.example',
-  '.pdf', '.docx',
+  '.yaml', '.yml',
   'package.json', 'pubspec.yaml', 'requirements.txt',
 ];
 
-// Directories to exclude from scanning
 const EXCLUDED_DIRS = [
   'node_modules',
   'build',
@@ -60,14 +29,16 @@ const EXCLUDED_DIRS = [
   '__pycache__',
   '.venv',
   'venv',
+  'myenv',
+  'logs',
   '.next',
   '.nuxt',
   'out',
   '.gradle',
   'target',
+  'Documents',
 ];
 
-// File patterns to exclude
 const EXCLUDED_PATTERNS = [
   /\.lock$/,
   /\.log$/,
@@ -77,9 +48,13 @@ const EXCLUDED_PATTERNS = [
   /~$/,
   /\.DS_Store$/,
   /Thumbs\.db$/,
+  /\.pdf$/i,
+  /\.docx$/i,
+  /\.doc$/i,
 ];
 
 module.exports = {
+  PROJECT_ROOT,
   PROJECT_PATHS,
   SUPPORTED_EXTENSIONS,
   EXCLUDED_DIRS,

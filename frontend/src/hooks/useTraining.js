@@ -121,11 +121,18 @@ export const useTraining = () => {
     fetchStatus();
     fetchHistory();
     fetchStats();
+    fetchLogs();
 
     return () => {
       if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
     };
-  }, [fetchStatus, fetchHistory, fetchStats]);
+  }, [fetchStatus, fetchHistory, fetchStats, fetchLogs]);
+
+  useEffect(() => {
+    if (training && !pollIntervalRef.current) {
+      startPolling();
+    }
+  }, [training, startPolling]);
 
   return {
     status,

@@ -15,10 +15,23 @@ const AIDocument = require('../models/AIDocument');
 const AILogger = require('../utils/logger');
 const AI_CONFIG = require('../config/aiConfig');
 const { SUPPORTED_EXTENSIONS, EXCLUDED_DIRS, EXCLUDED_PATTERNS } = require('../config/projectPaths');
+const {
+  PROJECT_DISPLAY_NAME,
+  resolveModuleFromPath,
+  resolveModuleLabel,
+  toRelativeTrainingPath,
+  isAllowedTrainingPath,
+  PROJECT_SOURCE_QUERY,
+} = require('../config/proposalForgeModules');
 const { chunkText, cleanText } = require('../utils/textUtils');
 const { v4: uuidv4 } = require('uuid');
+const trainingEventBus = require('../sockets/trainingEventBus');
+const TrainingMetricsService = require('./TrainingMetricsService');
 
 const logger = new AILogger('TrainingService');
+
+const PIPELINE_STAGES = ['discovering', 'reading', 'chunking', 'embedding', 'uploading', 'metadata'];
+const STAGE_WEIGHTS = { discovering: 15, reading: 10, chunking: 15, embedding: 35, uploading: 15, metadata: 10 };
 
 class AITrainingService {
   constructor() {
@@ -29,6 +42,62 @@ class AITrainingService {
     this.trainingLogs = [];
     this.abortController = null;
     this.isTraining = false;
+    this.metricsService = new TrainingMetricsService();
+    this.currentPipelineStage = 'discovering';
+  }
+
+  _trainingPath(filePath) {
+    return filePath ? toRelativeTrainingPath(filePath) : null;
+  }
+
+  _currentModule(filePath) {
+    if (!filePath) return this.currentSession?.currentModule || null;
+    const mod = resolveModuleFromPath(filePath);
+    return mod ? mod.label : PROJECT_DISPLAY_NAME;
+  }
+
+  _emitPipeline(stage, stageProgress = 0, currentFile = null) {
+    this.currentPipelineStage = stage;
+    const session = this.currentSession;
+    const displayPath = this._trainingPath(currentFile);
+    const currentModule = this._currentModule(currentFile);
+    if (session && currentModule) {
+      session.currentModule = currentModule;
+    }
+    const fileRatio = session?.totalFiles > 0
+      ? (session.filesProcessed / session.totalFiles)
+      : 0;
+    const stageIdx = PIPELINE_STAGES.indexOf(stage);
+    let baseProgress = 0;
+    for (let i = 0; i < stageIdx; i++) {
+      baseProgress += STAGE_WEIGHTS[PIPELINE_STAGES[i]] || 0;
+    }
+    const stageWeight = STAGE_WEIGHTS[stage] || 10;
+    const overall = Math.min(
+      99,
+      Math.round(baseProgress + (stageProgress / 100) * stageWeight * 0.6 + fileRatio * 40)
+    );
+
+    trainingEventBus.emitPipeline({
+      stage,
+      progress: overall,
+      stageProgress,
+      currentFile: displayPath,
+      currentProjectModule: currentModule,
+      currentFilePath: currentFile,
+      filesProcessed: session?.filesProcessed || 0,
+      totalFiles: session?.totalFiles || 0,
+      chunksCreated: session?.chunksCreated || 0,
+      embeddingsGenerated: session?.embeddingsGenerated || 0,
+      isTraining: this.isTraining,
+    });
+
+    const metrics = this.metricsService.updateSessionMetrics(session, this.isTraining);
+    trainingEventBus.emitMetrics(metrics);
+  }
+
+  _emitFlow(flowData) {
+    trainingEventBus.emitFlow(flowData);
   }
 
   addLog(level, message) {
@@ -45,6 +114,8 @@ class AITrainingService {
     else if (level === 'error') logger.error(message);
     else if (level === 'warning') logger.warn(message);
     else logger.debug(message);
+
+    trainingEventBus.emitLog(log);
   }
 
   scanProjectFiles(projectPath) {
@@ -67,7 +138,7 @@ class AITrainingService {
               return entry.name === e;
             });
             const isExcluded = EXCLUDED_PATTERNS.some(p => p.test(entry.name));
-            if (isSupported && !isExcluded) {
+            if (isSupported && !isExcluded && isAllowedTrainingPath(fullPath)) {
               files.push(fullPath);
             }
           }
@@ -89,14 +160,17 @@ class AITrainingService {
     this.isTraining = true;
     this.trainingLogs = [];
     this.abortController = new AbortController();
+    this.metricsService.reset();
 
     const sessionId = uuidv4();
-    this.addLog('info', `Starting full training session: ${sessionId}`);
+    this.addLog('info', `Starting ProposalForge AI training session: ${sessionId}`);
+    this._emitPipeline('discovering', 5, null);
 
     const session = await AITrainingSession.create({
       sessionId,
       status: 'in_progress',
       type: 'full',
+      projectName: PROJECT_DISPLAY_NAME,
       startTime: new Date(),
       config: {
         chunkSize: AI_CONFIG.chunking.chunkSize,
@@ -110,11 +184,16 @@ class AITrainingService {
 
     try {
       // Step 1: Discover projects
-      this.addLog('info', 'Scanning project files...');
+      this._emitPipeline('discovering', 30, null);
+      this.addLog('info', 'Discovering ProposalForge AI project directories...');
       const projects = await this.projectDiscoveryService.discoverProjects();
       session.totalProjects = projects.length;
+      session.modulesTrained = projects.map((p) => p.name);
       await session.save();
-      this.addLog('info', `Found ${projects.length} projects`);
+      this.addLog('info', `Found ${projects.length} project modules to train`);
+      for (const p of projects) {
+        this.addLog('info', `Module ready: ${p.name} (${p.fileCount} source files)`);
+      }
 
       if (projects.length === 0) {
         this.addLog('warning', 'No projects found in configured paths');
@@ -135,11 +214,16 @@ class AITrainingService {
         }
 
         try {
-          this.addLog('info', `Scanning: ${project.name}`);
+          this.addLog('info', `Scanning ${project.name}...`);
           this.projectDiscoveryService.updateProjectStatus(project.path, 'processing');
 
           const files = this.scanProjectFiles(project.path);
-          allFiles = allFiles.concat(files.map(f => ({ path: f, project: project.name, projectPath: project.path })));
+          allFiles = allFiles.concat(files.map((f) => ({
+            path: f,
+            project: project.name,
+            projectPath: project.path,
+            moduleId: project.moduleId,
+          })));
 
           session.projectsProcessed++;
           await session.save();
@@ -153,7 +237,8 @@ class AITrainingService {
 
       session.totalFiles = allFiles.length;
       await session.save();
-      this.addLog('info', `Found ${allFiles.length} files to process`);
+      this._emitPipeline('discovering', 100, null);
+      this.addLog('info', `Found ${allFiles.length} source files across ProposalForge AI modules`);
 
       if (allFiles.length === 0) {
         this.addLog('warning', 'No supported files found');
@@ -176,16 +261,25 @@ class AITrainingService {
 
         const file = allFiles[i];
         try {
-          this.addLog('info', `[${i + 1}/${allFiles.length}] Processing: ${file.path}`);
+          const relPath = this._trainingPath(file.path);
+          this.addLog('info', `Reading ${relPath}`);
           session.currentFile = file.path;
+          session.currentModule = file.project;
           await session.save();
+          this._emitPipeline('reading', 20, file.path);
+          this._emitFlow({
+            sourceFile: relPath,
+            chunk: null,
+            status: 'reading',
+            label: 'Reading Content',
+          });
 
           // Read file content
           let content;
           try {
             content = fs.readFileSync(file.path, 'utf-8');
           } catch (readErr) {
-            this.addLog('error', `Cannot read: ${file.path}`);
+            this.addLog('error', `Cannot read: ${relPath}`);
             session.errors.push({ file: file.path, error: 'Cannot read file' });
             session.errorCount++;
             await session.save();
@@ -193,7 +287,7 @@ class AITrainingService {
           }
 
           if (!content || content.trim().length === 0) {
-            this.addLog('warning', `Empty file: ${file.path}`);
+            this.addLog('warning', `Empty source file: ${relPath}`);
             session.filesProcessed++;
             await session.save();
             continue;
@@ -205,7 +299,7 @@ class AITrainingService {
           // Check if already processed and unchanged
           const existingDoc = await AIDocument.findOne({ filepath: file.path });
           if (existingDoc && existingDoc.fileHash === fileHash && existingDoc.processed && existingDoc.embeddingsGenerated) {
-            this.addLog('info', `Skipped (unchanged): ${path.basename(file.path)}`);
+            this.addLog('info', `Skipped unchanged: ${relPath}`);
             session.filesProcessed++;
             totalChunks += existingDoc.totalChunks;
             session.chunksCreated = totalChunks;
@@ -215,9 +309,20 @@ class AITrainingService {
           }
 
           // Clean and chunk content
+          this._emitPipeline('chunking', 10, file.path);
           const cleanedContent = cleanText(content);
           const chunks = chunkText(cleanedContent);
-          this.addLog('info', `Chunked ${chunks.length} chunks: ${path.basename(file.path)}`);
+          this.addLog('info', `Chunking ${relPath} (${chunks.length} chunks)`);
+          this._emitPipeline('chunking', 100, file.path);
+          this.metricsService.recordChunk();
+          chunks.forEach((_, idx) => {
+            this._emitFlow({
+              sourceFile: relPath,
+              chunk: `Chunk #${idx + 1}`,
+              status: 'chunked',
+              label: 'Source Chunks',
+            });
+          });
 
           // Create or update document in MongoDB
           const docData = {
@@ -251,28 +356,48 @@ class AITrainingService {
           await session.save();
 
           // Generate embeddings for each chunk
-          this.addLog('info', `Generating embeddings: ${path.basename(file.path)}`);
+          this._emitPipeline('embedding', 0, file.path);
+          this.addLog('info', `Generating embeddings for ${relPath}`);
           const embeddings = [];
-          for (const chunk of chunks) {
+          for (let ci = 0; ci < chunks.length; ci++) {
+            const chunk = chunks[ci];
             try {
               const embedding = await this.embeddingService.generateEmbedding(chunk);
               embeddings.push(embedding);
               session.embeddingsGenerated++;
+              this.metricsService.recordEmbedding();
+              const embedProgress = Math.round(((ci + 1) / chunks.length) * 100);
+              this._emitPipeline('embedding', embedProgress, file.path);
+              this._emitFlow({
+                sourceFile: relPath,
+                chunk: `Chunk #${ci + 1}`,
+                status: 'embedding',
+                label: 'Embedding Generated',
+              });
             } catch (embedErr) {
-              this.addLog('error', `Embedding failed for chunk in ${path.basename(file.path)}: ${embedErr.message}`);
+              this.addLog('error', `Embedding failed in ${relPath}: ${embedErr.message}`);
             }
           }
 
           // Store embeddings in ChromaDB
+          this._emitPipeline('uploading', 0, file.path);
           if (embeddings.length > 0) {
             try {
               await this.embeddingService.storeEmbeddings(doc._id.toString(), chunks, embeddings);
-              this.addLog('info', `Stored in ChromaDB: ${path.basename(file.path)}`);
+              this.addLog('info', `Saving vectors to ChromaDB: ${relPath}`);
+              this._emitPipeline('uploading', 100, file.path);
+              this._emitFlow({
+                sourceFile: relPath,
+                chunk: `Chunk #${chunks.length}`,
+                status: 'stored',
+                label: 'Stored in ChromaDB',
+              });
             } catch (storeErr) {
-              this.addLog('error', `ChromaDB storage failed: ${path.basename(file.path)} - ${storeErr.message}`);
+              this.addLog('error', `ChromaDB storage failed for ${relPath}: ${storeErr.message}`);
             }
           }
 
+          this._emitPipeline('metadata', 50, file.path);
           // Mark as processed
           await AIDocument.findByIdAndUpdate(doc._id, {
             processed: true,
@@ -281,8 +406,15 @@ class AITrainingService {
           });
 
           await session.save();
+          this._emitPipeline('metadata', 100, file.path);
+          this._emitFlow({
+            sourceFile: relPath,
+            chunk: null,
+            status: 'available',
+            label: 'Available for AI Chat',
+          });
         } catch (err) {
-          this.addLog('error', `Failed: ${file.path} - ${err.message}`);
+          this.addLog('error', `Failed processing ${this._trainingPath(file.path)}: ${err.message}`);
           session.errors.push({ file: file.path, error: err.message });
           session.errorCount++;
           await session.save();
@@ -295,14 +427,21 @@ class AITrainingService {
       session.currentFile = null;
       session.results = {
         projectsScanned: session.projectsProcessed,
-        documentsIndexed: await AIDocument.countDocuments({ processed: true }),
+        documentsIndexed: await AIDocument.countDocuments({ ...PROJECT_SOURCE_QUERY, processed: true }),
         vectorsStored: session.embeddingsGenerated,
         successRate: session.filesProcessed > 0 ? Math.round(((session.filesProcessed - session.errorCount) / session.filesProcessed) * 100) : 100,
       };
 
       await session.save();
 
-      this.addLog('info', `Training completed: ${session.filesProcessed} files, ${session.chunksCreated} chunks, ${session.embeddingsGenerated} embeddings`);
+      this.addLog('success', `Training ProposalForge AI completed — ${session.filesProcessed} source files, ${session.chunksCreated} chunks, ${session.embeddingsGenerated} embeddings`);
+      this._emitPipeline('metadata', 100, null);
+      trainingEventBus.emitComplete({
+        status: 'completed',
+        filesProcessed: session.filesProcessed,
+        chunksCreated: session.chunksCreated,
+        embeddingsGenerated: session.embeddingsGenerated,
+      });
 
       this.isTraining = false;
       return session;
@@ -329,12 +468,13 @@ class AITrainingService {
     this.abortController = new AbortController();
 
     const sessionId = uuidv4();
-    this.addLog('info', `Starting incremental training: ${sessionId}`);
+    this.addLog('info', `Starting ProposalForge AI incremental retrain: ${sessionId}`);
 
     const session = await AITrainingSession.create({
       sessionId,
       status: 'in_progress',
       type: 'incremental',
+      projectName: PROJECT_DISPLAY_NAME,
       startTime: new Date(),
       config: {
         chunkSize: AI_CONFIG.chunking.chunkSize,
@@ -347,13 +487,14 @@ class AITrainingService {
     this.currentSession = session;
 
     try {
-      this.addLog('info', 'Scanning project files...');
+      this.addLog('info', 'Discovering ProposalForge AI project directories...');
       const projects = await this.projectDiscoveryService.discoverProjects();
       session.totalProjects = projects.length;
+      session.modulesTrained = projects.map((p) => p.name);
       await session.save();
 
       if (projects.length === 0) {
-        this.addLog('warning', 'No projects found');
+        this.addLog('warning', 'No ProposalForge AI modules found');
         session.status = 'completed';
         session.endTime = new Date();
         session.results = { projectsScanned: 0, documentsIndexed: 0, vectorsStored: 0, successRate: 100 };
@@ -367,7 +508,12 @@ class AITrainingService {
         if (this.abortController.signal.aborted) break;
         try {
           const files = this.scanProjectFiles(project.path);
-          allFiles = allFiles.concat(files.map(f => ({ path: f, project: project.name, projectPath: project.path })));
+          allFiles = allFiles.concat(files.map((f) => ({
+            path: f,
+            project: project.name,
+            projectPath: project.path,
+            moduleId: project.moduleId,
+          })));
           session.projectsProcessed++;
           await session.save();
         } catch (err) {
@@ -380,7 +526,7 @@ class AITrainingService {
 
       session.totalFiles = allFiles.length;
       await session.save();
-      this.addLog('info', `Found ${allFiles.length} files, checking for changes...`);
+      this.addLog('info', `Scanning ${allFiles.length} source files for changes...`);
 
       let totalChunks = 0;
       let changedFiles = 0;
@@ -405,8 +551,10 @@ class AITrainingService {
           }
 
           changedFiles++;
-          this.addLog('info', `[${changedFiles}] Changed: ${path.basename(file.path)}`);
+          const relPath = this._trainingPath(file.path);
+          this.addLog('info', `Updating changed source: ${relPath}`);
           session.currentFile = file.path;
+          session.currentModule = file.project;
 
           const cleanedContent = cleanText(content);
           const chunks = chunkText(cleanedContent);
@@ -480,14 +628,14 @@ class AITrainingService {
       session.currentFile = null;
       session.results = {
         projectsScanned: session.projectsProcessed,
-        documentsIndexed: await AIDocument.countDocuments({ processed: true }),
+        documentsIndexed: await AIDocument.countDocuments({ ...PROJECT_SOURCE_QUERY, processed: true }),
         vectorsStored: session.embeddingsGenerated,
         successRate: session.filesProcessed > 0 ? Math.round(((session.filesProcessed - session.errorCount) / session.filesProcessed) * 100) : 100,
       };
 
       await session.save();
 
-      this.addLog('info', `Incremental training completed: ${changedFiles} changed files, ${session.chunksCreated} chunks`);
+      this.addLog('success', `ProposalForge AI retrain completed — ${changedFiles} updated source files, ${session.chunksCreated} chunks`);
 
       this.isTraining = false;
       return session;
@@ -534,10 +682,12 @@ class AITrainingService {
         ? Math.round((this.currentSession.filesProcessed / this.currentSession.totalFiles) * 100)
         : 0;
 
+      const currentPath = this.currentSession.currentFile;
       return {
         sessionId: this.currentSession.sessionId,
         status: this.currentSession.status,
         type: this.currentSession.type,
+        projectName: this.currentSession.projectName || PROJECT_DISPLAY_NAME,
         totalProjects: this.currentSession.totalProjects,
         projectsProcessed: this.currentSession.projectsProcessed,
         totalFiles: this.currentSession.totalFiles,
@@ -545,7 +695,8 @@ class AITrainingService {
         chunksCreated: this.currentSession.chunksCreated,
         embeddingsGenerated: this.currentSession.embeddingsGenerated,
         errorCount: this.currentSession.errorCount,
-        currentFile: this.currentSession.currentFile,
+        currentFile: currentPath ? this._trainingPath(currentPath) : null,
+        currentProjectModule: this.currentSession.currentModule || this._currentModule(currentPath),
         startTime: this.currentSession.startTime,
         endTime: this.currentSession.endTime,
         isTraining: this.isTraining,
@@ -589,10 +740,20 @@ class AITrainingService {
   }
 
   async getTrainingHistory(limit = 10) {
-    return AITrainingSession.find()
+    const sessions = await AITrainingSession.find()
       .sort({ createdAt: -1 })
       .limit(limit)
-      .select('-errors');
+      .select('-errors')
+      .lean();
+
+    return sessions.map((s) => ({
+      ...s,
+      id: s.sessionId || s._id,
+      projectName: s.projectName || PROJECT_DISPLAY_NAME,
+      trainingType: s.type,
+      timestamp: s.startTime,
+      duration: s.duration || (s.startTime && s.endTime ? new Date(s.endTime) - new Date(s.startTime) : null),
+    }));
   }
 
   async getTrainingStatistics() {
@@ -610,12 +771,19 @@ class AITrainingService {
       AITrainingSession.countDocuments(),
       AITrainingSession.countDocuments({ status: 'completed' }),
       AITrainingSession.countDocuments({ status: 'failed' }),
-      AIDocument.countDocuments(),
-      AIDocument.countDocuments({ processed: true }),
-      AIDocument.countDocuments({ embeddingsGenerated: true }),
-      AIDocument.aggregate([{ $group: { _id: null, total: { $sum: '$totalChunks' } } }]),
+      AIDocument.countDocuments(PROJECT_SOURCE_QUERY),
+      AIDocument.countDocuments({ ...PROJECT_SOURCE_QUERY, processed: true }),
+      AIDocument.countDocuments({ ...PROJECT_SOURCE_QUERY, embeddingsGenerated: true }),
+      AIDocument.aggregate([
+        { $match: PROJECT_SOURCE_QUERY },
+        { $group: { _id: null, total: { $sum: '$totalChunks' } } },
+      ]),
       AITrainingSession.findOne({ status: 'completed' }).sort({ createdAt: -1 }),
-      AIDocument.aggregate([{ $group: { _id: '$projectName' } }, { $count: 'total' }]),
+      AIDocument.aggregate([
+        { $match: PROJECT_SOURCE_QUERY },
+        { $group: { _id: '$projectName' } },
+        { $count: 'total' },
+      ]),
     ]);
 
     const totalChunks = totalChunksAgg.length > 0 ? totalChunksAgg[0].total : 0;
@@ -629,6 +797,9 @@ class AITrainingService {
       documentsWithEmbeddings,
       totalChunks,
       totalProjects: projectCount.length > 0 ? projectCount[0].total : 0,
+      projectFilesIndexed: processedDocuments,
+      sourceFilesProcessed: processedDocuments,
+      projectName: PROJECT_DISPLAY_NAME,
       lastTrainingDate: latestSession ? latestSession.endTime || latestSession.createdAt : null,
       embeddingModel: AI_CONFIG.embeddings.provider,
       vectorDatabase: AI_CONFIG.vectorDB.type,

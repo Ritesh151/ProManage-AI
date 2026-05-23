@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiSearch, FiX, FiFilter, FiChevronDown } from 'react-icons/fi';
+import { formatPrice } from '../utils/currencyFormatter';
 
 export const FilterBar = ({ filters, onFilterChange }) => {
   const [showMobileFilters, setShowMobileFilters] = React.useState(false);
@@ -228,7 +229,7 @@ export const FilterBar = ({ filters, onFilterChange }) => {
                 className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-green-500/10 to-emerald-500/10 text-green-700 dark:text-green-400 text-xs font-medium"
               >
                 <span>
-                  Price: ₹{filters.priceMin.toLocaleString()} - {filters.priceMax ? `₹${filters.priceMax.toLocaleString()}` : '∞'}
+                  Price: {formatPrice(filters.priceMin)} - {filters.priceMax ? formatPrice(filters.priceMax) : '∞'}
                 </span>
                 <button
                   onClick={() => onFilterChange({ priceMin: null, priceMax: null })}

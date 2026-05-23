@@ -32,6 +32,9 @@ const TrainingHistory = () => {
     if (searchTerm) {
       const searchLower = searchTerm.toLowerCase();
       return session.id?.toLowerCase().includes(searchLower) ||
+             session.sessionId?.toLowerCase().includes(searchLower) ||
+             session.projectName?.toLowerCase().includes(searchLower) ||
+             session.type?.toLowerCase().includes(searchLower) ||
              session.status?.toLowerCase().includes(searchLower);
     }
     return true;
@@ -259,8 +262,9 @@ const TrainingHistory = () => {
               <table className="w-full">
                 <thead className="bg-gradient-to-r from-blue-500/5 to-pink-500/5 border-b border-white/20 dark:border-slate-700/50">
                   <tr>
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Project</th>
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Type</th>
                     <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Start Time</th>
-                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">End Time</th>
                     <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
                     <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Files</th>
                     <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Chunks</th>
@@ -284,14 +288,23 @@ const TrainingHistory = () => {
                           transition={{ delay: index * 0.03 }}
                           className="hover:bg-blue-500/5 transition-colors cursor-pointer"
                         >
+                          <td className="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
+                            {session.projectName || 'ProposalForge AI'}
+                          </td>
+                          <td className="px-6 py-4">
+                            <span className={`inline-flex px-2.5 py-1 rounded-lg text-xs font-bold ${
+                              session.type === 'full'
+                                ? 'bg-blue-500/10 text-blue-700 dark:text-blue-400'
+                                : 'bg-purple-500/10 text-purple-700 dark:text-purple-400'
+                            }`}>
+                              {session.type === 'full' ? 'Full' : session.type === 'incremental' ? 'Incremental' : session.type}
+                            </span>
+                          </td>
                           <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">
                             <div className="flex items-center gap-2">
                               <FiCalendar size={12} className="text-gray-400" />
-                              {new Date(session.startTime).toLocaleString()}
+                              {session.startTime ? new Date(session.startTime).toLocaleString() : '—'}
                             </div>
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
-                            {new Date(session.endTime).toLocaleString()}
                           </td>
                           <td className="px-6 py-4">
                             <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold ${statusConfig.bg} ${statusConfig.color}`}>

@@ -8,6 +8,7 @@ import Projects from './pages/Projects';
 import Proposal from './pages/Proposal';
 import ExportData from './pages/ExportData';
 import AIChat from './pages/AIChat';
+import { AIChatProvider } from './context/AIChatContext';
 import Analytics from './pages/Analytics';
 import ExportCenter from './pages/ExportCenter';
 import TrainingCenter from './pages/TrainingCenter';
@@ -88,7 +89,7 @@ function App() {
                 <Route path="/export-center" element={<ExportCenter />} />
                 
                 {/* AI Routes */}
-                <Route path="/ai" element={<AIChat />} />
+                <Route path="/ai" element={<AIChatProvider><AIChat /></AIChatProvider>} />
                 <Route path="/training" element={<TrainingCenter />} />
                 <Route path="/training-history" element={<TrainingHistory />} />
                 

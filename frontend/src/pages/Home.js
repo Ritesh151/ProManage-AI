@@ -342,7 +342,7 @@ const Home = () => {
                 {costDistribution.map((_, index) => (
                   <Cell key={index} fill={COLORS[index % COLORS.length]} />
                 ))}
-              </Pie>
+              x</Pie>
               <Tooltip content={<CustomTooltip />} />
               <Legend
                 layout="vertical" align="right" verticalAlign="middle"
@@ -478,16 +478,16 @@ const Home = () => {
                 <motion.button
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => navigate('/projects/new')}
+                  onClick={() => navigate('/projects')}
                   className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-pink-500 text-white rounded-xl font-medium text-sm shadow-lg hover:shadow-xl transition-all"
                 >
                   <FiPlus size={16} />
-                  Create Project
+                  Manage Projects
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => navigate('/proposals')}
+                  onClick={() => navigate('/proposal')}
                   className="flex items-center gap-2 px-5 py-2.5 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm text-gray-700 dark:text-gray-200 rounded-xl font-medium text-sm border border-gray-200 dark:border-slate-700 hover:shadow-lg transition-all"
                 >
                   <FiFileText size={16} />
@@ -496,7 +496,7 @@ const Home = () => {
                 <motion.button
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => navigate('/ai-assistant')}
+                  onClick={() => navigate('/ai')}
                   className="flex items-center gap-2 px-5 py-2.5 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm text-gray-700 dark:text-gray-200 rounded-xl font-medium text-sm border border-gray-200 dark:border-slate-700 hover:shadow-lg transition-all"
                 >
                   <FiCpu size={16} />

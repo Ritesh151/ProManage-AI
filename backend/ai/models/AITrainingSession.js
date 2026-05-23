@@ -23,6 +23,18 @@ const aiTrainingSessionSchema = new mongoose.Schema({
     enum: ['full', 'incremental', 'retrain'],
     default: 'full',
   },
+  projectName: {
+    type: String,
+    default: 'ProposalForge AI',
+    index: true,
+  },
+  currentModule: {
+    type: String,
+    default: null,
+  },
+  modulesTrained: [{
+    type: String,
+  }],
 
   // Progress tracking
   totalProjects: {

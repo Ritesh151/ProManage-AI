@@ -6,7 +6,8 @@
 const fs = require('fs');
 const path = require('path');
 const AIDocument = require('../models/AIDocument');
-const { scanDirectory, readFileContent, getFileMetadata, calculateFileHash, getProjectName, detectProjectType } = require('../utils/fileUtils');
+const { scanDirectory, readFileContent, getFileMetadata, calculateFileHash, detectProjectType } = require('../utils/fileUtils');
+const { resolveModuleLabel, isAllowedTrainingPath, PROJECT_SOURCE_QUERY } = require('../config/proposalForgeModules');
 const { chunkText, cleanText, extractSummary, extractKeywords } = require('../utils/textUtils');
 const AILogger = require('../utils/logger');
 const AI_CONFIG = require('../config/aiConfig');
@@ -25,11 +26,11 @@ class AIIngestService {
     logger.info('Starting project ingestion', { projectPath });
 
     try {
-      const projectName = getProjectName(projectPath);
+      const projectName = resolveModuleLabel(projectPath);
       const projectType = detectProjectType(projectPath);
-      const files = scanDirectory(projectPath);
+      const files = scanDirectory(projectPath).filter(isAllowedTrainingPath);
 
-      logger.info('Found files to ingest', { projectPath, fileCount: files.length });
+      logger.info('Scanning project source files', { projectName, fileCount: files.length });
 
       const results = {
         projectName,
@@ -177,9 +178,9 @@ class AIIngestService {
    */
   async getStatistics() {
     const stats = {
-      totalDocuments: await AIDocument.countDocuments(),
-      processedDocuments: await AIDocument.countDocuments({ processed: true }),
-      documentsWithEmbeddings: await AIDocument.countDocuments({ embeddingsGenerated: true }),
+      totalDocuments: await AIDocument.countDocuments(PROJECT_SOURCE_QUERY),
+      processedDocuments: await AIDocument.countDocuments({ ...PROJECT_SOURCE_QUERY, processed: true }),
+      documentsWithEmbeddings: await AIDocument.countDocuments({ ...PROJECT_SOURCE_QUERY, embeddingsGenerated: true }),
       totalChunks: 0,
       byLanguage: {},
       byFileType: {},

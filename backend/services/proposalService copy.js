@@ -1,3 +1,5 @@
+const { formatCurrency } = require('../utils/currencyFormatter');
+
 const generateProposalHTML = (project) => {
   const today = new Date().toLocaleDateString('en-IN', {
     year: 'numeric', month: 'long', day: 'numeric',
@@ -11,14 +13,14 @@ const generateProposalHTML = (project) => {
     ? project.costBreakdown.map((item) => `
       <tr>
         <td>${item.name}</td>
-        <td class="amount">₹${Number(item.amount).toLocaleString('en-IN')}</td>
+        <td class="amount">${formatCurrency(item.amount)}</td>
       </tr>`).join('')
     : '';
 
   const costRows = costItems || `
     <tr>
       <td>Project Development</td>
-      <td class="amount">₹${(project.cost || 0).toLocaleString('en-IN')}</td>
+      <td class="amount">${formatCurrency(project.cost)}</td>
     </tr>`;
 
   const getTechGrid = () => {
@@ -424,7 +426,7 @@ const generateProposalHTML = (project) => {
         ${costRows}
         <tr class="total">
           <td>Total Project Cost</td>
-          <td class="amount">₹${(project.cost || 0).toLocaleString('en-IN')}</td>
+          <td class="amount">${formatCurrency(project.cost)}</td>
         </tr>
       </tbody>
     </table>

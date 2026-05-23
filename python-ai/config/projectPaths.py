@@ -1,89 +1,41 @@
 """
 Project Paths Configuration
-Defines where the AI system should scan for projects
+ProposalForge AI codebase training paths only
 """
 
 import os
 from pathlib import Path
 
-# Base project root
 PROJECT_ROOT = str(Path(__file__).parent.parent.parent)
+PROJECT_DISPLAY_NAME = "ProposalForge AI"
 
-# Define all project paths to scan
-PROJECT_PATHS = [
-    # Current project root (scans frontend/, backend/, python-ai/, docs/, etc.)
-    PROJECT_ROOT,
-
-    # Explicit project directories to train
-    os.path.join(PROJECT_ROOT, 'frontend', 'src'),
-    os.path.join(PROJECT_ROOT, 'backend'),
-    os.path.join(PROJECT_ROOT, 'python-ai'),
-    os.path.join(PROJECT_ROOT, 'MD Files Documents'),
-    os.path.join(PROJECT_ROOT, 'Documents'),
-
-    # Common project directories
-    os.path.expanduser("~/Projects"),
-    os.path.expanduser("~/Development"),
-    os.path.expanduser("~/Code"),
-
-    # Windows paths (if applicable)
-    "D:\\Projects",
-    "C:\\Projects",
-    "E:\\Development",
-
-    # Linux/Mac paths
-    "/home/projects",
-    "/opt/projects",
+TRAINING_MODULES = [
+    {"id": "frontend", "label": "ProposalForge AI Frontend", "path": os.path.join(PROJECT_ROOT, "frontend")},
+    {"id": "backend", "label": "ProposalForge AI Backend", "path": os.path.join(PROJECT_ROOT, "backend")},
+    {"id": "python-ai", "label": "ProposalForge AI Python AI Service", "path": os.path.join(PROJECT_ROOT, "python-ai")},
+    {"id": "templates", "label": "ProposalForge AI Templates", "path": os.path.join(PROJECT_ROOT, "templates")},
+    {"id": "docs", "label": "ProposalForge AI Documentation", "path": os.path.join(PROJECT_ROOT, "docs")},
+    {"id": "md-docs", "label": "ProposalForge AI Documentation", "path": os.path.join(PROJECT_ROOT, "MD Files Documents")},
 ]
 
-# File extensions to include in scanning
+PROJECT_PATHS = [m["path"] for m in TRAINING_MODULES if os.path.isdir(m["path"])]
+
 SUPPORTED_EXTENSIONS = {
-    # Code files
     ".js", ".jsx", ".ts", ".tsx",
     ".py", ".java", ".kt", ".dart",
-    # Documentation
     ".md", ".txt",
-    # Configuration
     ".json", ".yaml", ".yml", ".env",
-    # Package files
     "package.json", "pubspec.yaml", "requirements.txt",
-    # Documents
-    ".pdf", ".docx",
 }
 
-# Directories to exclude from scanning
 EXCLUDED_DIRS = {
-    "node_modules",
-    "build",
-    "dist",
-    ".git",
-    "coverage",
-    ".lock",
-    "bin",
-    ".cache",
-    "__pycache__",
-    ".venv",
-    "venv",
-    ".next",
-    ".nuxt",
-    "out",
-    ".gradle",
-    "target",
-    ".pytest_cache",
-    ".mypy_cache",
-    "eggs",
-    ".eggs",
-    "*.egg-info",
+    "node_modules", "build", "dist", ".git", "coverage", ".lock", "bin",
+    ".cache", "__pycache__", ".venv", "venv", "myenv", "logs",
+    ".next", ".nuxt", "out", ".gradle", "target", ".pytest_cache",
+    ".mypy_cache", "eggs", ".eggs", "Documents",
 }
 
-# File patterns to exclude
 EXCLUDED_PATTERNS = {
-    r"\.lock$",
-    r"\.log$",
-    r"\.tmp$",
-    r"\.swp$",
-    r"\.swo$",
-    r"~$",
-    r"\.DS_Store$",
-    r"Thumbs\.db$",
+    r"\.lock$", r"\.log$", r"\.tmp$", r"\.swp$", r"\.swo$", r"~$",
+    r"\.DS_Store$", r"Thumbs\.db$", r"\.pdf$", r"\.docx$", r"\.doc$",
 }
