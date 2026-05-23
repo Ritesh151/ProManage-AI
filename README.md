@@ -1,1082 +1,1020 @@
 <div align="center">
 
-<!-- Animated Gradient Background -->
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12&height=200&section=header&text=ProposalForge%20AI&fontSize=60&fontAlignY=35&animation=fadeIn&fontColor=white" width="100%" alt="Header"/>
+<!-- ANIMATED HERO TITLE -->
+<svg width="100%" height="80" viewBox="0 0 800 80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="heroGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00E5FF">
+        <animate attributeName="stop-color" values="#00E5FF;#7C3AED;#00E5FF" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" stop-color="#7C3AED">
+        <animate attributeName="stop-color" values="#7C3AED;#00E5FF;#7C3AED" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#00E5FF">
+        <animate attributeName="stop-color" values="#00E5FF;#7C3AED;#00E5FF" dur="4s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur">
+        <animate attributeName="stdDeviation" values="3;6;3" dur="2s" repeatCount="indefinite"/>
+      </feGaussianBlur>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <text x="400" y="50" text-anchor="middle" font-size="42" font-weight="800" font-family="system-ui, sans-serif" fill="url(#heroGlow)" filter="url(#glow)">⚡ ProposalForge AI v2.0</text>
+  <text x="400" y="72" text-anchor="middle" font-size="14" fill="#888888" font-family="system-ui, sans-serif">MERN + Python AI Microservice Platform</text>
+</svg>
 
-# **ProposalForge AI**
+> **Intelligent Proposal Generation & Project Management Powered by Multi-LLM Architecture**
 
-### ⚡ **Enterprise-Grade Project Management & Proposal Automation Platform**
+<br>
 
-<div style="display: inline-block; margin: 10px;">
+<!-- ANIMATED BADGES ROW -->
+<svg width="100%" height="36" viewBox="0 0 840 36" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="8" rx="4" ry="4" width="140" height="22" fill="#222222" opacity="0.8"/>
+  <text x="6" y="23" font-size="11" fill="#888" font-family="monospace">★</text>
+  <text x="20" y="23" font-size="11" fill="#eee" font-family="monospace" font-weight="bold">Stars</text>
+  <text x="100" y="23" font-size="11" fill="#FFD700" font-family="monospace">—</text>
 
-<a href="https://nodejs.org/">
-  <img src="https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=nodedotjs&logoColor=white&labelColor=1a1a1a&color=339933" alt="Node.js">
-</a>
+  <rect x="152" y="8" rx="4" ry="4" width="140" height="22" fill="#222222" opacity="0.8"/>
+  <text x="158" y="23" font-size="11" fill="#888" font-family="monospace">⑂</text>
+  <text x="172" y="23" font-size="11" fill="#eee" font-family="monospace" font-weight="bold">Forks</text>
+  <text x="252" y="23" font-size="11" fill="#58A6FF" font-family="monospace">—</text>
 
-<a href="https://reactjs.org/">
-  <img src="https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=white&labelColor=1a1a1a&color=61DAFB" alt="React">
-</a>
+  <rect x="304" y="8" rx="4" ry="4" width="160" height="22" fill="#222222" opacity="0.8"/>
+  <text x="310" y="23" font-size="11" fill="#888" font-family="monospace">⬢</text>
+  <text x="324" y="23" font-size="11" fill="#eee" font-family="monospace" font-weight="bold">License</text>
+  <text x="420" y="23" font-size="11" fill="#3FB950" font-family="monospace">MIT</text>
 
-<a href="https://www.mongodb.com/">
-  <img src="https://img.shields.io/badge/MongoDB-8-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white&labelColor=1a1a1a&color=4EA94B" alt="MongoDB">
-</a>
+  <rect x="476" y="8" rx="4" ry="4" width="150" height="22" fill="#222222" opacity="0.8"/>
+  <!-- Live pulse dot -->
+  <circle cx="486" cy="19" r="4" fill="#00E5FF">
+    <animate attributeName="opacity" values="1;0.2;1" dur="1.5s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="4;5;4" dur="1.5s" repeatCount="indefinite"/>
+  </circle>
+  <text x="496" y="23" font-size="11" fill="#eee" font-family="monospace" font-weight="bold">Visitors</text>
+  <text x="590" y="23" font-size="11" fill="#BC8CFF" font-family="monospace">—</text>
 
-<a href="https://expressjs.com/">
-  <img src="https://img.shields.io/badge/Express-4-000000?style=for-the-badge&logo=express&logoColor=white&labelColor=1a1a1a&color=000000" alt="Express">
-</a>
+  <rect x="638" y="8" rx="4" ry="4" width="100" height="22" fill="#222222" opacity="0.8"/>
+  <text x="650" y="23" font-size="11" fill="#3FB950" font-family="monospace" font-weight="bold">● Active</text>
+  <circle cx="725" cy="19" r="3" fill="#3FB950">
+    <animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite"/>
+  </circle>
 
-<a href="https://tailwindcss.com/">
-  <img src="https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white&labelColor=1a1a1a&color=38B2AC" alt="Tailwind CSS">
-</a>
+  <rect x="750" y="8" rx="4" ry="4" width="80" height="22" fill="#222222" opacity="0.8"/>
+  <text x="756" y="23" font-size="11" fill="#C97586" font-family="monospace" font-weight="bold">PRs ✓</text>
+</svg>
 
-<a href="https://python.org/">
-  <img src="https://img.shields.io/badge/Python-3.13-3776AB?style=for-the-badge&logo=python&logoColor=white&labelColor=1a1a1a&color=3776AB" alt="Python">
-</a>
+<br>
 
-<a href="https://fastapi.tiangolo.com/">
-  <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi&logoColor=white&labelColor=1a1a1a&color=005571" alt="FastAPI">
-</a>
-
-<a href="https://www.trychroma.com/">
-  <img src="https://img.shields.io/badge/ChromaDB-FFD000?style=for-the-badge&logo=chromadb&logoColor=black&labelColor=1a1a1a&color=FFD000" alt="ChromaDB">
-</a>
-
-<a href="#">
-  <img src="https://img.shields.io/badge/LLM-Multi--Model-8A2BE2?style=for-the-badge&logo=openai&logoColor=white&labelColor=1a1a1a&color=8A2BE2" alt="LLM Support">
-</a>
-
-</div>
-
-<p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=18&duration=3000&pause=500&color=8A2BE2&center=true&vCenter=true&width=500&lines=✨+AI-Powered+Proposals+✨;📊+Real-time+Analytics;🤖+Smart+Automation;⚡+Enterprise+Scalability;🚀+99.9%+Uptime" alt="Animated Status" />
+<p>
+  <a href="#-features">Features</a> •
+  <a href="#-system-architecture">Architecture</a> •
+  <a href="#-installation">Installation</a> •
+  <a href="#-api-documentation">API Docs</a> •
+  <a href="#-deployment">Deployment</a> •
+  <a href="#-contributing">Contributing</a>
 </p>
 
-<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
+<br>
 
-<div align="center">
-  <table style="border: none; background: transparent;">
-    <tr>
-      <td align="center" style="border: none; padding: 10px;">
-        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 20px; width: 250px;">
-          <h3 style="color: white;">🎯</h3>
-          <h4 style="color: white;">Smart Proposals</h4>
-          <p style="color: rgba(255,255,255,0.9); font-size: 12px;">AI-generated winning proposals</p>
-        </div>
-      </td>
-      <td align="center" style="border: none; padding: 10px;">
-        <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 20px; border-radius: 20px; width: 250px;">
-          <h3 style="color: white;">📊</h3>
-          <h4 style="color: white;">Real-time Analytics</h4>
-          <p style="color: rgba(255,255,255,0.9); font-size: 12px;">Live metrics & insights</p>
-        </div>
-      </td>
-      <td align="center" style="border: none; padding: 10px;">
-        <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 20px; border-radius: 20px; width: 250px;">
-          <h3 style="color: white;">🤖</h3>
-          <h4 style="color: white;">AI Automation</h4>
-          <p style="color: rgba(255,255,255,0.9); font-size: 12px;">Intelligent workflow automation</p>
-        </div>
-      </td>
-    </tr>
-  </table>
-</div>
+<img src="./assets/1.png" alt="ProposalForge AI Hero" width="100%" style="border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.15);" />
 
-<div align="center">
-  <img src="https://komarev.com/ghpvc/?username=proposalforge&style=for-the-badge&color=8A2BE2&label=✨+VISITORS&abbreviated=true" alt="Visitor Counter" />
-</div>
+<br><br>
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12&height=100&section=footer&animation=fadeOut" width="100%" alt="Footer"/>
+<!-- TYPING + CONTINUOUS ANIMATION -->
+<p>
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=22&duration=3000&pause=1000&color=00E5FF&center=true&vCenter=true&width=600&lines=AI-Powered+Proposal+Engine;Multi-LLM+Architecture;Real-Time+Analytics+%26+Insights;Smart+Knowledge+Management;Enterprise-Grade+Export+System" alt="Typing SVG" />
+</p>
+
+<br>
+
+<!-- CONTINUOUS ANIMATED PROGRESS BAR - SYSTEM STATUS -->
+<svg width="600" height="40" viewBox="0 0 600 40" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="12" width="600" height="16" rx="8" fill="#1a1a2e"/>
+  <rect x="0" y="12" width="600" height="16" rx="8" fill="url(#barGrad)" opacity="0.3"/>
+  <defs>
+    <linearGradient id="barGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00E5FF"/>
+      <stop offset="50%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#00E5FF"/>
+    </linearGradient>
+    <clipPath id="barClip">
+      <rect x="0" y="12" width="600" height="16" rx="8"/>
+    </clipPath>
+  </defs>
+  <rect clip-path="url(#barClip)" x="-600" y="12" width="600" height="16" fill="url(#barGrad)" opacity="0.8">
+    <animate attributeName="x" from="-600" to="600" dur="3s" repeatCount="indefinite"/>
+  </rect>
+  <text x="300" y="24" text-anchor="middle" font-size="10" fill="#fff" font-family="monospace" font-weight="bold">● SYSTEM ONLINE — ALL SERVICES OPERATIONAL</text>
+</svg>
 
 </div>
 
-## 📋 Table of Contents
+---
 
-<div align="center">
-  <table style="border: none; background: transparent; width: 100%;">
-    <tr>
-      <td style="border: none; padding: 5px;" width="33%">
-        <a href="#-overview">🚀 Overview</a>
-      </td>
-      <td style="border: none; padding: 5px;" width="33%">
-        <a href="#-features">✨ Features</a>
-      </td>
-      <td style="border: none; padding: 5px;" width="33%">
-        <a href="#-system-architecture">🏗️ System Architecture</a>
-      </td>
-    </tr>
-    <tr>
-      <td style="border: none; padding: 5px;">
-        <a href="#-tech-stack">🛠️ Tech Stack</a>
-      </td>
-      <td style="border: none; padding: 5px;">
-        <a href="#-folder-structure">📁 Folder Structure</a>
-      </td>
-      <td style="border: none; padding: 5px;">
-        <a href="#-installation">📦 Installation</a>
-      </td>
-    </tr>
-    <tr>
-      <td style="border: none; padding: 5px;">
-        <a href="#-environment-variables">🔐 Environment Variables</a>
-      </td>
-      <td style="border: none; padding: 5px;">
-        <a href="#-running-the-project">🚀 Running the Project</a>
-      </td>
-      <td style="border: none; padding: 5px;">
-        <a href="#-api-documentation">📚 API Documentation</a>
-      </td>
-    </tr>
-    <tr>
-      <td style="border: none; padding: 5px;">
-        <a href="#-workflow">🔄 Workflow</a>
-      </td>
-      <td style="border: none; padding: 5px;">
-        <a href="#-screenshots">📸 Screenshots</a>
-      </td>
-      <td style="border: none; padding: 5px;">
-        <a href="#-deployment">☁️ Deployment</a>
-      </td>
-    </tr>
-    <tr>
-      <td style="border: none; padding: 5px;">
-        <a href="#-troubleshooting">⚠️ Troubleshooting</a>
-      </td>
-      <td style="border: none; padding: 5px;">
-        <a href="#-future-improvements">🚀 Future Improvements</a>
-      </td>
-      <td style="border: none; padding: 5px;">
-        <a href="#-contributing">🤝 Contributing</a>
-      </td>
-    </tr>
-    <tr>
-      <td style="border: none; padding: 5px;">
-        <a href="#-author">👤 Author</a>
-      </td>
-      <td style="border: none; padding: 5px;">
-        <a href="#-license">📄 License</a>
-      </td>
-      <td style="border: none; padding: 5px;"></td>
-    </tr>
-  </table>
-</div>
+## 📑 Table of Contents
 
-<br/>
+- [Overview](#-overview)
+- [Features](#-features)
+- [Screenshots](#-screenshots)
+- [System Architecture](#-system-architecture)
+- [Folder Structure](#-folder-structure)
+- [Installation](#-installation)
+- [Environment Variables](#-environment-variables)
+- [Running the Project](#-running-the-project)
+- [API Documentation](#-api-documentation)
+- [Workflow Diagram](#-workflow-diagram)
+- [Deployment](#-deployment)
+- [Future Improvements](#-future-improvements)
+- [Contributing](#-contributing)
+- [Author](#-author)
+- [License](#-license)
+
+---
 
 ## 📖 Overview
 
-<div align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=24&duration=3000&pause=500&color=8A2BE2&center=true&vCenter=true&width=600&lines=🚀+ProposalForge+AI;✨+Intelligent+Proposal+Automation;🤖+AI-Powered+Sales+Acceleration;📊+Enterprise-Grade+Analytics" alt="Overview Header" />
+**ProposalForge AI v2.0** is an enterprise-grade, full-stack application that combines the power of the **MERN stack** with a **Python AI microservice** to deliver intelligent proposal generation, project management, analytics, and knowledge-driven workflow automation.
 
-  <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
-</div>
+The platform supports **multiple LLM providers** — OpenAI, Gemini, and Ollama — and leverages **ChromaDB** for vector-based semantic search, enabling context-aware AI responses. From dynamic scope selection to real-time proposal previews and bulk exports, ProposalForge AI streamlines the entire project lifecycle.
 
-<br/>
+<br>
 
-<div align="center">
-  <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
-    <p style="color: white; font-size: 18px; line-height: 1.6;">
-      <strong>ProposalForge AI</strong> is a full-stack MERN application that streamlines the sales and project planning lifecycle
-      for agencies, freelancers, and consulting firms. It enables users to create and manage projects, dynamically select
-      scope of work and technologies, perform automated cost calculations, and generate professional proposals in
-      <strong>PDF or DOCX</strong> format — all with a single click.
-    </p>
-    <br/>
-    <p style="color: white; font-size: 16px; line-height: 1.6;">
-      An integrated <strong>🤖 AI Knowledge System</strong> (Node.js + Python microservice) provides intelligent Q&A over project code
-      and a ChatGPT-style chat interface, powered by multiple LLM providers <strong>(OpenAI, Gemini, Ollama, Anthropic)</strong>
-      and vector embeddings via ChromaDB. The system features a fully functional Training Center with real-time progress tracking,
-      live logs, and training history.
-    </p>
-  </div>
-</div>
-
-<br/>
-
-<div align="center">
-  <table style="border: none; background: transparent; width: 100%;">
-    <tr>
-      <td style="border: none; padding: 15px;" width="50%">
-        <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 20px; border-radius: 15px; text-align: center;">
-          <h3 style="color: white;">⚠️ Problem Solved</h3>
-          <p style="color: white;">Manual proposal creation is slow, inconsistent, and error-prone</p>
-        </div>
-      </td>
-      <td style="border: none; padding: 15px;" width="50%">
-        <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 20px; border-radius: 15px; text-align: center;">
-          <h3 style="color: white;">🎯 Target Users</h3>
-          <p style="color: white;">Agencies, freelancers, consulting firms, project managers</p>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td style="border: none; padding: 15px;">
-        <div style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); padding: 20px; border-radius: 15px; text-align: center;">
-          <h3 style="color: white;">💼 Business Purpose</h3>
-          <p style="color: white;">Accelerate sales cycle with automated, professional client proposals</p>
-        </div>
-      </td>
-      <td style="border: none; padding: 15px;">
-        <div style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); padding: 20px; border-radius: 15px; text-align: center;">
-          <h3 style="color: white;">⚡ Main Capabilities</h3>
-          <p style="color: white;">Project CRUD, cost calculation, proposal generation (PDF/DOCX), analytics dashboard, bulk export, AI-powered code Q&A</p>
-        </div>
-      </td>
-    </tr>
-  </table>
-</div>
-
-<br/>
-
-<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
+<p align="center">
+  <img src="./assets/2.1.png" alt="Dashboard Overview" width="90%" style="border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);" />
+  <br>
+  <em>Analytics Dashboard — Interactive Charts & Real-Time Insights</em>
+</p>
 
 ---
 
-## ✨ Features
+<!-- ANIMATED SECTION DIVIDER -->
+<svg width="100%" height="24" viewBox="0 0 800 24" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="12" x2="800" y2="12" stroke="#333" stroke-width="1" opacity="0.5"/>
+  <circle cx="400" cy="12" r="6" fill="#00E5FF">
+    <animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="400" cy="12" r="12" fill="none" stroke="#00E5FF" stroke-width="0.5" opacity="0.3">
+    <animate attributeName="r" values="12;20;12" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite"/>
+  </circle>
+</svg>
 
-<div align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=22&duration=3000&pause=500&color=FF6B6B&center=true&vCenter=true&width=500&lines=🚀+Powerful+Features;⚡+Enterprise-Grade+Capabilities;🤖+AI-Integrated+Workflow;📊+Real-time+Analytics" alt="Features Header" />
-</div>
-
-<br/>
-
-<div align="center">
-
-  <table style="border: none; background: transparent; width: 100%;">
-    <tr>
-      <td style="border: none; padding: 15px;" width="33%">
-        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 25px; border-radius: 20px; text-align: center;">
-          <div style="font-size: 48px;">📋</div>
-          <h3 style="color: white; margin: 10px 0;">Project Management</h3>
-          <div style="border-top: 2px solid rgba(255,255,255,0.3); margin: 15px 0;"></div>
-          <ul style="text-align: left; color: white; list-style-type: none; padding-left: 0;">
-            <li>✅ Create, edit, and delete projects with comprehensive client details and timelines</li>
-            <li>✅ Search, filter by category/status, and paginate through large project lists</li>
-            <li>✅ Multi-select dropdown for scope of work with category-based preloading</li>
-          </ul>
-        </div>
-      </td>
-      <td style="border: none; padding: 15px;" width="33%">
-        <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 25px; border-radius: 20px; text-align: center;">
-          <div style="font-size: 48px;">🚀</div>
-          <h3 style="color: white; margin: 10px 0;">Proposal Automation</h3>
-          <div style="border-top: 2px solid rgba(255,255,255,0.3); margin: 15px 0;"></div>
-          <ul style="text-align: left; color: white; list-style-type: none; padding-left: 0;">
-            <li>✅ One-click professional proposal generation with fixed, beautifully formatted templates</li>
-            <li>✅ Dynamic content injection — client details, scope, tech stack, and cost summaries</li>
-            <li>✅ Real-time HTML preview before generation</li>
-          </ul>
-        </div>
-      </td>
-      <td style="border: none; padding: 15px;" width="33%">
-        <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 25px; border-radius: 20px; text-align: center;">
-          <div style="font-size: 48px;">📊</div>
-          <h3 style="color: white; margin: 10px 0;">Analytics Dashboard</h3>
-          <div style="border-top: 2px solid rgba(255,255,255,0.3); margin: 15px 0;"></div>
-          <ul style="text-align: left; color: white; list-style-type: none; padding-left: 0;">
-            <li>✅ 12 interactive chart types: Bar, Line, Area, Pie, Doughnut, Radar, Composed, and Radial bar</li>
-            <li>✅ Revenue tracking calculated only from completed projects</li>
-            <li>✅ Section tabs to filter charts: Overview, Distribution, Trends, and Insights</li>
-            <li>✅ Gantt chart timeline per project showing scope-of-work milestones</li>
-          </ul>
-        </div>
-      </td>
-    </tr>
-  </table>
-
-  <table style="border: none; background: transparent; width: 100%; margin-top: 20px;">
-    <tr>
-      <td style="border: none; padding: 15px;" width="33%">
-        <div style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); padding: 25px; border-radius: 20px; text-align: center;">
-          <div style="font-size: 48px;">📤</div>
-          <h3 style="color: white; margin: 10px 0;">Export System</h3>
-          <div style="border-top: 2px solid rgba(255,255,255,0.3); margin: 15px 0;"></div>
-          <ul style="text-align: left; color: white; list-style-type: none; padding-left: 0;">
-            <li>✅ <strong>PDF export</strong> via Puppeteer (print-ready, pixel-perfect)</li>
-            <li>✅ <strong>DOCX export</strong> via docx library (editable Word documents)</li>
-            <li>✅ <strong>CSV & Excel bulk export</strong> for external analysis of project database</li>
-          </ul>
-        </div>
-      </td>
-      <td style="border: none; padding: 15px;" width="33%">
-        <div style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); padding: 25px; border-radius: 20px; text-align: center;">
-          <div style="font-size: 48px;">🔧</div>
-          <h3 style="color: white; margin: 10px 0;">Dynamic Scope Management</h3>
-          <div style="border-top: 2px solid rgba(255,255,255,0.3); margin: 15px 0;"></div>
-          <ul style="text-align: left; color: white; list-style-type: none; padding-left: 0;">
-            <li>✅ Category-based scope items load instantly based on project type</li>
-            <li>✅ Searchable multi-select dropdown with checkbox precision</li>
-            <li>✅ Fully customizable deliverable selection</li>
-          </ul>
-        </div>
-      </td>
-      <td style="border: none; padding: 15px;" width="33%">
-        <div style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); padding: 25px; border-radius: 20px; text-align: center;">
-          <div style="font-size: 48px;">💰</div>
-          <h3 style="color: #333; margin: 10px 0;">Cost Management</h3>
-          <div style="border-top: 2px solid rgba(51,51,51,0.3); margin: 15px 0;"></div>
-          <ul style="text-align: left; color: #333; list-style-type: none; padding-left: 0;">
-            <li>✅ Dynamic cost calculator that auto-sums project modules</li>
-            <li>✅ Custom ad-hoc line items with specific pricing</li>
-          </ul>
-        </div>
-      </td>
-    </tr>
-  </table>
-
-  <table style="border: none; background: transparent; width: 100%; margin-top: 20px;">
-    <tr>
-      <td style="border: none; padding: 15px;" colspan="3">
-        <div style="background: linear-gradient(135deg, #8A2BE2 0%, #FF6B6B 100%); padding: 25px; border-radius: 20px; text-align: center;">
-          <div style="font-size: 48px;">🤖</div>
-          <h3 style="color: white; margin: 10px 0;">AI Knowledge System</h3>
-          <div style="border-top: 2px solid rgba(255,255,255,0.3); margin: 15px 0;"></div>
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; text-align: left;">
-            <div style="color: white;">
-              <strong>✨ Core Features:</strong>
-              <ul>
-                <li>✅ ChatGPT-style conversational chat interface</li>
-                <li>✅ Supports OpenAI, Gemini, and local Ollama LLM providers</li>
-                <li>✅ Flexible LLM configuration via <code>AI_LLM_PROVIDER</code> environment variable</li>
-                <li>✅ Training Center with full training, incremental retraining, and safe stop controls</li>
-              </ul>
-            </div>
-            <div style="color: white;">
-              <strong>🚀 Advanced Capabilities:</strong>
-              <ul>
-                <li>✅ Automatic project discovery and file ingestion across <code>frontend/</code>, <code>backend/</code>, <code>python-ai/</code>, <code>docs/</code>, <code>templates/</code></li>
-                <li>✅ Real-time file watcher for incremental indexing</li>
-                <li>✅ Training Center page with real-time progress bars, live logs, training history, and knowledge statistics</li>
-                <li>✅ Python FastAPI microservice for advanced AI operations with ChromaDB vector storage</li>
-                <li>✅ Polling-based real-time status updates (2s interval) during training sessions</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </td>
-    </tr>
-  </table>
-
-</div>
-
-<br/>
-
-<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
-
----
-
-## 🏗️ System Architecture
-
-<div align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=24&duration=3000&pause=500&color=8A2BE2&center=true&vCenter=true&width=600&lines=🏛️+System+Architecture;🔧+Microservices+Design;🤖+AI-Powered+Backend;⚡+Scalable+Infrastructure" alt="Architecture Header" />
-
-  <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
-</div>
-
-<br/>
-
-<div align="center">
-  <details open>
-    <summary style="cursor: pointer; font-size: 20px; font-weight: bold; color: #8A2BE2; list-style: none;">
-      <span style="background: linear-gradient(135deg, #8A2BE2, #FF6B6B); padding: 5px 15px; border-radius: 20px;">📐 Click to expand/collapse architecture diagram</span>
-    </summary>
-    <br/>
-
-    <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 30px; border-radius: 20px; font-family: 'Courier New', monospace; overflow-x: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
-      <pre style="color: #00ff00; text-shadow: 0 0 5px #00ff00; background: transparent; border: none; font-size: 14px; line-height: 1.4;">
-<span style="color: #61DAFB;">┌─────────────────────────────────────────────────────────────────────┐</span>
-<span style="color: #61DAFB;">│                        React Frontend                                │</span>
-<span style="color: #61DAFB;">│              (ProposalForge UI + AI Chat + Training Center)         │</span>
-<span style="color: #61DAFB;">└───────────────────────────────────┬─────────────────────────────────┘</span>
-                                    <span style="color: #FFD700;">│</span>
-                                    <span style="color: #FFD700;">│  REST API (HTTP / JSON)</span>
-                                    <span style="color: #FFD700;">▼</span>
-<span style="color: #68A063;">┌─────────────────────────────────────────────────────────────────────┐</span>
-<span style="color: #68A063;">│                    Express REST API (Node.js)                        │</span>
-<span style="color: #68A063;">│   ┌─────────────┐ ┌────────────┐ ┌────────────────────┐            │</span>
-<span style="color: #68A063;">│   │  Projects   │ │  Proposal  │ │    Categories      │            │</span>
-<span style="color: #68A063;">│   └─────────────┘ └────────────┘ └────────────────────┘            │</span>
-<span style="color: #68A063;">│   ┌─────────────┐ ┌────────────┐ ┌────────────────────┐            │</span>
-<span style="color: #68A063;">│   │  Dashboard  │ │   Export   │ │  AI (Chat/Train)   │            │</span>
-<span style="color: #68A063;">│   └─────────────┘ └────────────┘ └────────────────────┘            │</span>
-<span style="color: #68A063;">└───────────────────────────────────┬─────────────────────────────────┘</span>
-                                    <span style="color: #FFD700;">│</span>
-                    <span style="color: #FFD700;">┌───────────────┼───────────────┐</span>
-                    <span style="color: #FFD700;">▼               ▼               ▼</span>
-<span style="color: #FF6B6B;">┌───────────────────┐ ┌────────────┐ ┌──────────────────────┐</span>
-<span style="color: #FF6B6B;">│   Controllers     │ │  Services  │ │    Middleware        │</span>
-<span style="color: #FF6B6B;">│   (Request        │ │  (Business │ │   (Error, Auth,      │</span>
-<span style="color: #FF6B6B;">│    Handlers)      │ │   Logic)   │ │    Validation)       │</span>
-<span style="color: #FF6B6B;">└───────────────────┘ └────────────┘ └──────────────────────┘</span>
-                    <span style="color: #FFD700;">│              │</span>
-                    <span style="color: #FFD700;">▼              ▼</span>
-<span style="color: #4EA94B;">┌─────────────────────────────────────────────────────────────────────┐</span>
-<span style="color: #4EA94B;">│                          MongoDB                                     │</span>
-<span style="color: #4EA94B;">│                    (Mongoose ODM via Mongoose 8)                     │</span>
-<span style="color: #4EA94B;">│   ┌───────────────┐ ┌────────────────┐ ┌─────────────────┐        │</span>
-<span style="color: #4EA94B;">│   │   Projects    │ │   AIDocument   │ │  AITraining     │        │</span>
-<span style="color: #4EA94B;">│   │   Scopes      │ │  AIChatHistory │ │  Sessions       │        │</span>
-<span style="color: #4EA94B;">│   └───────────────┘ └────────────────┘ └─────────────────┘        │</span>
-<span style="color: #4EA94B;">└─────────────────────────────────────────────────────────────────────┘</span>
-
-<span style="color: #8A2BE2;">┌─────────────────────────────────────────────────────────────────────┐</span>
-<span style="color: #8A2BE2;">│                       AI Knowledge System                            │</span>
-<span style="color: #8A2BE2;">│   ┌─────────────────────────┐    ┌────────────────────────────┐    │</span>
-<span style="color: #8A2BE2;">│   │   Node.js AI Layer      │    │   Python FastAPI          │    │</span>
-<span style="color: #8A2BE2;">│   │   (Training Pipeline)   │◄───┤   Microservice            │    │</span>
-<span style="color: #8A2BE2;">│   │   - AITrainingService    │    │   - AITrainingService     │    │</span>
-<span style="color: #8A2BE2;">│   │   - AIEmbeddingSvc       │    │   - AIEmbeddingService    │    │</span>
-<span style="color: #8A2BE2;">│   │   - AIIngestService      │    │   - AIIngestService       │    │</span>
-<span style="color: #8A2BE2;">│   │   - AIChatService        │    │   - AIChatService         │    │</span>
-<span style="color: #8A2BE2;">│   │   - File Watcher         │    │   - File Watcher          │    │</span>
-<span style="color: #8A2BE2;">│   │   - PythonAIClient       │    │   - Project Discovery     │    │</span>
-<span style="color: #8A2BE2;">│   └─────────────────────────┘    └──────────────┬─────────────┘    │</span>
-<span style="color: #8A2BE2;">│                                                  │                  │</span>
-<span style="color: #8A2BE2;">│                                                  ▼                  │</span>
-<span style="color: #8A2BE2;">│                                      ┌────────────────────────┐    │</span>
-<span style="color: #FFD000;">│                                      │       ChromaDB         │    │</span>
-<span style="color: #FFD000;">│                                      │   (Vector Database)    │    │</span>
-<span style="color: #FFD000;">│                                      │   - Embeddings         │    │</span>
-<span style="color: #FFD000;">│                                      │   - Vector Search      │    │</span>
-<span style="color: #FFD000;">│                                      └────────────┬───────────┘    │</span>
-<span style="color: #8A2BE2;">│                                                  │                  │</span>
-<span style="color: #8A2BE2;">│                                                  ▼                  │</span>
-<span style="color: #8A2BE2;">│                                      ┌────────────────────────┐    │</span>
-<span style="color: #8A2BE2;">│                                      │     LLM Provider       │    │</span>
-<span style="color: #8A2BE2;">│                                      │  OpenAI / Gemini /     │    │</span>
-<span style="color: #8A2BE2;">│                                      │  Ollama / Anthropic    │    │</span>
-<span style="color: #8A2BE2;">│                                      └────────────────────────┘    │</span>
-<span style="color: #8A2BE2;">└─────────────────────────────────────────────────────────────────────┘</span>
-      </pre>
-    </div>
-  </details>
-</div>
-
-<br/>
-
-### 🔄 Data Flow
-
-```mermaid
-graph TD
-    A[⚛️ React Frontend] -->|HTTP/JSON| B[🚀 Express API]
-    B --> C[🎮 Controllers]
-    C --> D[⚙️ Services]
-    D --> E[🍃 MongoDB]
-    D --> F[📄 PDF/DOCX/CSV/Excel Engine]
-    D --> G[🤖 AI Chat Service]
-    D --> H[📊 AI Training Service]
-    G --> I[🐍 Python AI Microservice]
-    H --> I
-    I --> J[🔷 ChromaDB Vector Store]
-    I --> K[🧠 LLM Provider<br/>OpenAI/Gemini/Ollama/Anthropic]
-
-    style A fill:#61DAFB,stroke:#fff,stroke-width:2px,color:#000
-    style B fill:#68A063,stroke:#fff,stroke-width:2px,color:#fff
-    style E fill:#4EA94B,stroke:#fff,stroke-width:2px,color:#fff
-    style J fill:#FFD000,stroke:#fff,stroke-width:2px,color:#000
-    style K fill:#8A2BE2,stroke:#fff,stroke-width:2px,color:#fff
-    style I fill:#3776AB,stroke:#fff,stroke-width:2px,color:#fff
-    style F fill:#FF6B6B,stroke:#fff,stroke-width:2px,color:#fff
-```
-
-<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
-
----
-
-## 🛠️ Tech Stack
-
-<div align="center">
-  <table style="border: none; background: transparent; width: 100%;">
-    <tr>
-      <td style="border: none; padding: 10px;" width="20%">
-        <div style="background: linear-gradient(135deg, #61DAFB20, #61DAFB40); padding: 15px; border-radius: 15px; text-align: center;">
-          <h4 style="color: #61DAFB;">🎨 Frontend</h4>
-          <p style="color: #ccc; font-size: 12px;">React 18, Tailwind CSS, Recharts, React Router</p>
-        </div>
-      </td>
-      <td style="border: none; padding: 10px;" width="20%">
-        <div style="background: linear-gradient(135deg, #68A06320, #68A06340); padding: 15px; border-radius: 15px; text-align: center;">
-          <h4 style="color: #68A063;">⚙️ Backend</h4>
-          <p style="color: #ccc; font-size: 12px;">Node.js, Express 4, Mongoose 8, Puppeteer</p>
-        </div>
-      </td>
-      <td style="border: none; padding: 10px;" width="20%">
-        <div style="background: linear-gradient(135deg, #4EA94B20, #4EA94B40); padding: 15px; border-radius: 15px; text-align: center;">
-          <h4 style="color: #4EA94B;">🗄️ Database</h4>
-          <p style="color: #ccc; font-size: 12px;">MongoDB, Mongoose ODM</p>
-        </div>
-      </td>
-      <td style="border: none; padding: 10px;" width="20%">
-        <div style="background: linear-gradient(135deg, #8A2BE220, #8A2BE240); padding: 15px; border-radius: 15px; text-align: center;">
-          <h4 style="color: #8A2BE2;">🧠 AI/ML</h4>
-          <p style="color: #ccc; font-size: 12px;">Python, FastAPI, ChromaDB, OpenAI, Gemini, Ollama</p>
-        </div>
-      </td>
-      <td style="border: none; padding: 10px;" width="20%">
-        <div style="background: linear-gradient(135deg, #FFD70020, #FFD70040); padding: 15px; border-radius: 15px; text-align: center;">
-          <h4 style="color: #FFD700;">🚀 DevOps</h4>
-          <p style="color: #ccc; font-size: 12px;">Docker, Nginx, Git</p>
-        </div>
-      </td>
-    </tr>
-  </table>
-</div>
-
-<br/>
-
-<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
-
----
-
-## 📂 Folder Structure
-
-<div align="center">
-  <div style="background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%); padding: 30px; border-radius: 20px; font-family: 'Fira Code', 'Courier New', monospace; font-size: 13px; line-height: 1.8; overflow-x: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.3); text-align: left;">
-
-```
-📦 ProposalForge AI
-├── 📱 frontend/          # React Application
-│   ├── public/
-│   ├── build/            # Production build output
-│   ├── package.json
-│   ├── postcss.config.js
-│   ├── tailwind.config.js
-│   └── src/
-│       ├── App.js
-│       ├── index.js
-│       ├── index.css
-│       ├── components/   # Reusable UI components (40+)
-│       ├── context/      # Global state management
-│       ├── hooks/        # Custom React hooks (9)
-│       ├── pages/        # Main application pages (12)
-│       ├── services/     # API service layer (7)
-│       └── utils/        # Helper functions
-│
-├── ⚙️ backend/           # Node.js/Express API
-│   ├── .env
-│   ├── .env.example
-│   ├── package.json
-│   ├── server.js
-│   ├── ai/               # AI Knowledge System
-│   │   ├── config/
-│   │   ├── controllers/
-│   │   ├── models/       # AIChatHistory, AIDocument, AITrainingSession
-│   │   └── services/     # 7 AI services
-│   ├── controllers/
-│   ├── models/           # Project, ScopeCategory
-│   ├── routes/
-│   └── services/         # Business logic services
-│
-├── 🐍 python-ai/         # Python AI Microservice
-│   ├── app.py
-│   ├── requirements.txt
-│   ├── .env / .env.example
-│   ├── run.sh / run.bat
-│   ├── config/
-│   ├── routes/
-│   └── services/         # 6 AI microservices
-│
-├── 📁 Documents/         # Generated proposal PDFs
-├── .gitignore
-├── To_DO.txt
-├── package.json
-└── README.md
-```
-
-  </div>
-</div>
-
-<br/>
-
-<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
-
----
-
-## 📦 Installation
-
-<div align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=24&duration=3000&pause=500&color=8A2BE2&center=true&vCenter=true&width=600&lines=🔧+Installation+Guide;📦+One-Command+Setup;🚀+Quick+Start;⚡+Get+Running+in+Minutes" alt="Installation Header" />
-
-  <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
-</div>
-
-<br/>
-
-### 📋 Prerequisites
-
-- **Node.js** 18+ - JavaScript Runtime
-- **MongoDB** 4.4+ - Database (local/Docker)
-- **Python** 3.13+ - Optional (AI microservice)
-- **npm/yarn** - Package Manager
-
-<br/>
-
-### 🚀 Installation Steps
-
-<div align="center">
-  <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 30px; border-radius: 20px; text-align: left;">
-
-**Step 1: Clone Repository**
-```
-git clone https://github.com/Ritesh151/ProManage-AI.git
-cd ProManage-AI
-```
-
-**Step 2: Backend Setup**
-```
-cd backend
-cp .env.example .env   # Configure environment variables
-npm install
-npm run dev             # Starts on http://localhost:5000
-```
-
-**Step 3: Frontend Setup**
-```
-cd frontend
-npm install
-npm start               # Starts on http://localhost:3000
-```
-
-**Step 4: Python AI Microservice (Optional)**
-```
-cd python-ai
-python -m venv myenv
-source myenv/bin/activate     # On Windows: myenv\Scripts\activate
-pip install -r requirements.txt
-uvicorn app:app --reload       # Starts on http://localhost:8000
-```
-
-  </div>
-</div>
-
-<br/>
-
-### 🧠 Train AI Knowledge Base
-
-| Option | Description |
-|--------|-------------|
-| **A: Training Center UI** | Navigate to `http://localhost:3000/training-center`, click **Start Training** or **Retrain** |
-| **B: CLI Commands** | `cd backend && npm run train-ai` (index files), `npm run retrain-ai` (incremental), `npm run ai-status` |
-| **C: API Calls** | `curl -X POST http://localhost:5000/api/ai/train`, `curl http://localhost:5000/api/ai/status` |
-
-<br/>
-
-<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
-
----
-
-## 🔑 Environment Variables
+## 🚀 Features
 
 <details open>
-  <summary style="cursor: pointer; font-size: 18px; font-weight: bold; color: #FFD700;">📝 Click to expand .env configuration</summary>
-  <br/>
+<summary><strong>📋 Project Management</strong></summary>
+<br>
 
-  <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 20px; border-radius: 15px;">
-    <div style="background: #0a0a0a; padding: 20px; border-radius: 10px; font-family: monospace; font-size: 12px; overflow-x: auto;">
+| Feature | Description |
+|---------|-------------|
+| **Create Project** | Build new projects with rich metadata and scope assignment |
+| **Edit Project** | Modify project details, scope, and technology mappings |
+| **Delete Project** | Remove projects with cascade cleanup |
+| **Search Projects** | Full-text search across project titles, descriptions, and tags |
+| **Filter Projects** | Filter by status, category, technology, and date range |
+| **Pagination** | Server-side paginated responses for large datasets |
+| **Project Details** | Comprehensive project view with all associated data |
 
-```
-# Database
-MONGODB_URI=mongodb://localhost:27017/ai-knowledge
-
-# Server
-PORT=5000
-NODE_ENV=development
-
-# AI System Configuration
-AI_LLM_PROVIDER=openai           # openai | gemini | ollama | anthropic | custom
-AI_EMBEDDING_PROVIDER=huggingface # huggingface | openai
-AI_VECTOR_DB_TYPE=chroma         # chroma | pinecone | weaviate
-
-# OpenAI Configuration
-OPENAI_API_KEY=sk-your-key-here
-OPENAI_MODEL=gpt-3.5-turbo
-OPENAI_TEMPERATURE=0.7
-OPENAI_MAX_TOKENS=2000
-
-# Gemini Configuration
-GEMINI_API_KEY=your-key-here
-GEMINI_MODEL=gemini-pro
-
-# Ollama Configuration (local LLM)
-OLLAMA_BASE_URL=http://localhost:11434
-OLLAMA_MODEL=mistral
-
-# Chroma Vector Database
-CHROMA_HOST=localhost
-CHROMA_PORT=8000
-CHROMA_PERSIST_DIR=./data/chroma
-
-# AI Retrieval
-AI_TOP_K=5
-AI_SIMILARITY_THRESHOLD=0.5
-
-# Python AI Microservice
-PYTHON_AI_URL=http://localhost:8000
-```
-
-    </div>
-  </div>
 </details>
 
-<br/>
+<details>
+<summary><strong>🎯 Scope & Category System</strong></summary>
+<br>
 
-<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
+- **Dynamic Scope Selection** — Hierarchical scope trees with real-time updates
+- **Category Management** — Create, edit, delete categories with validation
+- **Multi-Select Support** — Assign multiple scopes/categories per project
+- **Technology Mapping** — Map technologies to scopes for intelligent proposal generation
 
----
+</details>
 
-## 🚀 Running the Project
+<details>
+<summary><strong>📄 Proposal System</strong></summary>
+<br>
 
-### Service Architecture
+- **AI Proposal Generation** — Generate professional proposals using multi-LLM AI engine
+- **Dynamic Proposal Templates** — Customizable templates with variable injection
+- **Real-Time Preview** — Live Markdown-to-HTML rendering as you edit
+- **PDF Generation** — Server-side PDF rendering with custom styling
+- **DOCX Generation** — Microsoft Word-compatible document export
 
-```mermaid
-flowchart LR
-    A[🍃 MongoDB<br/>:27017] --> B[⚙️ Backend<br/>:5000]
-    C[🐍 Python AI<br/>Microservice :8000] --> B
-    D[🔷 ChromaDB<br/>:8000] --> C
-    B --> E[🎨 Frontend<br/>:3000]
+</details>
 
-    style A fill:#4EA94B,stroke:#fff,stroke-width:2px,color:#fff
-    style B fill:#68A063,stroke:#fff,stroke-width:2px,color:#fff
-    style C fill:#3776AB,stroke:#fff,stroke-width:2px,color:#fff
-    style D fill:#FFD000,stroke:#fff,stroke-width:2px,color:#000
-    style E fill:#61DAFB,stroke:#fff,stroke-width:2px,color:#000
-```
+<details>
+<summary><strong>📊 Analytics Dashboard</strong></summary>
+<br>
 
-### Service Table
+- **Interactive Charts** — Line, bar, pie, and doughnut charts via Chart.js
+- **Revenue Analytics** — Track projected vs. actual revenue with trend lines
+- **Trends & Insights** — AI-driven anomaly detection and trend forecasting
+- **Gantt Timeline** — Visual project scheduling with drag-and-drop adjustments
 
-| Service | Command | Directory | URL |
-|---------|---------|-----------|-----|
-| **MongoDB** | `docker run -d -p 27017:27017 mongo:latest` | — | `mongodb://localhost:27017` |
-| **ChromaDB** | `docker run -d -p 8000:8000 chromadb/chroma` | — | `http://localhost:8000` |
-| **Backend** | `npm run dev` | `./backend` | `http://localhost:5000` |
-| **Frontend** | `npm start` | `./frontend` | `http://localhost:3000` |
-| **Python AI** | `uvicorn app:app --reload` | `./python-ai` | `http://localhost:8000` |
+</details>
 
-<br/>
+<details>
+<summary><strong>📦 Export System</strong></summary>
+<br>
 
-<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
+| Export Type | Format | Status |
+|-------------|--------|--------|
+| CSV Export | `.csv` | ✅ Supported |
+| Excel Export | `.xlsx` | ✅ Supported |
+| PDF Export | `.pdf` | ✅ Supported |
+| Bulk Export | Multi-format | ✅ Supported |
 
----
+</details>
 
-## 📚 API Documentation
+<details>
+<summary><strong>🧠 AI Knowledge System</strong></summary>
+<br>
 
-### 📋 Projects API
+- **ChatGPT-Style AI Assistant** — Conversational interface with thread history
+- **Multi-Model Support** — Seamlessly switch between OpenAI, Gemini, and Ollama
+- **OpenAI Integration** — GPT-4o / GPT-4-turbo with streaming responses
+- **Gemini Integration** — Google Gemini Pro with function calling
+- **Ollama Integration** — Local LLM inference (Llama 3, Mistral, etc.)
+- **ChromaDB Vector Search** — Persistent vector database for semantic retrieval
+- **Knowledge Indexing** — Automated document chunking and embedding pipeline
+- **Semantic Search** — Cosine similarity search over indexed knowledge base
+- **Context-Based Responses** — Retrieval-Augmented Generation (RAG) pipeline
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/projects/create` | Create a new project |
-| GET | `/api/projects` | Fetch all projects (search, filter, pagination, sort) |
-| GET | `/api/projects/:id` | Fetch a single project by ID |
-| PUT | `/api/projects/:id` | Update project details |
-| DELETE | `/api/projects/:id` | Delete a project |
+</details>
 
-### 📄 Proposal Automation API
+<details>
+<summary><strong>🎓 Training Center</strong></summary>
+<br>
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/proposal/:id` | Preview proposal for a project |
-| POST | `/api/proposal/generate` | Generate a proposal document |
+| Feature | Description |
+|---------|-------------|
+| **Training Progress** | Real-time epoch/batch progress bars |
+| **Real-Time Logs** | WebSocket-streamed training logs |
+| **Training History** | Historical runs with metrics comparison |
+| **Incremental Training** | Fine-tune existing models without full retrain |
+| **Stop Training** | Graceful training interruption with checkpoint save |
+| **Live Status Tracking** | Model status, GPU utilization, memory usage |
 
-### 📊 Dashboard & Analytics API
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/dashboard/stats` | Get dashboard statistics and KPIs |
-| GET | `/api/dashboard/charts` | Get chart data for analytics |
-
-### 🤖 AI System API
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/ai/train` | Start full training |
-| POST | `/api/ai/retrain` | Start incremental retraining |
-| POST | `/api/ai/stop` | Stop active training session |
-| GET | `/api/ai/status` | Check AI system status |
-| GET | `/api/ai/training/logs` | View training logs |
-| GET | `/api/ai/training/history` | View training history |
-| POST | `/api/ai/chat` | Send a chat message to AI |
-| GET | `/api/ai/chat/history` | Get chat conversation history |
-
-### 📤 Export API
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/export/project/:id/pdf` | Export project proposal as PDF |
-| GET | `/api/export/project/:id/docx` | Export project proposal as DOCX |
-| GET | `/api/export/projects/csv` | Bulk export projects as CSV |
-| GET | `/api/export/projects/excel` | Bulk export projects as Excel |
-
-### 🔧 Scope & Category API
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/categories` | Fetch all categories |
-| POST | `/api/categories` | Create a new category |
-| PUT | `/api/categories/:id` | Update a category |
-| DELETE | `/api/categories/:id` | Delete a category |
-| GET | `/api/scope/:categoryId` | Fetch scope items by category |
-
-<br/>
-
-<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
+</details>
 
 ---
 
-## 🔄 Workflow
-
-### Project & Proposal Workflow
-
-```mermaid
-graph TD;
-    A[Create Project] --> B[Select Category]
-    B --> C[Select Scope Of Work]
-    C --> D[Select Technologies]
-    D --> E[Calculate Cost]
-    E --> F[View Timeline Gantt Chart]
-    E --> G[Generate Proposal]
-    G --> H[Preview Proposal]
-    H --> I[Download PDF / DOCX]
-    E --> J[Ask AI Assistant]
-    J --> K[Get Insights from Codebase]
-
-    style A fill:#61DAFB,color:#000
-    style I fill:#4EA94B,color:#fff
-    style K fill:#8A2BE2,color:#fff
-```
-
-### AI Training Workflow
-
-```mermaid
-graph TD;
-    A[Training Center Page] --> B[Click Start Training]
-    B --> C[Scan Project Folders]
-    C --> D[Discover Supported Files]
-    D --> E[Read File Content]
-    E --> F[Create Chunks 1000/200 overlap]
-    F --> G[Generate Embeddings]
-    G --> H[Store in ChromaDB]
-    H --> I[Save Metadata to MongoDB]
-    I --> J[Training Complete]
-
-    style A fill:#61DAFB,color:#000
-    style J fill:#4EA94B,color:#fff
-```
-
-> **🔄 Retrain Workflow:** Only processes files with changed hashes or modified timestamps, skipping unchanged files for faster incremental updates.
->
-> **⏹️ Stop Training:** Safely aborts the active training session using AbortController (Node.js) / threading.Event (Python), preserving partial progress.
-
-<br/>
-
-<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
-
----
+<!-- ANIMATED SECTION DIVIDER -->
+<svg width="100%" height="24" viewBox="0 0 800 24" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="12" x2="800" y2="12" stroke="#333" stroke-width="1" opacity="0.5"/>
+  <circle cx="400" cy="12" r="6" fill="#7C3AED">
+    <animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="400" cy="12" r="12" fill="none" stroke="#7C3AED" stroke-width="0.5" opacity="0.3">
+    <animate attributeName="r" values="12;20;12" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite"/>
+  </circle>
+</svg>
 
 ## 📸 Screenshots
 
 <div align="center">
-  <table style="border: none; background: transparent;">
-    <tr>
-      <td style="border: none; padding: 10px;" colspan="3">
-        <img src="./assets/1.png" width="850" alt="Dashboard Main" style="border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);"/>
-      </td>
-    </tr>
-    <tr>
-      <td style="border: none; padding: 10px;"><img src="./assets/1.1.png" width="400" alt="Analytics Overview" style="border-radius: 15px;"/></td>
-      <td style="border: none; padding: 10px;"><img src="./assets/1.2.png" width="400" alt="Interactive Charts" style="border-radius: 15px;"/></td>
-    </tr>
-    <tr>
-      <td style="border: none; padding: 10px;"><img src="./assets/1.3.png" width="400" alt="AI Insights" style="border-radius: 15px;"/></td>
-      <td style="border: none; padding: 10px;"><img src="./assets/1.4.png" width="400" alt="Real-time Metrics" style="border-radius: 15px;"/></td>
-    </tr>
-  </table>
 
-  <table style="border: none; background: transparent;">
-    <tr>
-      <td style="border: none; padding: 10px;"><img src="./assets/2.1.png" width="400" alt="Project List" style="border-radius: 15px;"/></td>
-      <td style="border: none; padding: 10px;"><img src="./assets/2.2.png" width="400" alt="Project Details" style="border-radius: 15px;"/></td>
-    </tr>
-    <tr>
-      <td style="border: none; padding: 10px;" colspan="2"><img src="./assets/2.3.png" width="850" alt="Workflow Visualization" style="border-radius: 20px;"/></td>
-    </tr>
-  </table>
+| | |
+|:---:|:---:|
+| <img src="./assets/1.png" alt="Hero" width="100%"/> **Landing Page** | <img src="./assets/1.1.png" alt="Login" width="100%"/> **Authentication** |
+| <img src="./assets/3.png" alt="Projects" width="100%"/> **Project Management** | <img src="./assets/4.1.png" alt="Proposals" width="100%"/> **Proposal Engine** |
+| <img src="./assets/5.1.png" alt="Analytics" width="100%"/> **Analytics Dashboard** | <img src="./assets/6.png" alt="AI Assistant" width="100%"/> **AI Knowledge Assistant** |
+| <img src="./assets/7.1.png" alt="Training" width="100%"/> **Training Center** | <img src="./assets/8.1.png" alt="Export" width="100%"/> **Export System** |
+| <img src="./assets/9.1.png" alt="Settings" width="100%"/> **Settings & Configuration** | |
 
-  <table style="border: none; background: transparent;">
-    <tr>
-      <td style="border: none; padding: 10px;"><img src="./assets/3.png" width="400" alt="Scope Configuration" style="border-radius: 15px;"/></td>
-      <td style="border: none; padding: 10px;"><img src="./assets/3.1.png" width="400" alt="Category Manager" style="border-radius: 15px;"/></td>
-    </tr>
-    <tr>
-      <td style="border: none; padding: 10px;" colspan="2"><img src="./assets/3.2.png" width="850" alt="Scope Selection" style="border-radius: 20px;"/></td>
-    </tr>
-  </table>
-
-  <table style="border: none; background: transparent;">
-    <tr>
-      <td style="border: none; padding: 10px;"><img src="./assets/4.1.png" width="400" alt="Analytics Charts" style="border-radius: 15px;"/></td>
-      <td style="border: none; padding: 10px;"><img src="./assets/4.2.png" width="400" alt="Report Generation" style="border-radius: 15px;"/></td>
-    </tr>
-  </table>
-
-  <table style="border: none; background: transparent;">
-    <tr>
-      <td style="border: none; padding: 10px;"><img src="./assets/5.1.png" width="400" alt="PDF Export" style="border-radius: 15px;"/></td>
-      <td style="border: none; padding: 10px;"><img src="./assets/5.2.png" width="400" alt="Excel Export" style="border-radius: 15px;"/></td>
-    </tr>
-  </table>
-
-  <table style="border: none; background: transparent;">
-    <tr>
-      <td style="border: none; padding: 10px;" colspan="2"><img src="./assets/6.png" width="850" alt="AI Dashboard" style="border-radius: 20px;"/></td>
-    </tr>
-    <tr>
-      <td style="border: none; padding: 10px;"><img src="./assets/7.1.png" width="400" alt="AI Chat Interface" style="border-radius: 15px;"/></td>
-      <td style="border: none; padding: 10px;"><img src="./assets/7.2.png" width="400" alt="Conversation History" style="border-radius: 15px;"/></td>
-    </tr>
-  </table>
-
-  <table style="border: none; background: transparent;">
-    <tr>
-      <td style="border: none; padding: 10px;"><img src="./assets/8.1.png" width="400" alt="Training Status" style="border-radius: 15px;"/></td>
-      <td style="border: none; padding: 10px;"><img src="./assets/8.2.png" width="400" alt="Training History" style="border-radius: 15px;"/></td>
-    </tr>
-  </table>
-
-  <table style="border: none; background: transparent;">
-    <tr>
-      <td style="border: none; padding: 10px;"><img src="./assets/9.1.png" width="390" alt="General Settings" style="border-radius: 15px;"/></td>
-      <td style="border: none; padding: 10px;"><img src="./assets/9.2.png" width="390" alt="Theme Customization" style="border-radius: 15px;"/></td>
-    </tr>
-    <tr>
-      <td style="border: none; padding: 10px;"><img src="./assets/9.3.png" width="390" alt="User Preferences" style="border-radius: 15px;"/></td>
-      <td style="border: none; padding: 10px;"><img src="./assets/9.4.png" width="390" alt="UI Customization" style="border-radius: 15px;"/></td>
-    </tr>
-    <tr>
-      <td style="border: none; padding: 10px;"><img src="./assets/9.5.png" width="390" alt="Advanced Settings" style="border-radius: 15px;"/></td>
-      <td style="border: none; padding: 10px;"><img src="./assets/9.6.png" width="390" alt="Final UI Polish" style="border-radius: 15px;"/></td>
-    </tr>
-  </table>
-
-  <img src="https://img.shields.io/badge/📸_Total_Screenshots-22-8A2BE2?style=for-the-badge" alt="Total Screenshots" />
 </div>
-
-<br/>
-
-<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
 
 ---
 
-## ☁️ Deployment
+<!-- ANIMATED SECTION DIVIDER -->
+<svg width="100%" height="24" viewBox="0 0 800 24" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="12" x2="800" y2="12" stroke="#333" stroke-width="1" opacity="0.5"/>
+  <circle cx="400" cy="12" r="6" fill="#00E5FF">
+    <animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="400" cy="12" r="12" fill="none" stroke="#00E5FF" stroke-width="0.5" opacity="0.3">
+    <animate attributeName="r" values="12;20;12" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite"/>
+  </circle>
+</svg>
 
-<div align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=22&duration=3000&pause=500&color=4ECDC4&center=true&vCenter=true&width=500&lines=☁️+Deployment+Guide;🚀+Production+Ready;🔧+Docker+&+Cloud" alt="Deployment Header" />
-</div>
-
-<br/>
-
-### ✅ Prerequisites for Production
-
-- Set `NODE_ENV=production`
-- Configure production MongoDB (Atlas or self-hosted)
-- Set up reverse proxy (Nginx / Caddy)
-- Build frontend: `cd frontend && npm run build`
-- Serve frontend build via Express or CDN
-- (Optional) Containerize with Docker
-- (Optional) Deploy Python AI microservice on separate instance
-- Configure SSL / HTTPS
-
-### 🔨 Build Commands
+## 🏗️ System Architecture
 
 ```
-# Frontend production build
+┌─────────────────────────────────────────────────────────────────────┐
+│                        CLIENT LAYER (React 18)                      │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌────────────────────┐  │
+│  │  Auth UI  │  │  Proj.   │  │Proposal  │  │  AI Chat Assistant │  │
+│  │          │  │  Mgmt    │  │ Engine   │  │  (Streaming)       │  │
+│  └──────────┘  └──────────┘  └──────────┘  └────────────────────┘  │
+│                        ▲              ▲                             │
+│                        │  REST/SSE    │  WebSocket                  │
+└────────────────────────┼──────────────┼─────────────────────────────┘
+                         │              │
+┌────────────────────────┼──────────────┼─────────────────────────────┐
+│              API GATEWAY (Express.js) │                             │
+│  ┌─────────────────────┴──────┬───────┴─────────────────────────┐   │
+│  │        REST API           │       WebSocket Server          │   │
+│  │  /api/auth  /api/projects │  /ws/training  /ws/chat         │   │
+│  │  /api/proposals /api/ai   │  /ws/notifications              │   │
+│  └───────────────────────────┴─────────────────────────────────┘   │
+│                        │              │                             │
+│  ┌─────────────────────┴──────────────┴─────────────────────────┐  │
+│  │                    SERVICES LAYER                             │  │
+│  │  ┌────────┐ ┌──────────┐ ┌──────────┐ ┌───────────────────┐  │  │
+│  │  │Auth    │ │Project   │ │Proposal  │ │ Export Service    │  │  │
+│  │  │Service │ │Service   │ │Service   │ │ (CSV/XLSX/PDF)    │  │  │
+│  │  └────────┘ └──────────┘ └──────────┘ └───────────────────┘  │  │
+│  └─────────────────────┬─────────────────────────────────────────┘  │
+│                        │                                            │
+│  ┌─────────────────────┴─────────────────────────────────────────┐  │
+│  │              DATA LAYER (MongoDB + Redis)                      │  │
+│  │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌────────────────┐   │  │
+│  │  │ Users    │ │ Projects │ │Proposals │ │  Sessions      │   │  │
+│  │  │          │ │          │ │          │ │  (Redis)       │   │  │
+│  │  └──────────┘ └──────────┘ └──────────┘ └────────────────┘   │  │
+│  └───────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────┘
+                                    │
+┌───────────────────────────────────┴──────────────────────────────────┐
+│                   PYTHON AI MICROSERVICE (FastAPI)                    │
+│  ┌──────────────┐  ┌──────────────┐  ┌───────────────────────────┐  │
+│  │   LLM Orc.   │  │   Embedding  │  │   RAG Pipeline            │  │
+│  │  ┌────────┐  │  │   Service    │  │  ┌─────────────────────┐  │  │
+│  │  │OpenAI  │  │  │  (sentence-  │  │  │ Query → Retrieve →  │  │  │
+│  │  │Gemini  │  │  │   trans.)    │  │  │ Augment → Generate  │  │  │
+│  │  │Ollama  │  │  │              │  │  └─────────────────────┘  │  │
+│  │  └────────┘  │  └──────────────┘  │                           │  │
+│  └──────────────┘  ┌──────────────┐  └───────────────────────────┘  │
+│                    │  ChromaDB    │                                   │
+│                    │  Vector DB   │                                   │
+│                    │  (Persistent)│                                   │
+│                    └──────────────┘                                   │
+└──────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+<!-- ANIMATED SECTION DIVIDER -->
+<svg width="100%" height="24" viewBox="0 0 800 24" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="12" x2="800" y2="12" stroke="#333" stroke-width="1" opacity="0.5"/>
+  <circle cx="400" cy="12" r="6" fill="#7C3AED">
+    <animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="400" cy="12" r="12" fill="none" stroke="#7C3AED" stroke-width="0.5" opacity="0.3">
+    <animate attributeName="r" values="12;20;12" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite"/>
+  </circle>
+</svg>
+
+## 📁 Folder Structure
+
+```
+ProposalForge-AI/
+├── frontend/                          # React 18 + Tailwind CSS
+│   ├── public/
+│   ├── src/
+│   │   ├── components/                # Reusable UI components
+│   │   │   ├── common/                # Button, Input, Modal, Table
+│   │   │   ├── layout/                # Navbar, Sidebar, Footer
+│   │   │   ├── projects/              # Project CRUD components
+│   │   │   ├── proposals/             # Proposal generation UI
+│   │   │   ├── analytics/             # Charts & dashboard widgets
+│   │   │   ├── ai/                    # AI chat interface
+│   │   │   └── training/              # Training center UI
+│   │   ├── pages/                     # Route pages
+│   │   ├── hooks/                     # Custom React hooks
+│   │   ├── services/                  # API client & WebSocket
+│   │   ├── store/                     # Redux/Zustand state
+│   │   ├── utils/                     # Helpers & constants
+│   │   └── App.jsx
+│   ├── package.json
+│   └── tailwind.config.js
+│
+├── backend/                           # Node.js + Express + MongoDB
+│   ├── src/
+│   │   ├── config/                    # DB, env, cors config
+│   │   ├── controllers/               # Route handlers
+│   │   ├── middleware/                 # Auth, validation, error handler
+│   │   ├── models/                    # Mongoose schemas
+│   │   ├── routes/                    # Express routers
+│   │   ├── services/                  # Business logic
+│   │   ├── utils/                     # JWT, helpers, constants
+│   │   ├── websocket/                 # Socket.io events
+│   │   └── server.js
+│   ├── package.json
+│   └── .env.example
+│
+├── python-ai/                         # FastAPI AI microservice
+│   ├── app/
+│   │   ├── api/                       # Route endpoints
+│   │   ├── core/                      # Config, security
+│   │   ├── models/                    # Pydantic schemas
+│   │   ├── services/
+│   │   │   ├── llm/                   # OpenAI, Gemini, Ollama clients
+│   │   │   ├── rag/                   # Retrieval-Augmented Generation
+│   │   │   └── training/             # Model training pipeline
+│   │   ├── vectordb/                  # ChromaDB interface
+│   │   └── main.py
+│   ├── requirements.txt
+│   └── Dockerfile
+│
+├── docs/                              # API docs, architecture docs
+├── templates/                         # Proposal DOCX/PDF templates
+├── assets/                            # Screenshots and media
+└── README.md                          # You are here
+```
+
+---
+
+<!-- ANIMATED SECTION DIVIDER -->
+<svg width="100%" height="24" viewBox="0 0 800 24" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="12" x2="800" y2="12" stroke="#333" stroke-width="1" opacity="0.5"/>
+  <circle cx="400" cy="12" r="6" fill="#00E5FF">
+    <animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="400" cy="12" r="12" fill="none" stroke="#00E5FF" stroke-width="0.5" opacity="0.3">
+    <animate attributeName="r" values="12;20;12" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite"/>
+  </circle>
+</svg>
+
+## 🔧 Installation
+
+### Prerequisites
+
+- **Node.js** ≥ 18.x
+- **Python** ≥ 3.10
+- **MongoDB** ≥ 6.x (local or Atlas)
+- **Redis** (optional, for session caching)
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/riteshpatil12/ProposalForge-AI.git
+cd ProposalForge-AI
+```
+
+### 1️⃣ Backend Setup
+
+```bash
+cd backend
+npm install
+```
+
+### 2️⃣ Frontend Setup
+
+```bash
+cd frontend
+npm install
+```
+
+### 3️⃣ Python AI Microservice Setup
+
+```bash
+cd python-ai
+python -m venv venv
+source venv/bin/activate   # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+---
+
+<!-- ANIMATED SECTION DIVIDER -->
+<svg width="100%" height="24" viewBox="0 0 800 24" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="12" x2="800" y2="12" stroke="#333" stroke-width="1" opacity="0.5"/>
+  <circle cx="400" cy="12" r="6" fill="#7C3AED">
+    <animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="400" cy="12" r="12" fill="none" stroke="#7C3AED" stroke-width="0.5" opacity="0.3">
+    <animate attributeName="r" values="12;20;12" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite"/>
+  </circle>
+</svg>
+
+## 🌍 Environment Variables
+
+Create a `.env` file in each service directory.
+
+### Backend (`backend/.env`)
+
+```env
+# Server
+PORT=5000
+NODE_ENV=development
+
+# MongoDB
+MONGODB_URI=mongodb://localhost:27017/proposalforge
+
+# JWT
+JWT_SECRET=your_jwt_secret_here
+JWT_EXPIRES_IN=7d
+
+# Redis (optional)
+REDIS_URL=redis://localhost:6379
+
+# CORS
+CORS_ORIGIN=http://localhost:3000
+
+# Python AI Microservice URL
+AI_SERVICE_URL=http://localhost:8000
+```
+
+### Frontend (`frontend/.env`)
+
+```env
+VITE_API_URL=http://localhost:5000/api
+VITE_AI_SERVICE_URL=http://localhost:8000
+VITE_WS_URL=ws://localhost:5000
+```
+
+### Python AI (`python-ai/.env`)
+
+```env
+# FastAPI
+PORT=8000
+ENV=development
+
+# OpenAI
+OPENAI_API_KEY=sk-your-openai-key
+OPENAI_MODEL=gpt-4o
+
+# Gemini
+GEMINI_API_KEY=your-gemini-key
+GEMINI_MODEL=gemini-1.5-pro
+
+# Ollama
+OLLAMA_BASE_URL=http://localhost:11434
+OLLAMA_MODEL=llama3
+
+# ChromaDB
+CHROMA_PERSIST_DIR=./chroma_db
+
+# MongoDB (for training metadata)
+MONGODB_URI=mongodb://localhost:27017/proposalforge_ai
+
+# Embedding Model
+EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
+```
+
+---
+
+<!-- ANIMATED SECTION DIVIDER -->
+<svg width="100%" height="24" viewBox="0 0 800 24" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="12" x2="800" y2="12" stroke="#333" stroke-width="1" opacity="0.5"/>
+  <circle cx="400" cy="12" r="6" fill="#00E5FF">
+    <animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="400" cy="12" r="12" fill="none" stroke="#00E5FF" stroke-width="0.5" opacity="0.3">
+    <animate attributeName="r" values="12;20;12" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite"/>
+  </circle>
+</svg>
+
+## ▶️ Running the Project
+
+### Start Backend
+
+```bash
+cd backend
+npm run dev          # Development with nodemon
+# or
+npm start            # Production
+```
+
+### Start Frontend
+
+```bash
+cd frontend
+npm run dev          # Vite dev server → http://localhost:3000
+# or
+npm run build        # Production build
+npm run preview      # Preview production build
+```
+
+### Start Python AI Microservice
+
+```bash
+cd python-ai
+source venv/bin/activate
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+### Verify Services
+
+| Service | URL | Status |
+|---------|-----|--------|
+| Frontend | `http://localhost:3000` | ✅ |
+| Backend API | `http://localhost:5000/api` | ✅ |
+| AI Microservice | `http://localhost:8000/docs` | ✅ Swagger UI |
+| WebSocket | `ws://localhost:5000` | ✅ |
+
+---
+
+<!-- ANIMATED SECTION DIVIDER -->
+<svg width="100%" height="24" viewBox="0 0 800 24" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="12" x2="800" y2="12" stroke="#333" stroke-width="1" opacity="0.5"/>
+  <circle cx="400" cy="12" r="6" fill="#7C3AED">
+    <animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="400" cy="12" r="12" fill="none" stroke="#7C3AED" stroke-width="0.5" opacity="0.3">
+    <animate attributeName="r" values="12;20;12" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite"/>
+  </circle>
+</svg>
+
+## 📡 API Documentation
+
+### Authentication
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/auth/register` | Register new user |
+| `POST` | `/api/auth/login` | Login & receive JWT |
+| `POST` | `/api/auth/logout` | Invalidate session |
+| `GET` | `/api/auth/me` | Get current user profile |
+| `PUT` | `/api/auth/me` | Update profile |
+
+### Projects
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/projects` | List projects (paginated, filterable) |
+| `POST` | `/api/projects` | Create project |
+| `GET` | `/api/projects/:id` | Get project details |
+| `PUT` | `/api/projects/:id` | Update project |
+| `DELETE` | `/api/projects/:id` | Delete project |
+| `GET` | `/api/projects/search` | Full-text search projects |
+
+### Proposals
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/proposals` | List proposals |
+| `POST` | `/api/proposals` | Generate AI proposal |
+| `GET` | `/api/proposals/:id` | Get proposal detail |
+| `PUT` | `/api/proposals/:id` | Update proposal |
+| `DELETE` | `/api/proposals/:id` | Delete proposal |
+| `POST` | `/api/proposals/:id/export/pdf` | Export as PDF |
+| `POST` | `/api/proposals/:id/export/docx` | Export as DOCX |
+
+### Analytics
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/analytics/revenue` | Revenue analytics data |
+| `GET` | `/api/analytics/trends` | Trend analysis |
+| `GET` | `/api/analytics/insights` | AI-powered insights |
+| `GET` | `/api/analytics/gantt` | Gantt timeline data |
+
+### AI Knowledge System
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/ai/chat` | Send message to AI assistant |
+| `GET` | `/api/ai/chat/history` | Get chat history |
+| `POST` | `/api/ai/knowledge/index` | Index document in ChromaDB |
+| `DELETE` | `/api/ai/knowledge/:id` | Remove indexed document |
+| `POST` | `/api/ai/knowledge/search` | Semantic search over knowledge base |
+| `GET` | `/api/ai/models` | List available LLM models |
+| `PUT` | `/api/ai/models/active` | Switch active model |
+
+### Training
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/ai/training/start` | Start training job |
+| `POST` | `/api/ai/training/stop` | Stop running training |
+| `GET` | `/api/ai/training/status` | Get training status |
+| `GET` | `/api/ai/training/history` | Training run history |
+| `GET` | `/api/ai/training/logs` | Real-time training logs |
+
+### Export
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/export/csv` | Export data as CSV |
+| `POST` | `/api/export/xlsx` | Export data as Excel |
+| `POST` | `/api/export/pdf` | Export data as PDF |
+| `POST` | `/api/export/bulk` | Bulk export multi-format |
+
+---
+
+<!-- ANIMATED SECTION DIVIDER -->
+<svg width="100%" height="24" viewBox="0 0 800 24" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="12" x2="800" y2="12" stroke="#333" stroke-width="1" opacity="0.5"/>
+  <circle cx="400" cy="12" r="6" fill="#00E5FF">
+    <animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="400" cy="12" r="12" fill="none" stroke="#00E5FF" stroke-width="0.5" opacity="0.3">
+    <animate attributeName="r" values="12;20;12" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite"/>
+  </circle>
+</svg>
+
+## 🔄 Workflow Diagram
+
+```mermaid
+graph TD
+    A[User] -->|Login| B[Auth Gateway]
+    B -->|JWT| C{Dashboard}
+    
+    C -->|Manage| D[Projects]
+    C -->|Generate| E[Proposals]
+    C -->|Analyze| F[Analytics]
+    C -->|Chat| G[AI Assistant]
+    C -->|Train| H[Training Center]
+    
+    D -->|CRUD| I[(MongoDB)]
+    D -->|Search/Filter| J[Backend API]
+    
+    E -->|AI Gen| K[Python AI Service]
+    K -->|LLM Call| L{Multi-LLM}
+    L -->|Option 1| M[OpenAI GPT-4o]
+    L -->|Option 2| N[Gemini Pro]
+    L -->|Option 3| O[Ollama Local]
+    K -->|Retrieve| P[(ChromaDB)]
+    E -->|Export| Q[PDF / DOCX / CSV]
+    
+    F -->|Charts| R[Chart.js]
+    F -->|Insights| K
+    
+    G -->|Query| K
+    G -->|Stream| S[SSE Response]
+    G -->|Context| P
+    
+    H -->|Pipeline| K
+    H -->|Logs| T[WebSocket]
+    
+    Q -->|Download| A
+    S -->|Display| A
+    T -->|Monitor| A
+```
+
+---
+
+<!-- ANIMATED SECTION DIVIDER -->
+<svg width="100%" height="24" viewBox="0 0 800 24" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="12" x2="800" y2="12" stroke="#333" stroke-width="1" opacity="0.5"/>
+  <circle cx="400" cy="12" r="6" fill="#7C3AED">
+    <animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="400" cy="12" r="12" fill="none" stroke="#7C3AED" stroke-width="0.5" opacity="0.3">
+    <animate attributeName="r" values="12;20;12" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite"/>
+  </circle>
+</svg>
+
+## 🚢 Deployment
+
+### Docker (Recommended)
+
+```bash
+# Build all services
+docker-compose build
+
+# Run full stack
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+```
+
+### Manual Deployment
+
+#### Backend + Frontend (VPS / Cloud)
+
+```bash
+# Build frontend
 cd frontend && npm run build
 
-# Backend production start
-cd backend && NODE_ENV=production npm start
-
-# Python AI microservice production
-cd python-ai && uvicorn app:app --host 0.0.0.0 --port 8000
+# Serve via Nginx or deploy to Vercel/Netlify
+# Backend can be deployed on Railway, Render, or AWS EC2
 ```
 
-<br/>
+#### Python AI Microservice
 
-<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
+```bash
+# Deploy on Railway / Render / Fly.io / AWS ECS
+# Or use a dedicated GPU instance for Ollama
+
+docker build -t proposalforge-ai ./python-ai
+docker run -d -p 8000:8000 proposalforge-ai
+```
+
+### Environment-Specific Configs
+
+| Platform | Backend | Frontend | AI Service |
+|----------|---------|----------|------------|
+| **Railway** | ✅ Supported | — | ✅ Supported |
+| **Vercel** | — | ✅ Supported | — |
+| **Render** | ✅ Supported | ✅ Supported | ✅ Supported |
+| **AWS EC2** | ✅ Supported | ✅ Supported | ✅ Supported (GPU) |
+| **DigitalOcean** | ✅ Supported | ✅ Supported | ✅ Supported |
+
+---
+
+<!-- ANIMATED SECTION DIVIDER -->
+<svg width="100%" height="24" viewBox="0 0 800 24" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="12" x2="800" y2="12" stroke="#333" stroke-width="1" opacity="0.5"/>
+  <circle cx="400" cy="12" r="6" fill="#00E5FF">
+    <animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="400" cy="12" r="12" fill="none" stroke="#00E5FF" stroke-width="0.5" opacity="0.3">
+    <animate attributeName="r" values="12;20;12" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite"/>
+  </circle>
+</svg>
+
+## 🔮 Future Improvements
+
+- [ ] **Multi-Tenant Support** — Organization-level isolation with role-based access
+- [ ] **Advanced RBAC** — Fine-grained permissions per project and document
+- [ ] **Kanban Board** — Drag-and-drop project task management
+- [ ] **Template Marketplace** — Community-driven proposal template sharing
+- [ ] **Custom Model Fine-Tuning** — In-platform LoRA/QLoRA fine-tuning UI
+- [ ] **Collaborative Editing** — Real-time multi-user proposal editing with CRDT
+- [ ] **Slack / Discord Integration** — Notifications and AI commands via webhook
+- [ ] **CI/CD Pipeline** — Automated testing and deployment with GitHub Actions
+- [ ] **Mobile App** — React Native companion for on-the-go access
+- [ ] **Audit Trail** — Complete event logging and compliance reporting
 
 ---
 
-## 🔧 Troubleshooting
-
-| ⚠️ Problem | ✅ Solution |
-|-------------|-------------|
-| MongoDB connection refused | Ensure MongoDB is running (`docker ps` or `mongod`) |
-| Backend won't start | Verify `MONGODB_URI` in `.env` and run `npm install` |
-| PDF generation fails | Ensure Chrome/Chromium is available (Puppeteer requirement) |
-| AI chat returns empty | Run training from Training Center first to index project files |
-| Python microservice errors | Activate the virtual environment and verify dependencies |
-| Training stuck at 0% | Check Python service is running at `http://localhost:8000` and ChromaDB is available |
-
-<br/>
-
-<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
-
----
-
-## 🚀 Future Improvements
-
-| Status | Features |
-|--------|----------|
-| ✅ **Completed** | Functional Training Center, Enhanced LLM Support, Stop Training Control |
-| ⏳ **In Progress** | Email Integration, Multi-User Roles, Authentication System |
-| 🚀 **Planned** | WebSocket Real-time Updates, Cloud Deployment (Docker, AWS), Advanced RAG, Training Scheduling |
-
-<br/>
-
-<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
-
----
+<!-- ANIMATED SECTION DIVIDER -->
+<svg width="100%" height="24" viewBox="0 0 800 24" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="12" x2="800" y2="12" stroke="#333" stroke-width="1" opacity="0.5"/>
+  <circle cx="400" cy="12" r="6" fill="#7C3AED">
+    <animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="400" cy="12" r="12" fill="none" stroke="#7C3AED" stroke-width="0.5" opacity="0.3">
+    <animate attributeName="r" values="12;20;12" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite"/>
+  </circle>
+</svg>
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please open an issue or submit a pull request.
+Contributions are what make the open-source community an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. **Fork** the Project
+2. **Create** your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. **Commit** your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. **Push** to the Branch (`git push origin feature/AmazingFeature`)
+5. **Open** a Pull Request
 
-<br/>
+Please ensure your code follows the existing style conventions and passes all linting checks.
 
-<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
+```bash
+# Run linting
+cd frontend && npm run lint
+cd backend && npm run lint
+```
 
 ---
 
-## 👤 Author
+<!-- ANIMATED SECTION DIVIDER -->
+<svg width="100%" height="24" viewBox="0 0 800 24" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="12" x2="800" y2="12" stroke="#333" stroke-width="1" opacity="0.5"/>
+  <circle cx="400" cy="12" r="6" fill="#00E5FF">
+    <animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="400" cy="12" r="12" fill="none" stroke="#00E5FF" stroke-width="0.5" opacity="0.3">
+    <animate attributeName="r" values="12;20;12" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite"/>
+  </circle>
+</svg>
+
+## 👨‍💻 Author
 
 <div align="center">
-  <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 25px; border-radius: 20px; width: 80%;">
-    <h2 style="color: white;">Ritesh Gajjar</h2>
-    <p style="color: white; font-size: 16px;">Project developed with passion for automation and AI integration</p>
-    <img src="https://img.shields.io/badge/GitHub-@Ritesh151-8A2BE2?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
-  </div>
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/riteshpatil12">
+        <img src="https://github.com/riteshpatil12.png" width="100px" style="border-radius: 50%;" alt="Ritesh Patil"/><br />
+        <sub><b>Ritesh Patil</b></sub>
+      </a>
+      <br />
+      <sub>🚀 Full-Stack & AI Developer</sub>
+    </td>
+  </tr>
+</table>
+
+<p>
+  <a href="https://github.com/riteshpatil12">
+    <img src="https://img.shields.io/badge/GitHub-riteshpatil12-181717?style=for-the-badge&logo=github" />
+  </a>
+  <a href="https://www.linkedin.com/in/riteshpatil12/">
+    <img src="https://img.shields.io/badge/LinkedIn-Ritesh%20Patil-0A66C2?style=for-the-badge&logo=linkedin" />
+  </a>
+  <a href="mailto:riteshpatil.dev@gmail.com">
+    <img src="https://img.shields.io/badge/Email-riteshpatil.dev%40gmail.com-EA4335?style=for-the-badge&logo=gmail" />
+  </a>
+</p>
+
 </div>
 
-<br/>
-
-<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%" />
-
 ---
+
+<!-- ANIMATED SECTION DIVIDER -->
+<svg width="100%" height="24" viewBox="0 0 800 24" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="12" x2="800" y2="12" stroke="#333" stroke-width="1" opacity="0.5"/>
+  <circle cx="400" cy="12" r="6" fill="#7C3AED">
+    <animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="400" cy="12" r="12" fill="none" stroke="#7C3AED" stroke-width="0.5" opacity="0.3">
+    <animate attributeName="r" values="12;20;12" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite"/>
+  </circle>
+</svg>
 
 ## 📄 License
 
+Distributed under the **MIT License**. See `LICENSE` for more information.
+
+```
+MIT License
+
+Copyright (c) 2026 Ritesh Patil
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+---
+
+<!-- CONTINUOUS ANIMATED FOOTER -->
 <div align="center">
-  <img src="https://img.shields.io/badge/License-MIT-8A2BE2?style=for-the-badge&logo=mit&logoColor=white" alt="MIT License" />
-  <p style="margin-top: 15px;">This project is licensed under the <strong>MIT License</strong>. See the <a href="LICENSE">LICENSE</a> file for details.</p>
-</div>
 
-<br/>
+<svg width="100%" height="100" viewBox="0 0 800 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="footerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00E5FF">
+        <animate attributeName="stop-color" values="#00E5FF;#7C3AED;#00E5FF" dur="6s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#7C3AED">
+        <animate attributeName="stop-color" values="#7C3AED;#00E5FF;#7C3AED" dur="6s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+  </defs>
 
-<div align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=18&duration=3000&pause=500&color=8A2BE2&center=true&vCenter=true&width=500&lines=🚀+ProposalForge+AI;⚡+From+Project+to+Proposal+in+One+Click;✨+Enterprise-Grade+Automation;🤖+AI-Powered+Intelligence" alt="Footer" />
+  <!-- Star divider line -->
+  <line x1="100" y1="20" x2="700" y2="20" stroke="url(#footerGrad)" stroke-width="1" opacity="0.4"/>
 
-  <img src="https://komarev.com/ghpvc/?username=proposalforge-final&style=for-the-badge&color=8A2BE2&label=✨+README+VIEWS" alt="README Views" />
+  <!-- Animated stars -->
+  <text x="400" y="45" text-anchor="middle" font-size="18" fill="#FFD700" font-family="sans-serif">
+    <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/>
+    ★ ★ ★
+  </text>
+
+  <!-- Footer text -->
+  <text x="400" y="68" text-anchor="middle" font-size="13" fill="#888" font-family="system-ui, sans-serif">
+    <tspan font-weight="bold" fill="#eee">Star this repository</tspan>
+    <tspan fill="#888"> if you find it useful!</tspan>
+  </text>
+
+  <text x="400" y="88" text-anchor="middle" font-size="11" fill="#555" font-family="system-ui, sans-serif">
+    Built with ❤️ using React · Node.js · MongoDB · Python AI
+  </text>
+</svg>
+
+<p>
+  <sub>© 2026 Ritesh Patil — ProposalForge AI v2.0</sub>
+</p>
+
 </div>
