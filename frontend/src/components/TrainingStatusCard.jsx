@@ -42,6 +42,7 @@ export const TrainingStatusCard = ({ status, stats, loading }) => {
       animate={{ opacity: 1, y: 0 }}
       className={`rounded-lg border p-6 ${getStatusColor(currentStatus)}`}
     >
+
     
       <div className="flex items-start justify-between mb-4">
         <div>

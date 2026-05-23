@@ -10,6 +10,12 @@ const AINavigationService = require('./AINavigationService');
 const AIQueryNormalizer = require('./AIQueryNormalizer');
 const AIFallbackService = require('./AIFallbackService');
 const AIPageActionService = require('./AIPageActionService');
+const AIKnowledgeService = require('./AIKnowledgeService');
+const AIIntentRouter = require('./AIIntentRouter');
+
+const PREDEFINED_INTENTS = new Set([
+  'create_project_help', 'pdf_export_help', 'project_structure_help', 'assistant_capabilities',
+]);
 
 const LIST_INTENTS = new Set(['show_all_projects', 'show_recent_projects', 'show_active_projects', 'active_projects', 'completed_projects']);
 
@@ -42,6 +48,12 @@ class AIIntentRouterService {
       }
 
       const expanded = AIQueryNormalizer.expandKeywords(normalized);
+
+      const predefined = AIIntentRouter.routePredefined(intent, message, entities);
+      if (predefined) return predefined;
+
+      const navFallback = AIIntentRouter.routeNavigation(message, entities);
+      if (navFallback) return navFallback;
 
       if (intent === 'smalltalk') return this._smalltalk();
       if (intent === 'greeting') return this._greeting();

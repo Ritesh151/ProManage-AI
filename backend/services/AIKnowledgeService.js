@@ -2,7 +2,96 @@ const ProjectKnowledge = require('../models/ProjectKnowledge');
 const Project = require('../models/Project');
 const AIEmbeddingService = require('./AIEmbeddingService');
 
+const PREDEFINED_RESPONSES = {
+  create_project_help: {
+    content: `📁 **Create Project Guide**
+
+1. Open Projects page
+2. Click Create Project
+3. Enter client information
+4. Select project category
+5. Select scope of work
+6. Select technologies
+7. Configure timeline
+8. Review cost summary
+9. Click Create`,
+    format: 'markdown',
+    verified: true,
+    intent: 'create_project_help',
+  },
+  pdf_export_help: {
+    content: `📄 **PDF Export Implementation**
+
+• PDF generation uses backend services
+• Data fetched from MongoDB
+• Project information injected dynamically
+• Proposal content rendered automatically
+• File exported from Export Center`,
+    format: 'markdown',
+    verified: true,
+    intent: 'pdf_export_help',
+  },
+  project_structure_help: {
+    content: `🏗 **Project Structure**
+
+**Frontend:**
+React + Tailwind
+
+**Backend:**
+Node + Express
+
+**Database:**
+MongoDB
+
+**AI Layer:**
+Training Hub + NLP + Search Engine
+
+**Exports:**
+PDF + CSV + Excel`,
+    format: 'markdown',
+    verified: true,
+    intent: 'project_structure_help',
+  },
+  assistant_capabilities: {
+    content: `🤖 **I can help with:**
+
+📁 **Projects**
+• Project details
+• Costs
+• Technologies
+• Proposals
+• Client projects
+
+⚙ **Technical Information**
+• Architecture
+• Backend
+• PDF export
+• Training
+
+📊 **Platform Actions**
+• Open pages
+• Analytics
+• Exports
+• Settings`,
+    format: 'markdown',
+    verified: true,
+    intent: 'assistant_capabilities',
+  },
+};
+
 class AIKnowledgeService {
+  getPredefinedResponse(intent) {
+    const response = PREDEFINED_RESPONSES[intent];
+    if (response) {
+      return { ...response };
+    }
+    return null;
+  }
+
+  getPredefinedIntents() {
+    return Object.keys(PREDEFINED_RESPONSES);
+  }
+
   async clearKnowledge() {
     await ProjectKnowledge.deleteMany({});
   }

@@ -7,6 +7,10 @@ const INTENTS = [
   'show_all_projects', 'show_recent_projects', 'show_active_projects',
   'active_projects', 'completed_projects',
   'system_question',
+  'create_project_help',
+  'pdf_export_help',
+  'project_structure_help',
+  'assistant_capabilities',
   'unknown',
 ];
 
@@ -152,6 +156,50 @@ const INTENT_RULES = [
       /\bwhat is\b.*(?:architecture|workflow|flow|process|system)/i,
       /(?:architecture|workflow|project flow|pdf export|export system)/i],
     weight: 5,
+  },
+  {
+    intent: 'create_project_help',
+    patterns: [
+      /how\s+(?:do|can|to)\s+(?:i\s+)?(?:create|make|start|build)\s+(?:a\s+)?project/i,
+      /create\s+project/i,
+      /create\s+new\s+project/i,
+      /project\s+(?:create|karna|kaise)/i,
+      /help.*create.*project/i,
+    ],
+    weight: 8,
+  },
+  {
+    intent: 'pdf_export_help',
+    patterns: [
+      /how.*pdf.*(?:export|implement|work|generate|flow)/i,
+      /explain.*pdf.*(?:export|implement|work|generate)/i,
+      /pdf.*export.*(?:kaise|work|how)/i,
+      /how.*does.*pdf.*work/i,
+      /pdf.*generation.*flow/i,
+    ],
+    weight: 8,
+  },
+  {
+    intent: 'project_structure_help',
+    patterns: [
+      /explain.*(?:project structure|architecture|folder structure)/i,
+      /project structure/i,
+      /\barchitecture\b/i,
+      /folder structure/i,
+      /how.*project.*organized/i,
+    ],
+    weight: 8,
+  },
+  {
+    intent: 'assistant_capabilities',
+    patterns: [
+      /what\s+(?:all\s+)?can\s+you\s+(?:help|do)/i,
+      /what\s+can\s+you\s+help\s+me/i,
+      /\bcapabilities\b/i,
+      /what\s+do\s+you\s+do/i,
+      /assistant\s+help/i,
+    ],
+    weight: 8,
   },
   {
     intent: 'greeting',
